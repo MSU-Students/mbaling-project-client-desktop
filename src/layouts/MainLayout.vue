@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHr Lpr lFr">
+  <q-layout view="lHr Lpr lFr" class="defaultfont">
     <q-header elevated class="bg-primary q-px-md q-py-sm" height-hint="98">
       <q-toolbar>
         <q-toolbar-title>
@@ -47,20 +47,24 @@
           @click="toggleRightDrawer"
         />
 
-        <div class="q-mt-xl flex flex-center">
-          <q-avatar
-            class="q-mt-xl q-ma-md"
-            size="8rem"
-            text-color="secondary"
-            color="primary"
-          >
-            N
-            <!-- <img src="~assets/mbaling-logo-vertical.svg"> -->
+        <div class="q-mt-xl flex-center text-center text-primary">
+          <q-avatar class="q-mt-xl q-ma-md" size="8rem" color="primary">
+            <img :src="admin.prfphoto" />
           </q-avatar>
-        </div>
-        <div class="flex flex-center">@admin_hmd</div>
 
-        <div class="flex flex-center">
+          <div class="info-username">
+            <p>{{ admin.username }}</p>
+            <span class="defaultfont-bold info-fullname text-uppercase">
+              {{ admin.fullname }}
+            </span>
+            <p class="info-other" style="font-size: x-small">
+              {{ admin.position }} <br />
+              {{ admin.address }}
+            </p>
+          </div>
+        </div>
+
+        <div class="q-gutter-lg flex flex-center">
           <q-btn
             :ripple="false"
             unelevated
@@ -97,12 +101,43 @@
 <script lang="ts">
 import { Vue } from "vue-class-component";
 
+interface Iadmin {
+  username: string;
+  prfphoto: string;
+  fullname: string;
+  position: string;
+  address: string;
+}
+
 export default class MainLayout extends Vue {
   rightDrawerOpen = false;
 
-  async toggleRightDrawer() {
+    async toggleRightDrawer() {
     this.rightDrawerOpen = !this.rightDrawerOpen;
   }
+
+  admin: Iadmin =
+    {
+        username: "@admin_hmd",
+        prfphoto: "https://cdn.quasar.dev/img/avatar3.jpg",
+        fullname: "Strygwyr S. Martell",
+        position: "Secretary",
+        address: "Housing Management Division",
+    }
+
+
+  // data() {
+  //   return {
+  //     admin: {
+  //       username: "@admin_hmd",
+  //       prfphoto: "https://cdn.quasar.dev/img/avatar3.jpg",
+  //       fullname: "Strygwyr S. Martell",
+  //       position: "Secretary",
+  //       address: "Housing Management Division",
+  //     },
+  //   };
+  // }
+
 }
 // import { defineComponent, ref } from "vue";
 

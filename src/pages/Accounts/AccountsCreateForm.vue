@@ -21,13 +21,13 @@
       </q-card-section>
       <q-card-section>
         <div class="q-gutter-y-sm column flex flex-center">
-        <q-input dense filled v-model="username" placeholder="Username" style="width: 25rem; font-size: smaller" />
-        <q-input dense filled v-model="email" placeholder="E-mail" style="width: 25rem; font-size: smaller" />
-        <q-input dense filled v-model="password" placeholder="Password" type="password" style="width: 25rem; font-size: smaller" />
-        <q-input dense filled v-model="firstname" placeholder="Firstname" style="width: 25rem; font-size: smaller" />
-        <q-input dense filled v-model="middlename" placeholder="Middlename" style="width: 25rem; font-size: smaller" />
-        <q-input dense filled v-model="lastname" placeholder="Lastname" style="width: 25rem; font-size: smaller" />
-        <q-input dense filled type="date" v-model="birthdate" placeholder="Birthdate" style="width: 25rem; font-size: smaller">
+        <q-input dense filled v-model="student.username" placeholder="Username" style="width: 25rem; font-size: smaller" />
+        <q-input dense filled v-model="student.email" placeholder="E-mail" style="width: 25rem; font-size: smaller" />
+        <q-input dense filled v-model="student.password" placeholder="Password" type="password" style="width: 25rem; font-size: smaller" />
+        <q-input dense filled v-model="student.firstname" placeholder="Firstname" style="width: 25rem; font-size: smaller" />
+        <q-input dense filled v-model="student.middlename" placeholder="Middlename" style="width: 25rem; font-size: smaller" />
+        <q-input dense filled v-model="student.lastname" placeholder="Lastname" style="width: 25rem; font-size: smaller" />
+        <q-input dense filled type="date" v-model="student.birthdate" placeholder="Birthdate" style="width: 25rem; font-size: smaller">
 
         </q-input>
         </div>
@@ -57,16 +57,14 @@
       </q-card-section>
       <q-card-section>
         <div class="q-gutter-y-sm column flex flex-center">
-        <q-input dense filled v-model="username" placeholder="Username" style="width: 25rem; font-size: smaller" />
-        <q-input dense filled v-model="email" placeholder="E-mail" style="width: 25rem; font-size: smaller" />
-        <q-input dense filled v-model="password" placeholder="Password" type="password" style="width: 25rem; font-size: smaller" />
-        <q-input dense filled v-model="firstname" placeholder="Firstname" style="width: 25rem; font-size: smaller" />
-        <q-input dense filled v-model="middlename" placeholder="Middlename" style="width: 25rem; font-size: smaller" />
-        <q-input dense filled v-model="lastname" placeholder="Lastname" style="width: 25rem; font-size: smaller" />
-        <q-input dense filled v-model="birthdate" placeholder="Birthdate" style="width: 25rem; font-size: smaller">
-        <template v-slot:append>
-          <q-icon name="event"/>
-        </template>
+        <q-input dense filled v-model="landlord.username" placeholder="Username" style="width: 25rem; font-size: smaller" />
+        <q-input dense filled v-model="landlord.email" placeholder="E-mail" style="width: 25rem; font-size: smaller" />
+        <q-input dense filled v-model="landlord.password" placeholder="Password" type="password" style="width: 25rem; font-size: smaller" />
+        <q-input dense filled v-model="landlord.firstname" placeholder="Firstname" style="width: 25rem; font-size: smaller" />
+        <q-input dense filled v-model="landlord.middlename" placeholder="Middlename" style="width: 25rem; font-size: smaller" />
+        <q-input dense filled v-model="landlord.lastname" placeholder="Lastname" style="width: 25rem; font-size: smaller" />
+        <q-input dense filled type="date" v-model="landlord.birthdate" placeholder="Birthdate" style="width: 25rem; font-size: smaller">
+
         </q-input>
         </div>
         <div class="flex flex-center">
@@ -92,16 +90,47 @@
 <script lang="ts">
 import { Vue } from "vue-class-component";
 
-export default class AccountsCreateForm extends Vue{
+interface Cstudent {
+  username: string;
+  email: string;
+  password: string;
+  firstname: string;
+  middlename: string;
+  lastname: string;
+  birthdate: string;
+}
+interface Clanlord {
+  username: string;
+  email: string;
+  password: string;
+  firstname: string;
+  middlename: string;
+  lastname: string;
+  birthdate: string;
+}
 
-  username = "";
-  email = "";
-  password = "";
-  firstname = "";
-  middlename = "";
-  lastname = "";
-  birthdate = "";
+export default class AccountsCreateForm extends Vue{
   tab = "student";
+student: Cstudent =
+{
+  username: "",
+  email: "",
+  password: "",
+  firstname: "",
+  middlename: "",
+  lastname: "",
+  birthdate: "",
+}
+landlord: Clanlord =
+{
+  username: "",
+  email: "",
+  password: "",
+  firstname: "",
+  middlename: "",
+  lastname: "",
+  birthdate: "",
+}
 }
 
 
