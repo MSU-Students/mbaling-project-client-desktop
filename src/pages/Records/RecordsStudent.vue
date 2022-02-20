@@ -159,7 +159,7 @@ export default class RecordsStudent extends Vue {
       department: "Department of Technology",
     },
     {
-      number: "1",
+      number: "2",
       id: "AOOAA002",
       studentid: "201812485",
       username: "jihoonluvluv24",
