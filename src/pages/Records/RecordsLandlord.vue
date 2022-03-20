@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="hHh Lpr lff">
+  <q-layout view="hHh Lpr lff" container style="height: 40rem">
     <q-drawer
       class="bg-blue-grey-1"
       show-if-above
@@ -36,6 +36,7 @@
       </div>
     </q-drawer>
 
+  <q-scroll-area style="height: 40rem; max-width: 77rem;">
     <div>
       <q-table
         :rows="rows"
@@ -46,6 +47,7 @@
         hide-bottom
       />
     </div>
+  </q-scroll-area>
   </q-layout>
 </template>
 
