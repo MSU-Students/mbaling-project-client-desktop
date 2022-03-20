@@ -5,15 +5,15 @@
       class="q-mx-xl"
       unelevated rounded
       stack
-      padding="lg"
+      padding="4rem"
       color="primary"
       :ripple="false"
       to="/AccountsCreateForm"
     >
-    <q-icon size="10rem" name="edit_note" />
+    <q-icon size="5rem" name="edit_note" />
     <div
         class="text-bold cursor-pointer"
-        style="font-size: small"
+        style="font-size: x-small"
     >
     Create
     </div>
@@ -23,15 +23,15 @@
       class="q-mx-lg"
       unelevated rounded
       stack
-      padding="lg"
+      padding="4rem"
       color="primary"
       :ripple="false"
       to="/AccountsDeleteForm"
     >
-    <q-icon size="10rem" name="delete_outline" />
+    <q-icon size="5rem" name="delete_outline" />
     <div
         class="text-bold cursor-pointer"
-        style="font-size: small"
+        style="font-size: x-small"
     >
     Delete
     </div>
