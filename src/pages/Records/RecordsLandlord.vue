@@ -6,7 +6,7 @@
       v-model="rightDrawerOpen"
       side="right"
     >
-      <div class="q-mt-md flex-center text-center text-primary">
+      <!-- <div class="q-mt-md flex-center text-center text-primary">
         <q-avatar
           class="q-mt-sm q-ma-md"
           size="8rem"
@@ -33,13 +33,13 @@
               {{ landlord.address3 }}, {{ landlord.address4 }}
             </p>
         </div>
-      </div>
+      </div> -->
     </q-drawer>
 
   <q-scroll-area style="height: 40rem; max-width: 77rem;">
     <div>
       <q-table
-        :rows="rows"
+        :rows="allLandlordRecords"
         :columns="columns"
         row-key="name"
         :separator="separator"
@@ -52,47 +52,56 @@
 </template>
 
 <script lang="ts">
-import { Vue } from "vue-class-component";
+import { Options, Vue } from "vue-class-component";
+import { LandlordRowsInfo } from "src/store/RecordsLandlord/state";
+import { mapState} from "vuex";
 
-interface Ilandlord {
-  username: string;
-  prfphoto: string;
-  fullname: string;
-  housingName: string;
-  housingAdd1: string;
-  housingAdd2: string;
-  housingAdd3: string;
-  housingAdd4: string;
-  email: string;
-  contactNo: string;
-  birthDate: string;
-  address1: string;
-  address2: string;
-  address3: string;
-  address4: string;
-}
+@Options({
+  computed: {
+    ...mapState ("RecordsLandlord", ["allLandlordRecords"]),
+  }
+})
+
+// interface Ilandlord {
+//   username: string;
+//   prfphoto: string;
+//   fullname: string;
+//   housingName: string;
+//   housingAdd1: string;
+//   housingAdd2: string;
+//   housingAdd3: string;
+//   housingAdd4: string;
+//   email: string;
+//   contactNo: string;
+//   birthDate: string;
+//   address1: string;
+//   address2: string;
+//   address3: string;
+//   address4: string;
+// }
 
 export default class RecordsLandlord extends Vue {
   rightDrawerOpen = false;
   separator = "cell";
+  allLandlordRecords!: LandlordRowsInfo[];
 
-  landlord: Ilandlord = {
-        username: "@pirateking_home",
-        prfphoto: "https://cdn.quasar.dev/img/avatar4.jpg",
-        fullname: "Monkey D. Luffy",
-        housingName: "Pirate King Apartment",
-        housingAdd1: "0259 5th Street",
-        housingAdd2: "Brgy. Dimalna II",
-        housingAdd3: "MSU-Marawi",
-        housingAdd4: "Marawi City",
-        email: "monkey.luffy@gmail.com",
-        contactNo: "0956-932-1946",
-        birthDate: "August 31, 1999",
-        address1: "1205 5th Street",
-        address2: "Dimaluna",
-        address3: "Marawi City",
-        address4: "Lanao Del Sur 9700",
-      }
+  // landlord: Ilandlord = {
+  //       username: "@pirateking_home",
+  //       prfphoto: "https://cdn.quasar.dev/img/avatar4.jpg",
+  //       fullname: "Monkey D. Luffy",
+  //       housingName: "Pirate King Apartment",
+  //       housingAdd1: "0259 5th Street",
+  //       housingAdd2: "Brgy. Dimalna II",
+  //       housingAdd3: "MSU-Marawi",
+  //       housingAdd4: "Marawi City",
+  //       email: "monkey.luffy@gmail.com",
+  //       contactNo: "0956-932-1946",
+  //       birthDate: "August 31, 1999",
+  //       address1: "1205 5th Street",
+  //       address2: "Dimaluna",
+  //       address3: "Marawi City",
+  //       address4: "Lanao Del Sur 9700",
+  //     }
 
   columns = [
     {
@@ -157,19 +166,19 @@ export default class RecordsLandlord extends Vue {
       field: "addressline3",
     },
   ];
-  rows = [
-    {
-      number: "1",
-      id: "AOOAA003",
-      landlordid: "20220001",
-      username: "pirateking_home",
-      firstname: "Monkey",
-      lastname: "Luffy",
-      middlename: "Damulag",
-      addressline1: "0059 5th Street",
-      addressline2: "Brgy. Dimaluna I",
-      addressline3: "MSU-Marawi",
-    },
-  ];
+  // rows = [
+  //   {
+  //     number: "1",
+  //     id: "AOOAA003",
+  //     landlordid: "20220001",
+  //     username: "pirateking_home",
+  //     firstname: "Monkey",
+  //     lastname: "Luffy",
+  //     middlename: "Damulag",
+  //     addressline1: "0059 5th Street",
+  //     addressline2: "Brgy. Dimaluna I",
+  //     addressline3: "MSU-Marawi",
+  //   },
+  // ];
 }
 </script>

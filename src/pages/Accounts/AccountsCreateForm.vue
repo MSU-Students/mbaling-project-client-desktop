@@ -20,11 +20,13 @@
         <q-icon class="mbi-account" size="4rem" color="primary"/>
       </q-card-section>
       <q-card-section>
-        <div class="q-gutter-y-sm column flex flex-center">
+        <div
+        v-for="student in allStudentAccount" :key="student.username"
+        class="q-gutter-y-sm column flex flex-center">
         <q-input dense filled v-model="student.username" placeholder="Username" style="width: 25rem; font-size: smaller" />
         <q-input dense filled v-model="student.password" placeholder="Password" type="password" style="width: 25rem; font-size: smaller" />
         <q-input dense filled v-model="student.email" placeholder="E-mail" style="width: 25rem; font-size: smaller" />
-        <q-input dense filled v-model="student.MobileNo" mask="####-###-####" placeholder="Mobile Number" style="width: 25rem; font-size: smaller" />
+        <q-input dense filled v-model="student.MobileNo" mask="(+63) ###-###-####" placeholder="Mobile Number" style="width: 25rem; font-size: smaller" />
           <!-- <q-input dense filled v-model="student.course" placeholder="Course:" style="width: 25rem; font-size: smaller" /> -->
 
           <div style="max-width: 25rem">
@@ -43,8 +45,13 @@
         <q-input dense filled v-model="student.firstname" placeholder="Firstname" style="width: 25rem; font-size: smaller" />
         <q-input dense filled v-model="student.middlename" placeholder="Middlename" style="width: 25rem; font-size: smaller" />
         <q-input dense filled v-model="student.lastname" placeholder="Lastname" style="width: 25rem; font-size: smaller" />
-        <q-input dense filled v-model="student.birthdate" mask="##/##/####" placeholder="Birthdate" style="width: 25rem; font-size: smaller" />
-
+        <q-input dense filled v-model="student.birthdate" mask="##/##/####" placeholder="Birthdate" style="width: 25rem; font-size: smaller" >
+          <!-- <q-btn class="q-pt-sm q-pr-sm" unelevated :ripple="false" size="xs" icon="warning" ></q-btn> -->
+        </q-input>
+            <!-- <q-date
+                       v-model="student.birthdate"
+                       minimal
+                       /> -->
           <div style="max-width: 25rem">
           <q-expansion-item header-class="bg-grey-3 text-grey-7" dense label="Address:" style="width: 25rem; font-size: smaller">
              <q-card>
@@ -86,7 +93,9 @@
         <q-icon class="mbi-home" size="4rem" color="primary" />
       </q-card-section>
       <q-card-section>
-        <div class="q-gutter-y-sm column flex flex-center">
+        <div
+        v-for="landlord in allLandlordAccount" :key="landlord.username"
+        class="q-gutter-y-sm column flex flex-center">
         <q-input dense filled v-model="landlord.username" placeholder="Username" style="width: 25rem; font-size: smaller" />
         <q-input dense filled v-model="landlord.password" placeholder="Password" type="password" style="width: 25rem; font-size: smaller" />
         <q-input dense filled v-model="landlord.MobileNo" mask="####-###-####" placeholder="Mobile Number" style="width: 25rem; font-size: smaller" />
@@ -132,83 +141,93 @@
   </q-page>
 </template>
 <script lang="ts">
-import { Vue } from "vue-class-component";
+import { Options, Vue } from "vue-class-component";
+import { AccountCreateStudentInfo, AccountCreateLandlordInfo } from "src/store/AccountsCreateForm/state";
+import { mapState} from "vuex";
 
-interface cstudent {
-  username: string;
-  password: string;
-  email: string;
-  MobileNo: string;
-  College: string;
-  Department: string;
-  Degree: string;
-  Year: string;
-  firstname: string;
-  middlename: string;
-  lastname: string;
-  birthdate: string;
-  Address1: string;
-  Address2: string;
-  Address3: string;
-  Address4: string;
-  HousingUnit: string;
+@Options({
+  computed: {
+    ...mapState ("AccountsCreateForm", ["allLandlordAccount", "allStudentAccount"]),
+  }
+})
 
-}
-interface clanlord {
-  username: string;
-  password: string;
-  MobileNo: string;
-  firstname: string;
-  middlename: string;
-  lastname: string;
-  birthdate: string;
-  Address1: string;
-  Address2: string;
-  Address3: string;
-  Address4: string;
-  HousingUnit: string;
+// interface fStudent {
+//   username: string;
+//   password: string;
+//   email: string;
+//   MobileNo: string;
+//   College: string;
+//   Department: string;
+//   Degree: string;
+//   Year: string;
+//   firstname: string;
+//   middlename: string;
+//   lastname: string;
+//   birthdate: string;
+//   Address1: string;
+//   Address2: string;
+//   Address3: string;
+//   Address4: string;
+//   HousingUnit: string;
 
-}
+// }
+// interface fLanlord {
+//   username: string;
+//   password: string;
+//   MobileNo: string;
+//   firstname: string;
+//   middlename: string;
+//   lastname: string;
+//   birthdate: string;
+//   Address1: string;
+//   Address2: string;
+//   Address3: string;
+//   Address4: string;
+//   HousingUnit: string;
+
+// }
 
 export default class AccountsCreateForm extends Vue{
   tab = "student";
+  allStudentAccount!: AccountCreateStudentInfo[];
+  allLandlordAccount!: AccountCreateLandlordInfo[];
 
-student: cstudent =
-{
-  username: "",
-  password: "",
-  email: "",
-  MobileNo: "",
-  College: "",
-  Department: "",
-  Degree: "",
-  Year: "",
-  firstname: "",
-  middlename: "",
-  lastname: "",
-  birthdate: "",
-  Address1: "",
-  Address2: "",
-  Address3: "",
-  Address4: "",
-  HousingUnit: "",
+// student: fStudent =
+// {
+//   username: "",
+//   password: "",
+//   email: "",
+//   MobileNo: "",
+//   College: "",
+//   Department: "",
+//   Degree: "",
+//   Year: "",
+//   firstname: "",
+//   middlename: "",
+//   lastname: "",
+//   birthdate: "",
+//   Address1: "",
+//   Address2: "",
+//   Address3: "",
+//   Address4: "",
+//   HousingUnit: "",
 
-}
-landlord: clanlord =
-{
-  username: "",
-  password: "",
-  MobileNo: "",
-  firstname: "",
-  middlename: "",
-  lastname: "",
-  birthdate: "",
-  Address1: "",
-  Address2: "",
-  Address3: "",
-  Address4: "",
-  HousingUnit: "",
-}
+// }
+// landlord: fLanlord =
+// {
+//   username: "",
+//   password: "",
+//   MobileNo: "",
+//   firstname: "",
+//   middlename: "",
+//   lastname: "",
+//   birthdate: "",
+//   Address1: "",
+//   Address2: "",
+//   Address3: "",
+//   Address4: "",
+//   HousingUnit: "",
+// }
 
   // Course Choices Info
 
@@ -266,6 +285,7 @@ Province = [
 ]
 
 }
+
 
 
 // import { ref } from "vue";
