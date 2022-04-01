@@ -1,65 +1,92 @@
 <template>
   <q-layout view="hHh Lpr lff" container style="height: 40rem">
+    <q-scroll-area style="height: 40rem; max-width: 77rem">
+      <div>
+        <q-table
+          class="cursor-pointer"
+          :rows="allLandlordRecords"
+          :columns="columns"
+          row-key="name"
+          :separator="separator"
+          dense
+          hide-bottom
+        >
+          <template v-slot:body="props">
+            <q-tr :props="props">
+              <q-td
+                v-for="col in props.cols"
+                :key="col.name"
+                :props="props"
+                @click="onTableRowClick(props.row)"
+              >
+                {{ col.value }}
+              </q-td>
+            </q-tr>
+            <q-tr v-show="props.expand" :props="props">
+              <q-td colspan="100%">
+                <div class="text-left">
+                  This is expand slot for row above: {{ props.row.name }}.
+                </div>
+              </q-td>
+            </q-tr>
+          </template>
+        </q-table>
+      </div>
+    </q-scroll-area>
+
     <q-drawer
       class="bg-blue-grey-1"
       show-if-above
       v-model="rightDrawerOpen"
       side="right"
     >
-      <!-- <div class="q-mt-md flex-center text-center text-primary">
+      <div
+        v-for="landlord in allLandlordRecords"
+        :key="landlord.username"
+        class="q-mt-md flex-center text-center text-primary"
+      >
         <q-avatar
           class="q-mt-sm q-ma-md"
           size="8rem"
           text-color="secondary"
           color="primary"
         >
-          <img :src="landlord.prfphoto" />
+          <!-- <img :src="landlord.prfphoto" /> -->
+          L
         </q-avatar>
         <div class="info-username defaultfont">
-            <p>{{ landlord.username }}</p>
-            <span class="defaultfont-bold info-fullname text-uppercase">
-              {{ landlord.fullname }}
-            </span>
-            <p class="info-other defaultfont" style="font-size: x-small">
-              {{ landlord.housingName }} <br />
-              {{ landlord.housingAdd1 }}, {{ landlord.housingAdd2 }} <br/>
-              {{ landlord.housingAdd3 }}, {{ landlord.housingAdd4 }}
-            </p>
-            <p class="defaultfont" style="font-size: x-small">
-              {{ landlord.email }} <br/>
+          <p>@{{ landlord.username }}</p>
+          <span class="defaultfont-bold info-fullname text-uppercase">
+            {{ landlord.firstname }} {{ landlord.middlename }}
+            {{ landlord.lastname }}
+          </span>
+          <p class="info-other defaultfont" style="font-size: x-small">
+            <!-- {{ landlord.housingName }} <br /> -->
+            {{ landlord.addressline1 }}, {{ landlord.addressline2 }} <br />
+            {{ landlord.addressline3 }}
+          </p>
+          <p class="defaultfont" style="font-size: x-small">
+            <!-- {{ landlord.email }} <br/>
               {{ landlord.contactNo }} <br/>
-              {{ landlord.birthDate }} <br/>
-              {{ landlord.address1 }}, {{ landlord.address2 }} <br/>
-              {{ landlord.address3 }}, {{ landlord.address4 }}
-            </p>
+              {{ landlord.birthDate }} <br/> -->
+            {{ landlord.addressline1 }}, {{ landlord.addressline2 }} <br />
+            {{ landlord.addressline3 }}
+          </p>
         </div>
-      </div> -->
+      </div>
     </q-drawer>
-
-  <q-scroll-area style="height: 40rem; max-width: 77rem;">
-    <div>
-      <q-table
-        :rows="allLandlordRecords"
-        :columns="columns"
-        row-key="name"
-        :separator="separator"
-        dense
-        hide-bottom
-      />
-    </div>
-  </q-scroll-area>
   </q-layout>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
 import { LandlordRowsInfo } from "src/store/RecordsLandlord/state";
-import { mapState} from "vuex";
+import { mapState } from "vuex";
 
 @Options({
   computed: {
-    ...mapState ("RecordsLandlord", ["allLandlordRecords"]),
-  }
+    ...mapState("RecordsLandlord", ["allLandlordRecords"]),
+  },
 })
 
 // interface Ilandlord {
@@ -79,11 +106,17 @@ import { mapState} from "vuex";
 //   address3: string;
 //   address4: string;
 // }
-
 export default class RecordsLandlord extends Vue {
   rightDrawerOpen = false;
   separator = "cell";
   allLandlordRecords!: LandlordRowsInfo[];
+  landlordInfo!: LandlordRowsInfo;
+
+  onTableRowClick(data: LandlordRowsInfo) {
+    this.landlordInfo = data;
+    // this.rightDrawerOpen = true
+  }
+
 
   // landlord: Ilandlord = {
   //       username: "@pirateking_home",
@@ -107,7 +140,7 @@ export default class RecordsLandlord extends Vue {
     {
       name: "number",
       required: true,
-      label: "",
+      label: "#",
       align: "left",
       field: "number",
     },

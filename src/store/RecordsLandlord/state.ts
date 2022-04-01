@@ -30,7 +30,19 @@ function state(): LandlordStateInterface {
       addressline1: "0059 5th Street",
       addressline2: "Brgy. Dimaluna I",
       addressline3: "MSU-Marawi",
-      }
+      },
+      {
+        number: "2",
+        id: "AOOAA004",
+        landlordid: "20220021",
+        username: "bandithking_home",
+        firstname: "Donkey",
+        lastname: "Frey",
+        middlename: "Moo",
+        addressline1: "0069 6th Street",
+        addressline2: "Brgy. Dimaluna II",
+        addressline3: "MSU-Marawi",
+        }
     ]
   }
 };

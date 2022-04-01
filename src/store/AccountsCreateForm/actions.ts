@@ -1,11 +1,11 @@
 import { ActionTree } from 'vuex';
 import { StateInterface } from '../index';
-import { AccountCreateInterface } from './state';
+import { AccountCreateInterface, AccountCreateStudentInfo } from './state';
 
 const actions: ActionTree<AccountCreateInterface, StateInterface> = {
-  someAction (/* context */) {
-    // your code
-  }
+  newStudent (context, newStudent: AccountCreateStudentInfo) {
+    context.commit('addStudent', newStudent);
+  },
 };
 
 export default actions;

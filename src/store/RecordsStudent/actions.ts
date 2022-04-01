@@ -1,10 +1,13 @@
 import { ActionTree } from 'vuex';
 import { StateInterface } from '../index';
-import { StudentStateInterface } from './state';
+import { StudentRowsInfo, StudentStateInterface } from './state';
 
 const actions: ActionTree<StudentStateInterface, StateInterface> = {
-  someAction (/* context */) {
-    // your code
+  newStudent (context, payload: StudentRowsInfo) {
+    context.commit('addStudent', payload);
+  },
+  deleteStudent(context, targetStudent: StudentRowsInfo) {
+    context.commit('removeStudent', targetStudent);
   }
 };
 

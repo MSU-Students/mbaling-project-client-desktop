@@ -1,9 +1,17 @@
 import { MutationTree } from 'vuex';
-import { StudentStateInterface } from './state';
+import { StudentRowsInfo, StudentStateInterface } from './state';
 
 const mutation: MutationTree<StudentStateInterface> = {
-  someMutation (/* state: ExampleStateInterface */) {
-    // your code
+  addStudent(state, payload: StudentRowsInfo){
+    state.allStudentRecords.push(payload)
+  },
+  removeStudent (state, targetStudent:StudentRowsInfo) {
+    const index = state.allStudentRecords.findIndex((s) => {
+      return s.username == targetStudent.username;
+    })
+    if (index >= 0) {
+      state.allStudentRecords.splice(index, 1);
+    }
   }
 };
 
