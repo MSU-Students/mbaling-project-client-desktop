@@ -12,6 +12,7 @@
           dense
           hide-bottom
         >
+
           <template v-slot:body="props">
             <q-tr :props="props">
               <q-td
@@ -19,17 +20,19 @@
                 :key="col.name"
                 :props="props"
                 @click="onTableRowClick(props.row)"
+
               >
                 {{ col.value }}
               </q-td>
             </q-tr>
-            <q-tr v-show="props.expand" :props="props">
+
+            <!-- <q-tr v-show="props.expand" :props="props">
               <q-td colspan="100%">
                 <div class="text-left">
                   This is expand slot for row above: {{ props.row.name }}.
                 </div>
               </q-td>
-            </q-tr>
+            </q-tr> -->
           </template>
         </q-table>
       </div>
@@ -37,12 +40,12 @@
 
     <div>
       <q-drawer
-        v-if="rightDrawerOpen == true"
+
         class="bg-blue-grey-1"
         v-model="rightDrawerOpen"
         side="right"
         show-if-above
-        @click="rightDrawerOpen = false"
+
       >
         <!-- <div>
           <q-btn
@@ -52,7 +55,10 @@
             @click="rightDrawerOpen = false"
           />
         </div> -->
-        <div class="q-mt-md flex-center text-center text-primary">
+        <div
+         v-show="displayInfo"
+         v-if="displayInfo == true"
+         class="q-mt-md flex-center text-center text-primary">
           <q-avatar
             class="q-mt-sm q-ma-md"
             size="8rem"
@@ -103,14 +109,15 @@ import { AccountCreateStudentInfo } from "src/store/AccountsCreateForm/state";
 })
 
 export default class RecordsStudent extends Vue {
-  rightDrawerOpen = false;
+  rightDrawerOpen = true;
   separator = "cell";
   allStudentRecords!: StudentRowsInfo[];
   studentInfo!: StudentRowsInfo;
+  displayInfo = false;
 
   onTableRowClick(data: StudentRowsInfo) {
     this.studentInfo = data;
-    this.rightDrawerOpen = true;
+    this.displayInfo = true;
   }
 
   columns = [
