@@ -1,57 +1,82 @@
 <template>
   <q-page class="row items-center justify-evenly">
-
     <q-card class="bg-white" style="width: 35rem; height: 35rem">
       <div class="absolute-center">
-    <q-card-section class="q-py-xs row items-center justify-evenly">
-        <q-icon size="5rem" name="delete" color="primary" />
-      </q-card-section>
+        <q-card-section class="q-py-xs row items-center justify-evenly">
+          <q-icon size="5rem" name="delete" color="primary" />
+        </q-card-section>
 
-      <q-card-section>
-        <div class="q-gutter-y-sm column flex flex-center">
-        <q-input dense filled v-model="currentStudent.username" placeholder="Username" style="width: 25rem; font-size: smaller" />
-        <q-input dense filled v-model="currentStudent.email" placeholder="E-mail" style="width: 25rem; font-size: smaller" />
-        <q-input dense filled v-model="currentStudent.password" placeholder="Password" type="password" style="width: 25rem; font-size: smaller" />
-        </div>
-        <div class="flex flex-center">
-          <q-btn
-            :ripple="false"
-            unelevated
-            rounded
-            dense
-            no-caps
-            class="text-white q-mt-md"
-            style="height: 1.5rem; width: 6rem; font-size: smaller"
-            color="primary"
-            label="delete"
-            @click="deleteAccount"
-          />
-        </div>
+        <q-card-section>
+          <div class="q-gutter-y-sm column flex flex-center">
+            <q-input
+              dense
+              filled
+              v-model="sInfo.username"
+              placeholder="Username"
+              style="width: 25rem; font-size: smaller"
+            />
+            <q-input
+              dense
+              filled
+              v-model="sInfo.email"
+              placeholder="E-mail"
+              style="width: 25rem; font-size: smaller"
+            />
+            <q-input
+              dense
+              filled
+              v-model="sInfo.password"
+              placeholder="Password"
+              type="password"
+              style="width: 25rem; font-size: smaller"
+            />
+          </div>
 
-      </q-card-section>
+          <div class="flex flex-center">
+            <q-btn
+              :ripple="false"
+              unelevated
+              rounded
+              dense
+              no-caps
+              class="text-white q-mt-md"
+              style="height: 1.5rem; width: 6rem; font-size: smaller"
+              color="primary"
+              label="delete"
+              @click="DeleteAccount"
+            />
+          </div>
+        </q-card-section>
       </div>
-        </q-card>
+    </q-card>
   </q-page>
 </template>
 
 <script lang="ts">
-
 import { Options, Vue } from "vue-class-component";
 import { mapState, mapActions } from "vuex";
-import { StudentRowsInfo } from "src/store/RecordsStudent/state";
+import {
+  StudentRowsInfo,
+  LandlordRowsInfo,
+} from "src/store/RecordsStudent/state";
 
 @Options({
   computed: {
-    ...mapState("RecordsStudent", ["allStudentRecords", "activeStudentRecords"])
+    ...mapState("RecordsStudent", [
+      "allStudentRecords",
+      "activeStudentRecords",
+      "allLandlordRecords",
+      "activeLandlordRecords",
+    ]),
   },
   methods: {
-    ...mapActions("RecordsStudent", ["deleteStudent"]),
+    ...mapActions("RecordsStudent", ["deleteStudent", "deleteLandlord"]),
   },
 })
-
-export default class AccountsDeleteForm extends Vue{
+export default class AccountsDeleteForm extends Vue {
   allStudentRecords!: StudentRowsInfo[];
-  deleteStudent!:(student:StudentRowsInfo) => Promise<void>;
+  deleteStudent!: (student: StudentRowsInfo) => Promise<void>;
+  deleteLandlord!: (landlord: LandlordRowsInfo) => Promise<void>;
 
   //Functions for deletingStudentAccount
 
@@ -78,19 +103,37 @@ export default class AccountsDeleteForm extends Vue{
     housingUnit: "",
   };
 
-  currentStudent = {...this.defaultStudent}
+  defaultLandlord: LandlordRowsInfo = {
+    number: "",
+    id: "",
+    landlordid: "",
+    username: "",
+    password: "",
+    email: "",
+    contactNo: "",
+    firstname: "",
+    middlename: "",
+    lastname: "",
+    birthdate: "",
+    street: "",
+    barangay: "",
+    municipality: "",
+    province: "",
+    housingUnit: "",
+  };
 
-  async deleteAccount(){
-    await this.deleteStudent(this.currentStudent)
+  sInfo = { ...this.defaultStudent };
+  lInfo = { ...this.defaultLandlord };
+
+  async DeleteAccount() {
+    await this.deleteStudent(this.sInfo);
     this.$q.notify({
       type: "positive",
-      message: "Success",
-  });
+      message: "Deleted Successfully",
+    });
   }
+
 }
-
-
-
 
 // import { ref } from "vue";
 

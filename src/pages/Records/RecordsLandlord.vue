@@ -6,7 +6,8 @@
           class="cursor-pointer"
           :rows="allLandlordRecords"
           :columns="columns"
-          row-key="name"
+          row-key="number"
+          :rows-per-page-options="[0]"
           :separator="separator"
           dense
           hide-bottom
@@ -22,13 +23,13 @@
                 {{ col.value }}
               </q-td>
             </q-tr>
-            <q-tr v-show="props.expand" :props="props">
+            <!-- <q-tr v-show="props.expand" :props="props">
               <q-td colspan="100%">
                 <div class="text-left">
                   This is expand slot for row above: {{ props.row.name }}.
                 </div>
               </q-td>
-            </q-tr>
+            </q-tr> -->
           </template>
         </q-table>
       </div>
@@ -39,10 +40,11 @@
       show-if-above
       v-model="rightDrawerOpen"
       side="right"
+      @click="displayInfo = false"
     >
       <div
-        v-for="landlord in allLandlordRecords"
-        :key="landlord.username"
+        v-show="displayInfo"
+         v-if="displayInfo == true"
         class="q-mt-md flex-center text-center text-primary"
       >
         <q-avatar
@@ -55,22 +57,22 @@
           L
         </q-avatar>
         <div class="info-username defaultfont">
-          <p>@{{ landlord.username }}</p>
+          <p>@{{ landlordInfo.username }}</p>
           <span class="defaultfont-bold info-fullname text-uppercase">
-            {{ landlord.firstname }} {{ landlord.middlename }}
-            {{ landlord.lastname }}
+            {{ landlordInfo.firstname }} {{ landlordInfo.middlename }}
+            {{ landlordInfo.lastname }}
           </span>
           <p class="info-other defaultfont" style="font-size: x-small">
-            <!-- {{ landlord.housingName }} <br /> -->
-            {{ landlord.addressline1 }}, {{ landlord.addressline2 }} <br />
-            {{ landlord.addressline3 }}
+            <!-- {{ landlordInfo.housingName }} <br /> -->
+            {{ landlordInfo.street }}, {{ landlordInfo.barangay }} <br />
+            {{ landlordInfo.municipality }}
           </p>
           <p class="defaultfont" style="font-size: x-small">
-            <!-- {{ landlord.email }} <br/>
-              {{ landlord.contactNo }} <br/>
-              {{ landlord.birthDate }} <br/> -->
-            {{ landlord.addressline1 }}, {{ landlord.addressline2 }} <br />
-            {{ landlord.addressline3 }}
+            {{ landlordInfo.email }} <br/>
+              {{ landlordInfo.contactNo }} <br/>
+              {{ landlordInfo.birthdate }} <br/>
+            {{ landlordInfo.street }}, {{ landlordInfo.barangay }} <br />
+            {{ landlordInfo.municipality }}
           </p>
         </div>
       </div>
@@ -80,61 +82,26 @@
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import { LandlordRowsInfo } from "src/store/RecordsLandlord/state";
+import { LandlordRowsInfo } from "src/store/RecordsStudent/state";
 import { mapState } from "vuex";
 
 @Options({
   computed: {
-    ...mapState("RecordsLandlord", ["allLandlordRecords"]),
+    ...mapState("RecordsStudent", ["allLandlordRecords"]),
   },
 })
 
-// interface Ilandlord {
-//   username: string;
-//   prfphoto: string;
-//   fullname: string;
-//   housingName: string;
-//   housingAdd1: string;
-//   housingAdd2: string;
-//   housingAdd3: string;
-//   housingAdd4: string;
-//   email: string;
-//   contactNo: string;
-//   birthDate: string;
-//   address1: string;
-//   address2: string;
-//   address3: string;
-//   address4: string;
-// }
 export default class RecordsLandlord extends Vue {
-  rightDrawerOpen = false;
+  rightDrawerOpen = true;
   separator = "cell";
   allLandlordRecords!: LandlordRowsInfo[];
   landlordInfo!: LandlordRowsInfo;
+  displayInfo = false;
 
   onTableRowClick(data: LandlordRowsInfo) {
     this.landlordInfo = data;
-    // this.rightDrawerOpen = true
+    this.displayInfo = true;
   }
-
-
-  // landlord: Ilandlord = {
-  //       username: "@pirateking_home",
-  //       prfphoto: "https://cdn.quasar.dev/img/avatar4.jpg",
-  //       fullname: "Monkey D. Luffy",
-  //       housingName: "Pirate King Apartment",
-  //       housingAdd1: "0259 5th Street",
-  //       housingAdd2: "Brgy. Dimalna II",
-  //       housingAdd3: "MSU-Marawi",
-  //       housingAdd4: "Marawi City",
-  //       email: "monkey.luffy@gmail.com",
-  //       contactNo: "0956-932-1946",
-  //       birthDate: "August 31, 1999",
-  //       address1: "1205 5th Street",
-  //       address2: "Dimaluna",
-  //       address3: "Marawi City",
-  //       address4: "Lanao Del Sur 9700",
-  //     }
 
   columns = [
     {
@@ -142,7 +109,8 @@ export default class RecordsLandlord extends Vue {
       required: true,
       label: "#",
       align: "left",
-      field: "number",
+      field: (row: LandlordRowsInfo) => row.number,
+      format: (val: string) => `${val}`,
     },
     {
       name: "id",
@@ -181,37 +149,54 @@ export default class RecordsLandlord extends Vue {
       field: "middlename",
     },
     {
-      name: "adressline1",
+      name: "email",
       align: "left",
-      label: "ADDRESS LINE 1",
-      field: "addressline1",
+      label: "EMAIL",
+      field: "email",
     },
     {
-      name: "addressline2",
+      name: "contactNo",
       align: "left",
-      label: "ADDRESS LINE 2",
-      field: "addressline2",
+      label: "CONTACT NO.",
+      field: "contactNo",
     },
     {
-      name: "addressline3",
+      name: "birthdate",
       align: "left",
-      label: "ADDRESS LINE 3",
-      field: "addressline3",
+      label: "BIRTHDATE",
+      field: "birthdate",
+    },
+    {
+      name: "street",
+      align: "left",
+      label: "STREET",
+      field: "street",
+    },
+    {
+      name: "barangay",
+      align: "left",
+      label: "BARANGAY",
+      field: "barangay",
+    },
+    {
+      name: "municipality",
+      align: "left",
+      label: "MUNICIPALITY",
+      field: "municipality",
+    },
+    {
+      name: "province",
+      align: "left",
+      label: "PROVINCE",
+      field: "province",
+    },
+    {
+      name: "housingunit",
+      align: "left",
+      label: "HOUSING UNIT",
+      field: "housingUnit",
     },
   ];
-  // rows = [
-  //   {
-  //     number: "1",
-  //     id: "AOOAA003",
-  //     landlordid: "20220001",
-  //     username: "pirateking_home",
-  //     firstname: "Monkey",
-  //     lastname: "Luffy",
-  //     middlename: "Damulag",
-  //     addressline1: "0059 5th Street",
-  //     addressline2: "Brgy. Dimaluna I",
-  //     addressline3: "MSU-Marawi",
-  //   },
-  // ];
+
 }
 </script>

@@ -1,3 +1,4 @@
+//Delete!
 export interface LandlordRowsInfo {
   number: string,
   id: string,

@@ -8,8 +8,18 @@
         active-color="primary"
         narrow-indicator
       >
-        <q-tab name="student" label="student" :ripple="false" />
-        <q-tab name="landlord" label="Landlord" :ripple="false" />
+        <q-tab
+          name="student"
+          label="student"
+          :ripple="false"
+
+        />
+        <q-tab
+          name="landlord"
+          label="Landlord"
+          :ripple="false"
+
+        />
       </q-tabs>
 
       <q-separator></q-separator>
@@ -24,14 +34,14 @@
               <q-input
                 dense
                 filled
-                v-model="currentStudent.username"
+                v-model="sInfo.username"
                 placeholder="Username"
                 style="width: 25rem; font-size: smaller"
               />
               <q-input
                 dense
                 filled
-                v-model="currentStudent.password"
+                v-model="sInfo.password"
                 placeholder="Password"
                 type="password"
                 style="width: 25rem; font-size: smaller"
@@ -39,14 +49,14 @@
               <q-input
                 dense
                 filled
-                v-model="currentStudent.email"
+                v-model="sInfo.email"
                 placeholder="E-mail"
                 style="width: 25rem; font-size: smaller"
               />
               <q-input
                 dense
                 filled
-                v-model="currentStudent.contactNo"
+                v-model="sInfo.contactNo"
                 mask="(+63) ###-###-####"
                 placeholder="Mobile Number"
                 style="width: 25rem; font-size: smaller"
@@ -64,7 +74,7 @@
                     <q-card-section class="q-py-xs">
                       <q-select
                         class="q-mt-xs"
-                        v-model="currentStudent.college"
+                        v-model="sInfo.college"
                         :options="College"
                         dense
                         filled
@@ -74,14 +84,14 @@
                       <q-select
                         class="q-mt-xs"
                         :v-model="
-                          currentStudent.college ==
+                          sInfo.college ==
                             'College of Business Administration and Accountancy' ||
                           'College of Information Technology' ||
                           'King Faisal Center for Islamic, Arabic and Asian Studies'
                             ? selectedDepartment()
                             : selectedDepartment
                         "
-                        v-model="currentStudent.department"
+                        v-model="sInfo.department"
                         :options="Department"
                         dense
                         filled
@@ -91,14 +101,14 @@
                       <q-select
                         class="q-mt-xs"
                         :v-model="
-                          currentStudent.college ==
+                          sInfo.college ==
                             'College of Business Administration and Accountancy' ||
                           'College of Information Technology' ||
                           'King Faisal Center for Islamic, Arabic and Asian Studies'
                             ? selectedDegree()
                             : selectedDegree
                         "
-                        v-model="currentStudent.degree"
+                        v-model="sInfo.degree"
                         :options="Degree"
                         dense
                         filled
@@ -107,7 +117,7 @@
                       />
                       <q-select
                         class="q-mt-xs"
-                        v-model="currentStudent.year"
+                        v-model="sInfo.year"
                         :options="Year"
                         dense
                         filled
@@ -122,28 +132,28 @@
               <q-input
                 dense
                 filled
-                v-model="currentStudent.firstname"
+                v-model="sInfo.firstname"
                 placeholder="Firstname"
                 style="width: 25rem; font-size: smaller"
               />
               <q-input
                 dense
                 filled
-                v-model="currentStudent.middlename"
+                v-model="sInfo.middlename"
                 placeholder="Middlename"
                 style="width: 25rem; font-size: smaller"
               />
               <q-input
                 dense
                 filled
-                v-model="currentStudent.lastname"
+                v-model="sInfo.lastname"
                 placeholder="Lastname"
                 style="width: 25rem; font-size: smaller"
               />
               <q-input
                 dense
                 filled
-                v-model="currentStudent.birthdate"
+                v-model="sInfo.birthdate"
                 mask="##/##/####"
                 placeholder="Birthdate"
                 style="width: 25rem; font-size: smaller"
@@ -165,7 +175,7 @@
                     <q-card-section class="q-py-xs">
                       <q-select
                         class="q-mt-xs"
-                        v-model="currentStudent.province"
+                        v-model="sInfo.province"
                         :options="Province"
                         dense
                         filled
@@ -174,7 +184,7 @@
                       />
                       <q-select
                         class="q-mt-xs"
-                        v-model="currentStudent.municipality"
+                        v-model="sInfo.municipality"
                         :options="Municipality"
                         dense
                         filled
@@ -183,7 +193,7 @@
                       />
                       <q-select
                         class="q-mt-xs"
-                        v-model="currentStudent.barangay"
+                        v-model="sInfo.barangay"
                         :options="Barangay"
                         dense
                         filled
@@ -192,7 +202,7 @@
                       />
                       <q-select
                         class="q-mt-xs"
-                        v-model="currentStudent.street"
+                        v-model="sInfo.street"
                         :options="Street"
                         dense
                         filled
@@ -207,7 +217,7 @@
               <q-input
                 dense
                 filled
-                v-model="currentStudent.housingUnit"
+                v-model="sInfo.housingUnit"
                 placeholder="Housing Unit"
                 style="width: 25rem; font-size: smaller"
               />
@@ -223,8 +233,7 @@
                 style="height: 1.5rem; width: 6rem; font-size: smaller"
                 color="primary"
                 label="create"
-                @click="createStudent()"
-
+                @click="studentAccount()"
               />
             </div>
           </q-card-section>
@@ -238,30 +247,33 @@
             <q-icon class="mbi-home" size="4rem" color="primary" />
           </q-card-section>
           <q-card-section>
-            <div
-              v-for="landlord in allLandlordAccount"
-              :key="landlord.username"
-              class="q-gutter-y-sm column flex flex-center"
-            >
+            <div class="q-gutter-y-sm column flex flex-center">
               <q-input
                 dense
                 filled
-                v-model="landlord.username"
+                v-model="lInfo.username"
                 placeholder="Username"
                 style="width: 25rem; font-size: smaller"
               />
               <q-input
                 dense
                 filled
-                v-model="landlord.password"
+                v-model="lInfo.password"
                 placeholder="Password"
                 type="password"
+                style="width: 25rem; font-size: smaller"
+              />
+               <q-input
+                dense
+                filled
+                v-model="lInfo.email"
+                placeholder="E-mail"
                 style="width: 25rem; font-size: smaller"
               />
               <q-input
                 dense
                 filled
-                v-model="landlord.MobileNo"
+                v-model="lInfo.contactNo"
                 mask="####-###-####"
                 placeholder="Mobile Number"
                 style="width: 25rem; font-size: smaller"
@@ -269,28 +281,28 @@
               <q-input
                 dense
                 filled
-                v-model="landlord.firstname"
+                v-model="lInfo.firstname"
                 placeholder="Firstname"
                 style="width: 25rem; font-size: smaller"
               />
               <q-input
                 dense
                 filled
-                v-model="landlord.middlename"
+                v-model="lInfo.middlename"
                 placeholder="Middlename"
                 style="width: 25rem; font-size: smaller"
               />
               <q-input
                 dense
                 filled
-                v-model="landlord.lastname"
+                v-model="lInfo.lastname"
                 placeholder="Lastname"
                 style="width: 25rem; font-size: smaller"
               />
               <q-input
                 dense
                 filled
-                v-model="landlord.birthdate"
+                v-model="lInfo.birthdate"
                 placeholder="Birthdate"
                 mask="##/##/####"
                 style="width: 25rem; font-size: smaller"
@@ -307,7 +319,7 @@
                     <q-card-section class="q-py-xs">
                       <q-select
                         class="q-mt-xs"
-                        v-model="landlord.Address1"
+                        v-model="lInfo.street"
                         :options="Street"
                         dense
                         filled
@@ -316,7 +328,7 @@
                       />
                       <q-select
                         class="q-mt-xs"
-                        v-model="landlord.Address2"
+                        v-model="lInfo.barangay"
                         :options="Barangay"
                         dense
                         filled
@@ -325,7 +337,7 @@
                       />
                       <q-select
                         class="q-mt-xs"
-                        v-model="landlord.Address3"
+                        v-model="lInfo.municipality"
                         :options="Municipality"
                         dense
                         filled
@@ -334,7 +346,7 @@
                       />
                       <q-select
                         class="q-mt-xs"
-                        v-model="landlord.Address4"
+                        v-model="lInfo.province"
                         :options="Province"
                         dense
                         filled
@@ -349,7 +361,7 @@
               <q-input
                 dense
                 filled
-                v-model="landlord.HousingUnit"
+                v-model="lInfo.housingUnit"
                 placeholder="Housing Unit"
                 style="width: 25rem; font-size: smaller"
               />
@@ -365,6 +377,7 @@
                 style="height: 1.5rem; width: 6rem; font-size: smaller"
                 color="primary"
                 label="create"
+                @click="landlordAccount()"
               />
             </div>
           </q-card-section>
@@ -375,29 +388,28 @@
 </template>
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import {
-  AccountCreateStudentInfo,
-  AccountCreateLandlordInfo,
-} from "src/store/AccountsCreateForm/state";
 import { mapState, mapActions } from "vuex";
-import { StudentRowsInfo } from "src/store/RecordsStudent/state";
+import { StudentRowsInfo, LandlordRowsInfo } from "src/store/RecordsStudent/state";
 
 @Options({
   computed: {
     ...mapState("RecordsStudent", [
       "allStudentRecords",
       "activeStudentRecords",
+      "allLandlordRecords",
+      "activeLandlordRecords",
     ]),
   },
   methods: {
-    ...mapActions("RecordsStudent", ["newStudent"]),
+    ...mapActions("RecordsStudent", ["newStudent", "newLandlord"]),
   },
 })
 export default class AccountsCreateForm extends Vue {
   tab = "student";
   allStudentRecords!: StudentRowsInfo[];
-  allLandlordAccount!: AccountCreateLandlordInfo[];
+  allLandlordAccount!: LandlordRowsInfo[];
   newStudent!: (payload: StudentRowsInfo) => Promise<void>;
+  newLandlord!: (payload: LandlordRowsInfo) => Promise<void>;
   Department: any[] = [];
   Degree: any[] = [];
 
@@ -410,7 +422,7 @@ export default class AccountsCreateForm extends Vue {
 
   selectedDepartment() {
     if (
-      this.currentStudent.college ==
+      this.sInfo.college ==
       "College of Business Administration and Accountancy"
     ) {
       return (this.Department = [
@@ -420,7 +432,7 @@ export default class AccountsCreateForm extends Vue {
         "Department of Accounting",
       ]);
     } else if (
-      this.currentStudent.college ==
+      this.sInfo.college ==
       "College of Information and Computing Sciences"
     ) {
       return (this.Department = [
@@ -428,7 +440,7 @@ export default class AccountsCreateForm extends Vue {
         "Department of Computing Sciences",
       ]);
     } else if (
-      this.currentStudent.college ==
+      this.sInfo.college ==
       "King Faisal Center for Islamic, Arabic and Asian Studies"
     ) {
       return (this.Department = [
@@ -441,7 +453,7 @@ export default class AccountsCreateForm extends Vue {
 
   selectedDegree() {
     if (
-      this.currentStudent.college ==
+      this.sInfo.college ==
       "College of Business Administration and Accountancy"
     ) {
       return (this.Degree = [
@@ -454,7 +466,7 @@ export default class AccountsCreateForm extends Vue {
         "BSBA Entrepreneurship",
       ]);
     } else if (
-      this.currentStudent.college ==
+      this.sInfo.college ==
       "College of Information and Computing Sciences"
     ) {
       return (this.Degree = [
@@ -465,7 +477,7 @@ export default class AccountsCreateForm extends Vue {
         "Bachelor of Science in information Technology (Networking)",
       ]);
     } else if (
-      this.currentStudent.college ==
+      this.sInfo.college ==
       "King Faisal Center for Islamic, Arabic and Asian Studies"
     ) {
       return (this.Degree = [
@@ -518,8 +530,27 @@ export default class AccountsCreateForm extends Vue {
     housingUnit: "",
   };
 
+  defaultLandlord: LandlordRowsInfo = {
+    number: "",
+    id: "",
+    landlordid: "",
+    username: "",
+    password: "",
+    email: "",
+    contactNo: "",
+    firstname: "",
+    middlename: "",
+    lastname: "",
+    birthdate: "",
+    street: "",
+    barangay: "",
+    municipality: "",
+    province: "",
+    housingUnit: "",
+  };
+
   async resetModel() {
-    this.currentStudent = {
+    this.sInfo = {
       number: "",
       id: "",
       studentId: "",
@@ -540,17 +571,44 @@ export default class AccountsCreateForm extends Vue {
       municipality: "",
       province: "",
       housingUnit: "",
-    };
+    },
+    this.lInfo = {
+      number: "",
+      id: "",
+      landlordid: "",
+      username: "",
+      firstname: "",
+      lastname: "",
+      middlename: "",
+      email: "",
+      contactNo: "",
+      birthdate: "",
+      street: "",
+      barangay: "",
+      municipality: "",
+      province: "",
+      housingUnit: "",
+    }
   }
-  currentStudent = { ...this.defaultStudent };
+  sInfo = { ...this.defaultStudent };
+  lInfo = { ...this.defaultLandlord }
 
-  async createStudent() {
-    await this.newStudent(this.currentStudent);
+  async studentAccount() {
+    await this.newStudent(this.sInfo);
     this.resetModel();
     this.$q.notify({
       type: "positive",
-      message: "Success",
+      message: "Student d",
     });
   }
+  async landlordAccount() {
+    await this.newLandlord(this.lInfo);
+    this.resetModel();
+    this.$q.notify({
+      type: "positive",
+      message: "Landlord Created",
+    });
+  }
+
 }
 </script>

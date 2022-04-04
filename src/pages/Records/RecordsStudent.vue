@@ -35,6 +35,9 @@
             </q-tr> -->
           </template>
         </q-table>
+        <div>
+          Your selection: {{studentInfo}}
+        </div>
       </div>
     </q-scroll-area>
 
@@ -45,7 +48,7 @@
         v-model="rightDrawerOpen"
         side="right"
         show-if-above
-
+        @click="displayInfo = false"
       >
         <!-- <div>
           <q-btn
@@ -100,7 +103,7 @@
 import { Options, Vue } from "vue-class-component";
 import { StudentRowsInfo } from "src/store/RecordsStudent/state";
 import { mapState } from "vuex";
-import { AccountCreateStudentInfo } from "src/store/AccountsCreateForm/state";
+
 
 @Options({
   computed: {
@@ -119,6 +122,8 @@ export default class RecordsStudent extends Vue {
     this.studentInfo = data;
     this.displayInfo = true;
   }
+
+
 
   columns = [
     {
