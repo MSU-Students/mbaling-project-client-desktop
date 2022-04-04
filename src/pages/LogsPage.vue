@@ -1,12 +1,12 @@
 <template>
   <div>
     <q-table
-      :rows="allRecentLog"
-      :columns="columns"
-      row-key="name"
-      :separator="separator"
       dense
       hide-bottom
+      row-key="name"
+      :rows="allRecentLog"
+      :columns="columns"
+      :separator="separator"
     />
   </div>
 </template>
@@ -22,7 +22,7 @@ import { mapState} from "vuex";
   },
 })
 
-export default class RecentLogs extends Vue {
+export default class LogsPage extends Vue {
   separator = 'cell';
   allRecentLog!: RecentLogsRowsInfo[];
 

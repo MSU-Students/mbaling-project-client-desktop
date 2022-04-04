@@ -1,30 +1,59 @@
-import { RouteRecordRaw } from 'vue-router';
+import { RouteRecordRaw } from "vue-router";
 
 const routes: RouteRecordRaw[] = [
   {
     path: "/",
-    component: () => import("layouts/LoginLayout.vue"),
-    children: [{ path: "", component: () => import("pages/LoginForm.vue") }],
+    component: () => import("pages/LoginForm.vue"),
   },
   {
-    path: '/',
-    component: () => import('layouts/MainLayout.vue'),
+    path: "/",
+    component: () => import("layouts/MainLayout.vue"),
     children: [
-      { path: '/RecentLogs', component: () => import('src/pages/RecentLogs/RecentLogs.vue') },
-      { path: '/Records', component: () => import('src/pages/Records/RecordsMenu.vue') },
-      { path: '/Accounts', component: () => import('src/pages/Accounts/AccountsMenu.vue') },
-      { path: '/RecordsStudent', component: () => import('src/pages/Records/RecordsStudent.vue') },
-      { path: '/RecordsLandlord', component: () => import('src/pages/Records/RecordsLandlord.vue') },
-      { path: '/AccountsCreateForm', component: () => import('src/pages/Accounts/AccountsCreateForm.vue') },
-      { path: '/AccountsDeleteForm', component: () => import('src/pages/Accounts/AccountsDeleteForm.vue') },
+      { path: "logs", component: () => import("src/pages/LogsPage.vue") },
+    ],
+  },
+  {
+    path: "/records/",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [
+      {
+        path: "",
+        component: () => import("src/pages/records/RecordsMenu.vue"),
+      },
+      {
+        path: "student",
+        component: () => import("src/pages/records/RecordsStudent.vue"),
+      },
+      {
+        path: "landlord",
+        component: () => import("src/pages/records/RecordsLandlord.vue"),
+      },
+    ],
+  },
+  {
+    path: "/accounts/",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [
+      {
+        path: "",
+        component: () => import("src/pages/accounts/AccountsMenu.vue"),
+      },
+      {
+        path: "create",
+        component: () => import("src/pages/accounts/AccountsCreateForm.vue"),
+      },
+      {
+        path: "delete",
+        component: () => import("src/pages/accounts/AccountsDeleteForm.vue"),
+      },
     ],
   },
 
   // Always leave this as last one,
   // but you can also remove it
   {
-    path: '/:catchAll(.*)*',
-    component: () => import('pages/Error404.vue'),
+    path: "/:catchAll(.*)*",
+    component: () => import("pages/Error404.vue"),
   },
 ];
 

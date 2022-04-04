@@ -1,92 +1,108 @@
 <template>
   <q-layout view="lHr Lpr lFr" class="defaultfont">
-    <q-header elevated class="bg-primary q-px-md q-py-sm" height-hint="98">
+    <q-header elevated class="q-px-md bg-primary">
       <q-toolbar>
         <q-toolbar-title>
-          <q-img src="~assets/mbaling-logo-horizontal.svg" style="max-width: 14rem" />
+          <q-img
+            src="~assets/mbaling-logo-horizontal.svg"
+            style="max-width: 10rem"
+          />
         </q-toolbar-title>
         <q-btn
-          class="q-mt-none"
-          flat
-          @click="toggleRightDrawer"
-          size="1.5rem"
+          icon="bi-list"
+          :ripple="false"
           dense
-          icon="menu"
+          flat
+          size="md"
+          class="q-mt-none"
+          @click="toggleRightDrawer"
         />
       </q-toolbar>
 
-      <!-- <q-tabs align="left">
-        <q-route-tab to="" :ripple="false" label="Recent Logs" />
-        <q-route-tab to="" :ripple="false" size="sm"  label="Records" />
-        <q-route-tab to="" :ripple="false" size="sm"  label="Accounts" />
-      </q-tabs> -->
-
-      <q-btn-group flat>
+      <q-btn-group flat spread style="height: 2rem; width: 25rem">
         <q-btn
-          to="/RecentLogs"
+          icon="bi-stopwatch"
+          label="Recent Logs"
           :ripple="false"
           size="sm"
-          icon="description"
-          label="Recent Logs"
+          to="/logs"
         />
-        <q-btn to="/Records" :ripple="false" size="sm" icon="person" label="Records" />
-        <q-btn to="/Accounts" :ripple="false" size="sm" icon="person" label="Accounts" />
+        <q-btn
+          icon="bi-book"
+          label="Records"
+          :ripple="false"
+          size="sm"
+          to="/records"
+        />
+        <q-btn
+          icon="bi-person"
+          label="Accounts"
+          :ripple="false"
+          size="sm"
+          to="/accounts"
+        />
       </q-btn-group>
     </q-header>
 
-    <q-drawer side="right" v-model="rightDrawerOpen" overlay elevated>
+    <q-drawer v-model="rightDrawerOpen" overlay elevated side="right">
       <q-list>
         <q-btn
-          class="q-ma-sm absolute-top-right"
+          icon="bi-arrow-right-short"
+          :ripple="false"
           dense
           flat
-          size="xl"
-          :ripple="false"
+          size="lg"
           color="primary"
-          icon="arrow_forward"
+          class="q-ma-sm absolute-top-right"
           @click="toggleRightDrawer"
         />
 
         <div class="q-mt-xl flex-center text-center text-primary">
-          <q-avatar class="q-mt-xl q-ma-md" size="8rem" color="primary">
+          <q-avatar class="q-mt-xl q-ma-md" size="8rem">
             <img :src="admin.prfphoto" />
           </q-avatar>
 
-          <div class="info-username">
-            <p>{{ admin.username }}</p>
-            <span class="defaultfont-bold info-fullname text-uppercase">
-              {{ admin.fullname }}
+          <div>
+            <p style="font-size: small">@{{ admin.username }}</p>
+            <span
+              class="defaultfont-bold text-uppercase"
+              style="font-size: medium"
+            >
+              {{ admin.firstname }} {{ admin.middlename.charAt(0) }}.
+              {{ admin.lastname }}
             </span>
-            <p class="info-other" style="font-size: x-small">
-              {{ admin.position }} <br />
-              {{ admin.address }}
-            </p>
+            <div>
+              <p style="font-size: smaller; line-height: 0.85rem">
+                {{ admin.position }} <br />
+                {{ admin.office }}
+              </p>
+            </div>
           </div>
         </div>
 
-        <div class="q-gutter-lg flex flex-center">
+        <div class="q-mt-md flex flex-center">
           <q-btn
+            label="edit"
             :ripple="false"
             unelevated
             rounded
             dense
             no-caps
-            class="text-white q-mt-md"
-            style="height: 1.5rem; width: 6rem; font-size: smaller"
             color="primary"
-            label="edit"
+            text-color="white"
+            style="height: 1.5rem; width: 5rem; font-size: smaller"
           />
         </div>
 
         <q-btn
-          class="q-ma-lg absolute-bottom-right"
+          icon="bi-box-arrow-right"
+          label="Logout"
+          :ripple="false"
           dense
           flat
-          size="md"
-          :ripple="false"
+          size="sm"
           color="primary"
-          icon="logout"
-          label="Logout"
+          class="q-ma-lg absolute-bottom-right"
           @click="() => $router.replace('/')"
         />
       </q-list>
@@ -104,54 +120,28 @@ import { Vue } from "vue-class-component";
 interface Iadmin {
   username: string;
   prfphoto: string;
-  fullname: string;
+  firstname: string;
+  middlename: string;
+  lastname: string;
   position: string;
-  address: string;
+  office: string;
 }
 
 export default class MainLayout extends Vue {
   rightDrawerOpen = false;
 
-    async toggleRightDrawer() {
+  async toggleRightDrawer() {
     this.rightDrawerOpen = !this.rightDrawerOpen;
   }
 
-  admin: Iadmin =
-    {
-        username: "@admin_hmd",
-        prfphoto: "https://cdn.quasar.dev/img/avatar3.jpg",
-        fullname: "Strygwyr S. Martell",
-        position: "Secretary",
-        address: "Housing Management Division",
-    }
-
-
-  // data() {
-  //   return {
-  //     admin: {
-  //       username: "@admin_hmd",
-  //       prfphoto: "https://cdn.quasar.dev/img/avatar3.jpg",
-  //       fullname: "Strygwyr S. Martell",
-  //       position: "Secretary",
-  //       address: "Housing Management Division",
-  //     },
-  //   };
-  // }
-
+  admin: Iadmin = {
+    username: "admin_hmd",
+    prfphoto: "https://cdn.quasar.dev/img/avatar3.jpg",
+    firstname: "Strygwyr",
+    middlename: "Sand",
+    lastname: "Martell",
+    position: "Secretary",
+    office: "Housing Management Division",
+  };
 }
-// import { defineComponent, ref } from "vue";
-
-// export default defineComponent({
-//   name: "MainLayout",
-
-//   setup() {
-//     const rightDrawerOpen = ref(false);
-//     return {
-//       rightDrawerOpen,
-//       toggleRightDrawer() {
-//         rightDrawerOpen.value = !rightDrawerOpen.value;
-//       },
-//     };
-//   },
-// });
 </script>

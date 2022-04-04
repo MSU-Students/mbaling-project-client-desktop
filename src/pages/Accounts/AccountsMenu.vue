@@ -1,41 +1,37 @@
 <template>
   <q-page class="row items-center justify-evenly">
-    <div class="q-gutter-lg">
-    <q-btn
-      class="q-mx-xl"
-      unelevated rounded
-      stack
-      padding="4rem"
-      color="primary"
-      :ripple="false"
-      to="/AccountsCreateForm"
-    >
-    <q-icon size="5rem" name="edit_note" />
-    <div
-        class="text-bold cursor-pointer"
-        style="font-size: x-small"
-    >
-    Create
-    </div>
-    </q-btn>
+    <div>
+      <q-btn
+        :ripple="false"
+        unelevated
+        rounded
+        stack
+        padding="5rem"
+        color="primary"
+        class="q-mx-xl"
+        to="/accounts/create"
+      >
+        <q-icon size="5rem" class="bi-pencil-square" />
+        <span class="q-mt-sm defaultfont-semibold" style="font-size: small">
+          Create
+        </span>
+      </q-btn>
 
-    <q-btn
-      class="q-mx-lg"
-      unelevated rounded
-      stack
-      padding="4rem"
-      color="primary"
-      :ripple="false"
-      to="/AccountsDeleteForm"
-    >
-    <q-icon size="5rem" name="delete_outline" />
-    <div
-        class="text-bold cursor-pointer"
-        style="font-size: x-small"
-    >
-    Delete
-    </div>
-    </q-btn>
+      <q-btn
+        :ripple="false"
+        unelevated
+        rounded
+        stack
+        padding="5rem"
+        color="primary"
+        class="q-mx-xl"
+        to="/accounts/delete"
+      >
+        <q-icon size="5rem" class="bi-trash" />
+        <span class="q-mt-sm defaultfont-semibold" style="font-size: small">
+          Delete
+        </span>
+      </q-btn>
     </div>
   </q-page>
 </template>

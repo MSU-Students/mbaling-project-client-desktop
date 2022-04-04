@@ -1,6 +1,6 @@
-# Quasar App (mbaling-project-main)
+# mBALING Administrator System (mbaling-project)
 
-A Quasar Framework app
+mBALING is a student housing management system for on-campus housing firms in MSU-Marawi City campus
 
 ## Install the dependencies
 ```bash
@@ -19,4 +19,4 @@ quasar build
 ```
 
 ### Customize the configuration
-See [Configuring quasar.conf.js](https://quasar.dev/quasar-cli/quasar-conf-js).
+See [Configuring quasar.conf.js](https://v2.quasar.dev/quasar-cli/quasar-conf-js).
