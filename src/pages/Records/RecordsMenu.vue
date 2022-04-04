@@ -5,33 +5,36 @@
       class="q-mx-xl"
       unelevated rounded
       stack
-      padding="lg"
+      padding="4rem"
       color="primary"
       :ripple="false"
       to="/RecordsStudent"
     >
-    <q-icon size="10rem" name="person" />
+    <q-icon size="5rem" class="mbi-account" >
+    <!-- <i class="mbi-account"></i> -->
+    </q-icon>
     <div
         class="text-bold cursor-pointer"
-        style="font-size: small"
+        style="font-size: x-small"
     >
     Student
     </div>
+
     </q-btn>
 
     <q-btn
       class="q-mx-lg"
       unelevated rounded
       stack
-      padding="lg"
+      padding="4rem"
       color="primary"
       :ripple="false"
       to="/RecordsLandlord"
     >
-    <q-icon size="10rem" name="home" />
+    <q-icon size="5rem" class="mbi-home" />
     <div
         class="text-bold cursor-pointer"
-        style="font-size: small"
+        style="font-size: x-small"
     >
     Landlord
     </div>

@@ -1,102 +1,146 @@
 <template>
-  <q-layout view="hHh Lpr lff">
+  <q-layout view="hHh Lpr lff" container style="height: 40rem">
+    <q-scroll-area style="height: 40rem; max-width: 77rem">
+      <div>
+        <q-table
+          class="cursor-pointer"
+          :rows="allLandlordRecords"
+          :columns="columns"
+          row-key="name"
+          :separator="separator"
+          dense
+          hide-bottom
+        >
+          <template v-slot:body="props">
+            <q-tr :props="props">
+              <q-td
+                v-for="col in props.cols"
+                :key="col.name"
+                :props="props"
+                @click="onTableRowClick(props.row)"
+              >
+                {{ col.value }}
+              </q-td>
+            </q-tr>
+            <q-tr v-show="props.expand" :props="props">
+              <q-td colspan="100%">
+                <div class="text-left">
+                  This is expand slot for row above: {{ props.row.name }}.
+                </div>
+              </q-td>
+            </q-tr>
+          </template>
+        </q-table>
+      </div>
+    </q-scroll-area>
+
     <q-drawer
       class="bg-blue-grey-1"
       show-if-above
       v-model="rightDrawerOpen"
       side="right"
     >
-      <div class="q-mt-md flex-center text-center text-primary">
+      <div
+        v-for="landlord in allLandlordRecords"
+        :key="landlord.username"
+        class="q-mt-md flex-center text-center text-primary"
+      >
         <q-avatar
           class="q-mt-sm q-ma-md"
           size="8rem"
           text-color="secondary"
           color="primary"
         >
-          <img :src="landlord.prfphoto" />
+          <!-- <img :src="landlord.prfphoto" /> -->
+          L
         </q-avatar>
         <div class="info-username defaultfont">
-            <p>{{ landlord.username }}</p>
-            <span class="defaultfont-bold info-fullname text-uppercase">
-              {{ landlord.fullname }}
-            </span>
-            <p class="info-other defaultfont" style="font-size: x-small">
-              {{ landlord.housingName }} <br />
-              {{ landlord.housingAdd1 }}, {{ landlord.housingAdd2 }} <br/>
-              {{ landlord.housingAdd3 }}, {{ landlord.housingAdd4 }}
-            </p>
-            <p class="defaultfont" style="font-size: x-small">
-              {{ landlord.email }} <br/>
+          <p>@{{ landlord.username }}</p>
+          <span class="defaultfont-bold info-fullname text-uppercase">
+            {{ landlord.firstname }} {{ landlord.middlename }}
+            {{ landlord.lastname }}
+          </span>
+          <p class="info-other defaultfont" style="font-size: x-small">
+            <!-- {{ landlord.housingName }} <br /> -->
+            {{ landlord.addressline1 }}, {{ landlord.addressline2 }} <br />
+            {{ landlord.addressline3 }}
+          </p>
+          <p class="defaultfont" style="font-size: x-small">
+            <!-- {{ landlord.email }} <br/>
               {{ landlord.contactNo }} <br/>
-              {{ landlord.birthDate }} <br/>
-              {{ landlord.address1 }}, {{ landlord.address2 }} <br/>
-              {{ landlord.address3 }}, {{ landlord.address4 }}
-            </p>
+              {{ landlord.birthDate }} <br/> -->
+            {{ landlord.addressline1 }}, {{ landlord.addressline2 }} <br />
+            {{ landlord.addressline3 }}
+          </p>
         </div>
       </div>
     </q-drawer>
-
-    <div>
-      <q-table
-        :rows="rows"
-        :columns="columns"
-        row-key="name"
-        :separator="separator"
-        dense
-        hide-bottom
-      />
-    </div>
   </q-layout>
 </template>
 
 <script lang="ts">
-import { Vue } from "vue-class-component";
+import { Options, Vue } from "vue-class-component";
+import { LandlordRowsInfo } from "src/store/RecordsLandlord/state";
+import { mapState } from "vuex";
 
-interface Ilandlord {
-  username: string;
-  prfphoto: string;
-  fullname: string;
-  housingName: string;
-  housingAdd1: string;
-  housingAdd2: string;
-  housingAdd3: string;
-  housingAdd4: string;
-  email: string;
-  contactNo: string;
-  birthDate: string;
-  address1: string;
-  address2: string;
-  address3: string;
-  address4: string;
-}
+@Options({
+  computed: {
+    ...mapState("RecordsLandlord", ["allLandlordRecords"]),
+  },
+})
 
+// interface Ilandlord {
+//   username: string;
+//   prfphoto: string;
+//   fullname: string;
+//   housingName: string;
+//   housingAdd1: string;
+//   housingAdd2: string;
+//   housingAdd3: string;
+//   housingAdd4: string;
+//   email: string;
+//   contactNo: string;
+//   birthDate: string;
+//   address1: string;
+//   address2: string;
+//   address3: string;
+//   address4: string;
+// }
 export default class RecordsLandlord extends Vue {
   rightDrawerOpen = false;
   separator = "cell";
+  allLandlordRecords!: LandlordRowsInfo[];
+  landlordInfo!: LandlordRowsInfo;
 
-  landlord: Ilandlord = {
-        username: "@pirateking_home",
-        prfphoto: "https://cdn.quasar.dev/img/avatar4.jpg",
-        fullname: "Monkey D. Luffy",
-        housingName: "Pirate King Apartment",
-        housingAdd1: "0259 5th Street",
-        housingAdd2: "Brgy. Dimalna II",
-        housingAdd3: "MSU-Marawi",
-        housingAdd4: "Marawi City",
-        email: "monkey.luffy@gmail.com",
-        contactNo: "0956-932-1946",
-        birthDate: "August 31, 1999",
-        address1: "1205 5th Street",
-        address2: "Dimaluna",
-        address3: "Marawi City",
-        address4: "Lanao Del Sur 9700",
-      }
+  onTableRowClick(data: LandlordRowsInfo) {
+    this.landlordInfo = data;
+    // this.rightDrawerOpen = true
+  }
+
+
+  // landlord: Ilandlord = {
+  //       username: "@pirateking_home",
+  //       prfphoto: "https://cdn.quasar.dev/img/avatar4.jpg",
+  //       fullname: "Monkey D. Luffy",
+  //       housingName: "Pirate King Apartment",
+  //       housingAdd1: "0259 5th Street",
+  //       housingAdd2: "Brgy. Dimalna II",
+  //       housingAdd3: "MSU-Marawi",
+  //       housingAdd4: "Marawi City",
+  //       email: "monkey.luffy@gmail.com",
+  //       contactNo: "0956-932-1946",
+  //       birthDate: "August 31, 1999",
+  //       address1: "1205 5th Street",
+  //       address2: "Dimaluna",
+  //       address3: "Marawi City",
+  //       address4: "Lanao Del Sur 9700",
+  //     }
 
   columns = [
     {
       name: "number",
       required: true,
-      label: "",
+      label: "#",
       align: "left",
       field: "number",
     },
@@ -155,19 +199,19 @@ export default class RecordsLandlord extends Vue {
       field: "addressline3",
     },
   ];
-  rows = [
-    {
-      number: "1",
-      id: "AOOAA003",
-      landlordid: "20220001",
-      username: "pirateking_home",
-      firstname: "Monkey",
-      lastname: "Luffy",
-      middlename: "Damulag",
-      addressline1: "0059 5th Street",
-      addressline2: "Brgy. Dimaluna I",
-      addressline3: "MSU-Marawi",
-    },
-  ];
+  // rows = [
+  //   {
+  //     number: "1",
+  //     id: "AOOAA003",
+  //     landlordid: "20220001",
+  //     username: "pirateking_home",
+  //     firstname: "Monkey",
+  //     lastname: "Luffy",
+  //     middlename: "Damulag",
+  //     addressline1: "0059 5th Street",
+  //     addressline2: "Brgy. Dimaluna I",
+  //     addressline3: "MSU-Marawi",
+  //   },
+  // ];
 }
 </script>

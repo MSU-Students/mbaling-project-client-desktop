@@ -1,113 +1,132 @@
 <template>
-  <q-layout view="hHh lpr fFr">
-    <q-drawer class="bg-blue-grey-1" show-if-above v-model="rightDrawerOpen" side="right">
-      <div class="q-mt-md flex-center text-center text-primary">
-        <q-avatar
-          class="q-mt-sm q-ma-md"
-          size="8rem"
-          color="primary"
-          text-color="secondary"
+  <q-layout view="hHh Lpr lff" container style="height: 40rem">
+    <q-scroll-area style="height: 40rem; max-width: 77rem">
+      <div>
+        <q-table
+          class="cursor-pointer"
+          :rows="allStudentRecords"
+          :columns="columns"
+          row-key="number"
+          :rows-per-page-options="[0]"
+          :separator="separator"
+          dense
+          hide-bottom
         >
-          <img :src="student.prfphoto"/>
-        </q-avatar>
-        <div class="info-username defaultfont">
-            <p>{{ student.username }}</p>
-            <span class="defaultfont-bold info-fullname text-uppercase">
-              {{ student.fullname }}
-            </span>
-            <p class="info-other defaultfont" style="font-size: x-small">
-              {{ student.studentId }} <br />
-              {{ student.degree }}, {{ student.yearAdmit }} <br/>
-              {{ student.department }} <br/>
-              {{ student.college }}
-            </p>
-            <p class="defaultfont" style="font-size: x-small">
-              {{ student.Iemail }} <br/>
-              {{ student.contactNo }} <br/>
-              {{ student.birthDate }} <br/>
-              {{ student.housingAdd1 }}, {{ student.housingAdd2 }} <br/>
-              {{ student.housingAdd3 }}, {{ student.housingAdd4 }}
-            </p>
-        </div>
+          <template v-slot:body="props">
+            <q-tr :props="props">
+              <q-td
+                v-for="col in props.cols"
+                :key="col.name"
+                :props="props"
+                @click="onTableRowClick(props.row)"
+              >
+                {{ col.value }}
+              </q-td>
+            </q-tr>
+            <q-tr v-show="props.expand" :props="props">
+              <q-td colspan="100%">
+                <div class="text-left">
+                  This is expand slot for row above: {{ props.row.name }}.
+                </div>
+              </q-td>
+            </q-tr>
+          </template>
+        </q-table>
       </div>
-    </q-drawer>
+    </q-scroll-area>
 
     <div>
-      <q-table
-        :rows="rows"
-        :columns="columns"
-        row-key="name"
-        :separator="separator"
-        dense
-        hide-bottom
-      />
+      <q-drawer
+        v-if="rightDrawerOpen == true"
+        class="bg-blue-grey-1"
+        v-model="rightDrawerOpen"
+        side="right"
+        show-if-above
+        @click="rightDrawerOpen = false"
+      >
+        <!-- <div>
+          <q-btn
+            color="primary"
+            rounded
+            label="X"
+            @click="rightDrawerOpen = false"
+          />
+        </div> -->
+        <div class="q-mt-md flex-center text-center text-primary">
+          <q-avatar
+            class="q-mt-sm q-ma-md"
+            size="8rem"
+            color="primary"
+            text-color="secondary"
+          >
+            <!-- <img :src="student.prfphoto"/> -->
+            N
+          </q-avatar>
+          <div class="info-username defaultfont">
+            <p>@{{ studentInfo.username }}</p>
+            <span class="defaultfont-bold info-fullname text-uppercase">
+              {{ studentInfo.firstname }} {{ studentInfo.middlename }}
+              {{ studentInfo.lastname }}
+            </span>
+            <p class="info-other defaultfont" style="font-size: x-small">
+              {{ studentInfo.studentId }} <br />
+              {{ studentInfo.degree }}, {{ studentInfo.year }} <br />
+              {{ studentInfo.department }} <br />
+              {{ studentInfo.college }}
+            </p>
+            <p class="defaultfont" style="font-size: x-small">
+              {{ studentInfo.email }} <br />
+              {{ studentInfo.contactNo }} <br />
+              {{ studentInfo.birthdate }} <br />
+              {{ studentInfo.street }}, {{ studentInfo.barangay }}
+              <br />
+              {{ studentInfo.municipality }}, {{ studentInfo.province }} <br />
+              {{ studentInfo.housingUnit }}
+            </p>
+          </div>
+        </div>
+      </q-drawer>
     </div>
-
   </q-layout>
 </template>
 
 <script lang="ts">
-import { Vue } from "vue-class-component";
+import { Options, Vue } from "vue-class-component";
+import { StudentRowsInfo } from "src/store/RecordsStudent/state";
+import { mapState } from "vuex";
+import { AccountCreateStudentInfo } from "src/store/AccountsCreateForm/state";
 
-interface Istudent {
-  username: string;
-  prfphoto: string;
-  fullname: string;
-  studentId: number;
-  degree: string;
-  yearAdmit: number;
-  department: string;
-  college: string;
-  Iemail: string;
-  contactNo: string;
-  birthDate: string;
-  housingAdd1: string;
-  housingAdd2: string;
-  housingAdd3: string;
-  housingAdd4: string;
-}
+@Options({
+  computed: {
+    ...mapState("RecordsStudent", ["allStudentRecords"]),
+  },
+})
 
 export default class RecordsStudent extends Vue {
   rightDrawerOpen = false;
   separator = "cell";
+  allStudentRecords!: StudentRowsInfo[];
+  studentInfo!: StudentRowsInfo;
 
-  student: Istudent = {
-        username: "@palawanexpress98",
-        prfphoto: "https://cdn.quasar.dev/img/boy-avatar.png",
-        fullname: "Nahed S. Bashier",
-        studentId: 201812730,
-        degree: "BS Information Technology (Database System)",
-        yearAdmit: 2018,
-        department: "Department of Information Sciences",
-        college: "College of Information and Computing Sciences",
-        Iemail: "bashier.ns30@s.msumain.edu.ph",
-        contactNo: "0909-020-6852",
-        birthDate: "October 20, 1999",
-        housingAdd1: "0059 Disarip Street",
-        housingAdd2: "Bubonga Marawi",
-        housingAdd3: "Marawi City",
-        housingAdd4: "Lanao Del Sur 9700",
-      }
+  onTableRowClick(data: StudentRowsInfo) {
+    this.studentInfo = data;
+    this.rightDrawerOpen = true;
+  }
 
   columns = [
     {
       name: "number",
       required: true,
-      label: "",
+      label: "#",
       align: "left",
-      field: "number",
+      field: (row: StudentRowsInfo) => row.number,
+      format: (val: string) => `${val}`,
     },
     {
-      name: "id",
-      align: "left",
-      label: "ID",
-      field: "id",
-    },
-    {
-      name: "studentid",
+      name: "studentId",
       align: "left",
       label: "STUDENT ID",
-      field: "studentid",
+      field: "studentId",
     },
     {
       name: "username",
@@ -145,57 +164,66 @@ export default class RecordsStudent extends Vue {
       label: "DEPARTMENT",
       field: "department",
     },
-  ];
-  rows = [
     {
-      number: "1",
-      id: "AOOAA001",
-      studentid: "201812730",
-      username: "palawanexpress98",
-      firstname: "Nahed",
-      lastname: "Bashier",
-      middlename: "Solaiman",
-      degree: "BS Information Technology",
-      department: "Department of Technology",
+      name: "college",
+      align: "left",
+      label: "COLLEGE",
+      field: "college",
     },
     {
-      number: "1",
-      id: "AOOAA002",
-      studentid: "201812485",
-      username: "jihoonluvluv24",
-      firstname: "Jihoon",
-      lastname: "Park",
-      middlename: "Clent",
-      degree: "BS Information Technology",
-      department: "Department of Technology",
+      name: "email",
+      align: "left",
+      label: "EMAIL",
+      field: "email",
+    },
+    {
+      name: "year",
+      align: "left",
+      label: "YEAR",
+      field: "year",
+    },
+    {
+      name: "contactNo",
+      align: "left",
+      label: "CONTACT NO.",
+      field: "contactNo",
+    },
+    {
+      name: "birthdate",
+      align: "left",
+      label: "BIRTHDATE",
+      field: "birthdate",
+    },
+    {
+      name: "street",
+      align: "left",
+      label: "STREET",
+      field: "street",
+    },
+    {
+      name: "barangay",
+      align: "left",
+      label: "BARANGAY",
+      field: "barangay",
+    },
+    {
+      name: "municipality",
+      align: "left",
+      label: "MUNICIPALITY",
+      field: "municipality",
+    },
+    {
+      name: "province",
+      align: "left",
+      label: "PROVINCE",
+      field: "province",
+    },
+    {
+      name: "housingUnit",
+      align: "left",
+      label: "HOUSING UNIT",
+      field: "housingUnit",
     },
   ];
-
 }
-
-// import { ref } from 'vue'
-
-// export default {
-//   setup () {
-//     const rightDrawerOpen = ref(false)
-
-//     return {
-
-//       rightDrawerOpen,
-//       toggleRightDrawer () {
-//         rightDrawerOpen.value = !rightDrawerOpen.value
-//       },
-//       separator: ref('cell'),
-//       separatorOptions: [
-//         { label: 'Cell', value: 'cell' },
-//       ]
-//     }
-//   }
-// }
-
-// import { Vue } from "vue-class-component";
-
-// export default class RecordsStudent extends Vue{
-
-// }
 </script>
