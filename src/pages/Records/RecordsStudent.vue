@@ -1,50 +1,49 @@
 <template>
   <q-layout view="hHh Lpr lff" container style="height: 40rem">
-    <q-scroll-area style="height: 40rem; max-width: 77rem">
-      <div>
-        <q-table
-          class="cursor-pointer"
-          :rows="allStudentRecords"
-          :columns="columns"
-          row-key="number"
-          :rows-per-page-options="[0]"
-          :separator="separator"
-          dense
-          hide-bottom
-        >
-          <template v-slot:body="props">
-            <q-tr :props="props">
-              <q-td
-                v-for="col in props.cols"
-                :key="col.name"
-                :props="props"
-                @click="onTableRowClick(props.row)"
-              >
-                {{ col.value }}
-              </q-td>
-            </q-tr>
-            <q-tr v-show="props.expand" :props="props">
-              <q-td colspan="100%">
-                <div class="text-left">
-                  This is expand slot for row above: {{ props.row.name }}.
-                </div>
-              </q-td>
-            </q-tr>
-          </template>
-        </q-table>
-      </div>
-    </q-scroll-area>
+    <div class="row">
+      <div class="col-12 col-md-10">
+        <q-scroll-area style="height: 40rem; max-width: 77rem">
+          <div>
+            <q-table
+              class="cursor-pointer"
+              :rows="allStudentRecords"
+              :columns="columns"
+              row-key="number"
+              :rows-per-page-options="[0]"
+              :separator="separator"
+              dense
+              hide-bottom
+            >
+              <template v-slot:body="props">
+                <q-tr :props="props">
+                  <q-td
+                    v-for="col in props.cols"
+                    :key="col.name"
+                    :props="props"
+                    @click="onTableRowClick(props.row)"
+                  >
+                    {{ col.value }}
+                  </q-td>
+                </q-tr>
+                <q-tr v-show="props.expand" :props="props">
+                  <q-td colspan="100%">
+                    <div class="text-left">
+                      This is expand slot for row above: {{ props.row.name }}.
+                    </div>
+                  </q-td>
+                </q-tr>
+              </template>
+            </q-table>
+          </div>
+          <pre> {{ data }} </pre>
+        </q-scroll-area>
 
-    <div>
-      <q-drawer
-        v-if="rightDrawerOpen == true"
-        class="bg-blue-grey-1"
-        v-model="rightDrawerOpen"
-        side="right"
-        show-if-above
-        @click="rightDrawerOpen = false"
-      >
-        <!-- <div>
+        </div>
+
+        <div
+        class="col-12 col-md-2"
+        >
+          <!-- <div>
           <q-btn
             color="primary"
             rounded
@@ -52,7 +51,11 @@
             @click="rightDrawerOpen = false"
           />
         </div> -->
-        <div class="q-mt-md flex-center text-center text-primary">
+           <div
+         v-show="studentInfo"
+         v-if="displayInfo == true"
+         @click="displayInfo = false"
+         class="q-mt-md flex-center text-center text-primary">
           <q-avatar
             class="q-mt-sm q-ma-md"
             size="8rem"
@@ -85,7 +88,8 @@
             </p>
           </div>
         </div>
-      </q-drawer>
+        </div>
+
     </div>
   </q-layout>
 </template>
@@ -101,16 +105,15 @@ import { AccountCreateStudentInfo } from "src/store/AccountsCreateForm/state";
     ...mapState("RecordsStudent", ["allStudentRecords"]),
   },
 })
-
 export default class RecordsStudent extends Vue {
-  rightDrawerOpen = false;
   separator = "cell";
   allStudentRecords!: StudentRowsInfo[];
   studentInfo!: StudentRowsInfo;
+  displayInfo = false;
 
   onTableRowClick(data: StudentRowsInfo) {
     this.studentInfo = data;
-    this.rightDrawerOpen = true;
+    this.displayInfo = true;
   }
 
   columns = [

@@ -554,3 +554,8 @@ export default class AccountsCreateForm extends Vue {
   }
 }
 </script>
+<style>
+.accountcreate-card {
+  border-radius: 0px 0px 0px 0px !important;
+}
+</style>
