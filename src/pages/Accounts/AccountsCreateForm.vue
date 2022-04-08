@@ -1,6 +1,6 @@
 <template>
   <q-page class="row items-center justify-evenly">
-    <q-card class="q-my-lg bg-white" style="width: 35rem; height: 45rem">
+    <q-card class="q-my-lg bg-white accountcreate-card" style="width: 35rem;">
       <q-tabs
         v-model="tab"
         dense

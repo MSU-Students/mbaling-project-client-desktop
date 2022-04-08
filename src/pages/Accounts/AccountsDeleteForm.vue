@@ -1,7 +1,7 @@
 <template>
   <q-page class="row items-center justify-evenly">
 
-    <q-card class="bg-white" style="width: 35rem; height: 35rem">
+    <q-card class="bg-white accountcreate-card" style="width: 35rem; height: 25rem">
       <div class="absolute-center">
     <q-card-section class="q-py-xs row items-center justify-evenly">
         <q-icon size="5rem" name="delete" color="primary" />

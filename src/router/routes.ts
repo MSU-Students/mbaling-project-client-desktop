@@ -18,15 +18,15 @@ const routes: RouteRecordRaw[] = [
     children: [
       {
         path: "",
-        component: () => import("src/pages/records/RecordsMenu.vue"),
+        component: () => import("src/pages/Records/RecordsMenu.vue"),
       },
       {
         path: "student",
-        component: () => import("src/pages/records/RecordsStudent.vue"),
+        component: () => import("src/pages/Records/RecordsStudent.vue"),
       },
       {
         path: "landlord",
-        component: () => import("src/pages/records/RecordsLandlord.vue"),
+        component: () => import("src/pages/Records/RecordsLandlord.vue"),
       },
     ],
   },
@@ -36,15 +36,15 @@ const routes: RouteRecordRaw[] = [
     children: [
       {
         path: "",
-        component: () => import("src/pages/accounts/AccountsMenu.vue"),
+        component: () => import("src/pages/Accounts/AccountsMenu.vue"),
       },
       {
         path: "create",
-        component: () => import("src/pages/accounts/AccountsCreateForm.vue"),
+        component: () => import("src/pages/Accounts/AccountsCreateForm.vue"),
       },
       {
         path: "delete",
-        component: () => import("src/pages/accounts/AccountsDeleteForm.vue"),
+        component: () => import("src/pages/Accounts/AccountsDeleteForm.vue"),
       },
     ],
   },
