@@ -55,10 +55,14 @@
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
 import { mapState, mapActions } from "vuex";
+<<<<<<< HEAD
 import {
   StudentRowsInfo,
   LandlordRowsInfo,
 } from "src/store/RecordsStudent/state";
+=======
+import { AccountStateInterface, Users } from "src/store/RecordsStudent/state";
+>>>>>>> 77f744cace865b00c031809d6f4d2390c93b04f0
 
 @Options({
   computed: {
@@ -73,6 +77,7 @@ import {
     ...mapActions("RecordsStudent", ["deleteStudent", "deleteLandlord"]),
   },
 })
+<<<<<<< HEAD
 export default class AccountsDeleteForm extends Vue {
   allStudentRecords!: StudentRowsInfo[];
   allLandlordRecords!: StudentRowsInfo[];
@@ -88,21 +93,33 @@ export default class AccountsDeleteForm extends Vue {
     studentId: "",
     username: "",
     password: "",
+=======
+
+export default class AccountsDeleteForm extends Vue{
+  allStudentRecords!: AccountStateInterface[];
+  deleteStudent!:(student:Users) => Promise<void>;
+
+  //Functions for deletingStudentAccount
+
+  defaultStudent: Users = {
+    fName: "",
+    lName: "",
+    types: "",
+>>>>>>> 77f744cace865b00c031809d6f4d2390c93b04f0
     email: "",
-    contactNo: "",
-    college: "",
-    department: "",
-    degree: "",
-    year: "",
-    firstname: "",
-    middlename: "",
-    lastname: "",
     birthdate: "",
-    street: "",
-    barangay: "",
-    municipality: "",
-    province: "",
-    housingUnit: "",
+    degree: "",
+    department: "",
+    college: "",
+    contact: "",
+    gender: "",
+    yearAdmit: "",
+    address1: "",
+    address2: "",
+    address3: "",
+    address4: "",
+    housingunit: "",
+    status: "active"
   };
 
   defaultLandlord: LandlordRowsInfo = {

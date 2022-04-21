@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 export interface StudentRowsInfo {
   number: string;
   isStudent: boolean;
@@ -48,10 +49,40 @@ export interface StudentStateInterface {
   activeStudentRecords?: StudentRowsInfo;
   allLandlordRecords: LandlordRowsInfo[];
   activeLandlordRecords?: LandlordRowsInfo;
+=======
+export interface Users {
+  id?: number;
+   username?: string;
+   password?: string;
+   fName: string;
+   mName?: string;
+   lName: string;
+   types: string;
+   email: string;
+   birthdate: string;
+   degree: string;
+   department: string;
+   college: string;
+   contact: string;
+   gender:string;
+   yearAdmit: string;
+   address1: string;
+   address2: string;
+   address3: string;
+   address4: string;
+   housingunit: string;
+   status: 'active' | 'inactive'
 }
 
-function state(): StudentStateInterface {
+export interface AccountStateInterface {
+  allAccount: Users[];
+  newUser?: Users;
+>>>>>>> 77f744cace865b00c031809d6f4d2390c93b04f0
+}
+
+function state(): AccountStateInterface {
   return {
+<<<<<<< HEAD
     allStudentRecords: [
       {
         number: "1",
@@ -134,6 +165,9 @@ function state(): StudentStateInterface {
       housingUnit: "Bandits",
         }
     ]
+=======
+    allAccount: [],
+>>>>>>> 77f744cace865b00c031809d6f4d2390c93b04f0
   };
 }
 

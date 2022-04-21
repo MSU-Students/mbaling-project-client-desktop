@@ -49,17 +49,17 @@
 
         <div class="q-mt-xl flex-center text-center text-primary">
           <q-avatar class="q-mt-xl q-ma-md" size="8rem" color="primary">
-            <img :src="admin.prfphoto" />
+            <img :src="currentUser.email" />
           </q-avatar>
 
           <div class="info-username">
-            <p>{{ admin.username }}</p>
+            <p>{{ currentUser.username }}</p>
             <span class="defaultfont-bold info-fullname text-uppercase">
-              {{ admin.fullname }}
+              {{ currentUser.fName +' ' + currentUser.mName +' ' +currentUser.lName}}
             </span>
             <p class="info-other" style="font-size: x-small">
-              {{ admin.position }} <br />
-              {{ admin.address }}
+              {{ currentUser.type }} <br />
+              {{ currentUser.address1 + ' ' + currentUser.address2 + ' ' + currentUser.address3}}
             </p>
           </div>
         </div>
@@ -99,31 +99,30 @@
 </template>
 
 <script lang="ts">
-import { Vue } from "vue-class-component";
+import { AUser } from "src/store/auth/state";
+import { Options, Vue } from "vue-class-component";
+import { mapActions, mapState } from "vuex";
 
-interface Iadmin {
-  username: string;
-  prfphoto: string;
-  fullname: string;
-  position: string;
-  address: string;
-}
+@Options({
+  methods: {
+    ...mapActions('auth', ['authUser']),
+  },
+  computed: {
+    ...mapState('auth', ['currentUser']),
+  },
+})
 
 export default class MainLayout extends Vue {
+  authUser! : () => Promise<void>
+  currentUser!: AUser
   rightDrawerOpen = false;
 
-    async toggleRightDrawer() {
+  async mounted() {
+    await this.authUser();
+  }
+  async toggleRightDrawer() {
     this.rightDrawerOpen = !this.rightDrawerOpen;
   }
-
-  admin: Iadmin =
-    {
-        username: "@admin_hmd",
-        prfphoto: "https://cdn.quasar.dev/img/avatar3.jpg",
-        fullname: "Strygwyr S. Martell",
-        position: "Secretary",
-        address: "Housing Management Division",
-    }
 
 
   // data() {

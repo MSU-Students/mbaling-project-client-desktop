@@ -10,10 +10,18 @@ import {
 // import { ExampleStateInterface } from './module-example/state';
 import RecentLogs from "./RecentLogs";
 import { RecentStateInterface } from "./RecentLogs/state";
-import RecordsStudent from "./RecordsStudent"
-import { StudentStateInterface } from "./RecordsStudent/state";
+import account from "./RecordsStudent"
+import { AccountStateInterface } from "./RecordsStudent/state";
 import RecordsLandlord from "./RecordsLandlord"
 import { LandlordStateInterface } from "./RecordsLandlord/state"
+<<<<<<< HEAD
+=======
+import AccountsCreateForm from "./AccountsCreateForm"
+import { AccountCreateInterface } from "./AccountsCreateForm/state"
+import auth from './auth';
+import { IAuthState } from './auth/state';
+/*
+>>>>>>> 77f744cace865b00c031809d6f4d2390c93b04f0
 
 /*
  * If not building with SSR mode, you can
@@ -29,8 +37,13 @@ export interface StateInterface {
   // example: ExampleStateInterface;
   // Declared as unknown to avoid linting issue. Best to strongly type as per the line above.
   RecentLogs: RecentStateInterface;
-  RecordsStudent: StudentStateInterface;
+  account: AccountStateInterface;
   RecordsLandlord: LandlordStateInterface;
+<<<<<<< HEAD
+=======
+  AccountsCreateForm: AccountCreateInterface;
+  auth: IAuthState;
+>>>>>>> 77f744cace865b00c031809d6f4d2390c93b04f0
 }
 
 // provide typings for `this.$store`
@@ -48,8 +61,13 @@ export default store(function (/* { ssrContext } */) {
   const Store = createStore<StateInterface>({
     modules: {
       RecentLogs,
-      RecordsStudent,
+      account,
       RecordsLandlord,
+<<<<<<< HEAD
+=======
+      AccountsCreateForm,
+      auth
+>>>>>>> 77f744cace865b00c031809d6f4d2390c93b04f0
     },
 
     // enable strict mode (adds overhead!)

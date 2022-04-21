@@ -8,18 +8,8 @@
         active-color="primary"
         narrow-indicator
       >
-        <q-tab
-          name="student"
-          label="student"
-          :ripple="false"
-
-        />
-        <q-tab
-          name="landlord"
-          label="Landlord"
-          :ripple="false"
-
-        />
+        <q-tab name="student" label="student" :ripple="false" />
+        <q-tab name="landlord" label="Landlord" :ripple="false" />
       </q-tabs>
 
       <q-separator></q-separator>
@@ -34,14 +24,14 @@
               <q-input
                 dense
                 filled
-                v-model="sInfo.username"
+                v-model="inputStudent.username"
                 placeholder="Username"
                 style="width: 25rem; font-size: smaller"
               />
               <q-input
                 dense
                 filled
-                v-model="sInfo.password"
+                v-model="inputStudent.password"
                 placeholder="Password"
                 type="password"
                 style="width: 25rem; font-size: smaller"
@@ -49,14 +39,14 @@
               <q-input
                 dense
                 filled
-                v-model="sInfo.email"
+                v-model="inputStudent.email"
                 placeholder="E-mail"
                 style="width: 25rem; font-size: smaller"
               />
               <q-input
                 dense
                 filled
-                v-model="sInfo.contactNo"
+                v-model="inputStudent.contact"
                 mask="(+63) ###-###-####"
                 placeholder="Mobile Number"
                 style="width: 25rem; font-size: smaller"
@@ -74,7 +64,7 @@
                     <q-card-section class="q-py-xs">
                       <q-select
                         class="q-mt-xs"
-                        v-model="sInfo.college"
+                        v-model="inputStudent.college"
                         :options="College"
                         dense
                         filled
@@ -84,14 +74,14 @@
                       <q-select
                         class="q-mt-xs"
                         :v-model="
-                          sInfo.college ==
+                          inputStudent.college ==
                             'College of Business Administration and Accountancy' ||
                           'College of Information Technology' ||
                           'King Faisal Center for Islamic, Arabic and Asian Studies'
                             ? selectedDepartment()
                             : selectedDepartment
                         "
-                        v-model="sInfo.department"
+                        v-model="inputStudent.department"
                         :options="Department"
                         dense
                         filled
@@ -101,14 +91,14 @@
                       <q-select
                         class="q-mt-xs"
                         :v-model="
-                          sInfo.college ==
+                          inputStudent.college ==
                             'College of Business Administration and Accountancy' ||
                           'College of Information Technology' ||
                           'King Faisal Center for Islamic, Arabic and Asian Studies'
                             ? selectedDegree()
                             : selectedDegree
                         "
-                        v-model="sInfo.degree"
+                        v-model="inputStudent.degree"
                         :options="Degree"
                         dense
                         filled
@@ -117,7 +107,7 @@
                       />
                       <q-select
                         class="q-mt-xs"
-                        v-model="sInfo.year"
+                        v-model="inputStudent.yearAdmit"
                         :options="Year"
                         dense
                         filled
@@ -132,28 +122,28 @@
               <q-input
                 dense
                 filled
-                v-model="sInfo.firstname"
+                v-model="inputStudent.fName"
                 placeholder="Firstname"
                 style="width: 25rem; font-size: smaller"
               />
               <q-input
                 dense
                 filled
-                v-model="sInfo.middlename"
+                v-model="inputStudent.mName"
                 placeholder="Middlename"
                 style="width: 25rem; font-size: smaller"
               />
               <q-input
                 dense
                 filled
-                v-model="sInfo.lastname"
+                v-model="inputStudent.lName"
                 placeholder="Lastname"
                 style="width: 25rem; font-size: smaller"
               />
               <q-input
                 dense
                 filled
-                v-model="sInfo.birthdate"
+                v-model="inputStudent.birthdate"
                 mask="##/##/####"
                 placeholder="Birthdate"
                 style="width: 25rem; font-size: smaller"
@@ -175,7 +165,7 @@
                     <q-card-section class="q-py-xs">
                       <q-select
                         class="q-mt-xs"
-                        v-model="sInfo.province"
+                        v-model="inputStudent.address4"
                         :options="Province"
                         dense
                         filled
@@ -184,7 +174,7 @@
                       />
                       <q-select
                         class="q-mt-xs"
-                        v-model="sInfo.municipality"
+                        v-model="inputStudent.address3"
                         :options="Municipality"
                         dense
                         filled
@@ -193,7 +183,7 @@
                       />
                       <q-select
                         class="q-mt-xs"
-                        v-model="sInfo.barangay"
+                        v-model="inputStudent.address2"
                         :options="Barangay"
                         dense
                         filled
@@ -202,7 +192,7 @@
                       />
                       <q-select
                         class="q-mt-xs"
-                        v-model="sInfo.street"
+                        v-model="inputStudent.address1"
                         :options="Street"
                         dense
                         filled
@@ -217,7 +207,7 @@
               <q-input
                 dense
                 filled
-                v-model="sInfo.housingUnit"
+                v-model="inputStudent.housingunit"
                 placeholder="Housing Unit"
                 style="width: 25rem; font-size: smaller"
               />
@@ -251,19 +241,19 @@
               <q-input
                 dense
                 filled
-                v-model="lInfo.username"
+                v-model="inputLandlord.username"
                 placeholder="Username"
                 style="width: 25rem; font-size: smaller"
               />
               <q-input
                 dense
                 filled
-                v-model="lInfo.password"
+                v-model="inputLandlord.password"
                 placeholder="Password"
                 type="password"
                 style="width: 25rem; font-size: smaller"
               />
-               <q-input
+              <q-input
                 dense
                 filled
                 v-model="lInfo.email"
@@ -273,7 +263,7 @@
               <q-input
                 dense
                 filled
-                v-model="lInfo.contactNo"
+                v-model="inputLandlord.contact"
                 mask="####-###-####"
                 placeholder="Mobile Number"
                 style="width: 25rem; font-size: smaller"
@@ -281,28 +271,28 @@
               <q-input
                 dense
                 filled
-                v-model="lInfo.firstname"
+                v-model="inputLandlord.fName"
                 placeholder="Firstname"
                 style="width: 25rem; font-size: smaller"
               />
               <q-input
                 dense
                 filled
-                v-model="lInfo.middlename"
+                v-model="inputLandlord.mName"
                 placeholder="Middlename"
                 style="width: 25rem; font-size: smaller"
               />
               <q-input
                 dense
                 filled
-                v-model="lInfo.lastname"
+                v-model="inputLandlord.lName"
                 placeholder="Lastname"
                 style="width: 25rem; font-size: smaller"
               />
               <q-input
                 dense
                 filled
-                v-model="lInfo.birthdate"
+                v-model="inputLandlord.birthdate"
                 placeholder="Birthdate"
                 mask="##/##/####"
                 style="width: 25rem; font-size: smaller"
@@ -319,7 +309,7 @@
                     <q-card-section class="q-py-xs">
                       <q-select
                         class="q-mt-xs"
-                        v-model="lInfo.street"
+                        v-model="inputLandlord.address1"
                         :options="Street"
                         dense
                         filled
@@ -328,7 +318,7 @@
                       />
                       <q-select
                         class="q-mt-xs"
-                        v-model="lInfo.barangay"
+                        v-model="inputLandlord.address2"
                         :options="Barangay"
                         dense
                         filled
@@ -337,7 +327,7 @@
                       />
                       <q-select
                         class="q-mt-xs"
-                        v-model="lInfo.municipality"
+                        v-model="inputLandlord.address3"
                         :options="Municipality"
                         dense
                         filled
@@ -346,7 +336,7 @@
                       />
                       <q-select
                         class="q-mt-xs"
-                        v-model="lInfo.province"
+                        v-model="inputLandlord.address4"
                         :options="Province"
                         dense
                         filled
@@ -361,7 +351,7 @@
               <q-input
                 dense
                 filled
-                v-model="lInfo.housingUnit"
+                v-model="inputLandlord.housingunit"
                 placeholder="Housing Unit"
                 style="width: 25rem; font-size: smaller"
               />
@@ -377,7 +367,7 @@
                 style="height: 1.5rem; width: 6rem; font-size: smaller"
                 color="primary"
                 label="create"
-                @click="landlordAccount()"
+                @click="createLandlord()"
               />
             </div>
           </q-card-section>
@@ -389,27 +379,31 @@
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
 import { mapState, mapActions } from "vuex";
-import { StudentRowsInfo, LandlordRowsInfo } from "src/store/RecordsStudent/state";
+import { UserDto } from "src/services/rest-api";
 
 @Options({
   computed: {
-    ...mapState("RecordsStudent", [
-      "allStudentRecords",
-      "activeStudentRecords",
-      "allLandlordRecords",
-      "activeLandlordRecords",
-    ]),
+    ...mapState("account", ["allAccount"]),
   },
   methods: {
-    ...mapActions("RecordsStudent", ["newStudent", "newLandlord"]),
+    ...mapActions("account", [
+      "addAccount",
+      "editAccount",
+      "deleteAccount",
+      "getAllUser",
+    ]),
   },
 })
 export default class AccountsCreateForm extends Vue {
+  addAccount!: (payload: UserDto) => Promise<void>;
+  editAccount!: (payload: UserDto) => Promise<void>;
+  deleteAccount!: (payload: UserDto) => Promise<void>;
+  getAllUser!: () => Promise<void>;
+  allAccount!: UserDto[];
+
   tab = "student";
-  allStudentRecords!: StudentRowsInfo[];
-  allLandlordAccount!: LandlordRowsInfo[];
-  newStudent!: (payload: StudentRowsInfo) => Promise<void>;
-  newLandlord!: (payload: LandlordRowsInfo) => Promise<void>;
+
+  newStudent!: (payload: UserDto) => Promise<void>;
   Department: any[] = [];
   Degree: any[] = [];
 
@@ -422,7 +416,7 @@ export default class AccountsCreateForm extends Vue {
 
   selectedDepartment() {
     if (
-      this.sInfo.college ==
+      this.inputStudent.college ==
       "College of Business Administration and Accountancy"
     ) {
       return (this.Department = [
@@ -432,7 +426,7 @@ export default class AccountsCreateForm extends Vue {
         "Department of Accounting",
       ]);
     } else if (
-      this.sInfo.college ==
+      this.inputStudent.college ==
       "College of Information and Computing Sciences"
     ) {
       return (this.Department = [
@@ -440,7 +434,7 @@ export default class AccountsCreateForm extends Vue {
         "Department of Computing Sciences",
       ]);
     } else if (
-      this.sInfo.college ==
+      this.inputStudent.college ==
       "King Faisal Center for Islamic, Arabic and Asian Studies"
     ) {
       return (this.Department = [
@@ -453,7 +447,7 @@ export default class AccountsCreateForm extends Vue {
 
   selectedDegree() {
     if (
-      this.sInfo.college ==
+      this.inputStudent.college ==
       "College of Business Administration and Accountancy"
     ) {
       return (this.Degree = [
@@ -466,7 +460,7 @@ export default class AccountsCreateForm extends Vue {
         "BSBA Entrepreneurship",
       ]);
     } else if (
-      this.sInfo.college ==
+      this.inputStudent.college ==
       "College of Information and Computing Sciences"
     ) {
       return (this.Degree = [
@@ -477,7 +471,7 @@ export default class AccountsCreateForm extends Vue {
         "Bachelor of Science in information Technology (Networking)",
       ]);
     } else if (
-      this.sInfo.college ==
+      this.inputStudent.college ==
       "King Faisal Center for Islamic, Arabic and Asian Studies"
     ) {
       return (this.Degree = [
@@ -505,30 +499,51 @@ export default class AccountsCreateForm extends Vue {
 
   Street = ["5th Street", "4th Street"];
 
+  addNewAccount = false;
   //Functions for adding newStudentsAccount
 
-  defaultStudent: StudentRowsInfo = {
-    number: "",
-    isStudent: true,
-    id: "",
-    studentId: "",
+  inputStudent: UserDto = {
+    fName: "",
+    lName: "",
+    type: "",
+    status: "",
     username: "",
     password: "",
-    email: "",
-    contactNo: "",
-    college: "",
-    department: "",
-    degree: "",
-    year: "",
-    firstname: "",
-    middlename: "",
-    lastname: "",
     birthdate: "",
-    street: "",
-    barangay: "",
-    municipality: "",
-    province: "",
-    housingUnit: "",
+    degree: "",
+    department: "",
+    college: "",
+    contact: "",
+    gender: "",
+    yearAdmit: "",
+    address1: "",
+    address2: "",
+    address3: "",
+    address4: "",
+    housingunit: "",
+    profile: "",
+  };
+
+  inputLandlord: UserDto = {
+    fName: "",
+    lName: "",
+    type: "landlord",
+    status: "",
+    username: "",
+    password: "",
+    birthdate: "",
+    degree: "",
+    department: "",
+    college: "",
+    contact: "",
+    gender: "",
+    yearAdmit: "",
+    address1: "",
+    address2: "",
+    address3: "",
+    address4: "",
+    housingunit: "",
+    profile: "",
   };
 
   defaultLandlord: LandlordRowsInfo = {
@@ -551,56 +566,46 @@ export default class AccountsCreateForm extends Vue {
   };
 
   async resetModel() {
-    this.sInfo = {
-      number: "",
-      isStudent: true,
-      id: "",
-      studentId: "",
+    this.inputStudent = {
+      fName: "",
+      lName: "",
+      type: "",
+      status: "",
       username: "",
       password: "",
-      email: "",
-      contactNo: "",
-      college: "",
-      department: "",
+      birthdate: "",
       degree: "",
-      year: "",
-      firstname: "",
-      middlename: "",
-      lastname: "",
-      birthdate: "",
-      street: "",
-      barangay: "",
-      municipality: "",
-      province: "",
-      housingUnit: "",
-    },
-    this.lInfo = {
-      number: "",
-      id: "",
-      landlordid: "",
-      username: "",
-      firstname: "",
-      lastname: "",
-      middlename: "",
-      email: "",
-      contactNo: "",
-      birthdate: "",
-      street: "",
-      barangay: "",
-      municipality: "",
-      province: "",
-      housingUnit: "",
-    }
+      department: "",
+      college: "",
+      contact: "",
+      gender: "",
+      yearAdmit: "",
+      address1: "",
+      address2: "",
+      address3: "",
+      address4: "",
+      housingunit: "",
+      profile: "",
+    };
   }
-  sInfo = { ...this.defaultStudent };
-  lInfo = { ...this.defaultLandlord }
 
-  async studentAccount() {
-    await this.newStudent(this.sInfo);
+  async createStudent() {
+    await this.addAccount(this.inputStudent);
+    this.addNewAccount = false;
     this.resetModel();
     this.$q.notify({
       type: "positive",
-      message: "Student d",
+      message: "Successfully Adeded.",
+    });
+  }
+
+  async createLandlord() {
+    await this.addAccount(this.inputLandlord);
+    this.addNewAccount = false;
+    this.resetModel();
+    this.$q.notify({
+      type: "positive",
+      message: "Successfully Adeded.",
     });
   }
   async landlordAccount() {
@@ -611,6 +616,5 @@ export default class AccountsCreateForm extends Vue {
       message: "Landlord Created",
     });
   }
-
 }
 </script>
