@@ -40,11 +40,9 @@
       show-if-above
       v-model="rightDrawerOpen"
       side="right"
-      @click="displayInfo = false"
     >
       <div
-        v-show="displayInfo"
-         v-if="displayInfo == true"
+         v-if="displayInfo"
         class="q-mt-md flex-center text-center text-primary"
       >
         <q-avatar
@@ -57,22 +55,22 @@
           L
         </q-avatar>
         <div class="info-username defaultfont">
-          <p>@{{ landlordInfo.username }}</p>
+          <p>@{{ currentLandlord.username }}</p>
           <span class="defaultfont-bold info-fullname text-uppercase">
-            {{ landlordInfo.firstname }} {{ landlordInfo.middlename }}
-            {{ landlordInfo.lastname }}
+            {{ currentLandlord.firstname }} {{ currentLandlord.middlename }}
+            {{ currentLandlord.lastname }}
           </span>
           <p class="info-other defaultfont" style="font-size: x-small">
-            <!-- {{ landlordInfo.housingName }} <br /> -->
-            {{ landlordInfo.street }}, {{ landlordInfo.barangay }} <br />
-            {{ landlordInfo.municipality }}
+            <!-- {{ currentLandlord.housingName }} <br /> -->
+            {{ currentLandlord.street }}, {{ currentLandlord.barangay }} <br />
+            {{ currentLandlord.municipality }}
           </p>
           <p class="defaultfont" style="font-size: x-small">
-            {{ landlordInfo.email }} <br/>
-              {{ landlordInfo.contactNo }} <br/>
-              {{ landlordInfo.birthdate }} <br/>
-            {{ landlordInfo.street }}, {{ landlordInfo.barangay }} <br />
-            {{ landlordInfo.municipality }}
+            {{ currentLandlord.email }} <br/>
+              {{ currentLandlord.contactNo }} <br/>
+              {{ currentLandlord.birthdate }} <br/>
+            {{ currentLandlord.street }}, {{ currentLandlord.barangay }} <br />
+            {{ currentLandlord.municipality }}
           </p>
         </div>
       </div>
@@ -99,9 +97,30 @@ export default class RecordsLandlord extends Vue {
   displayInfo = false;
 
   onTableRowClick(data: LandlordRowsInfo) {
-    this.landlordInfo = data;
+    this.currentLandlord = data;
     this.displayInfo = true;
   }
+
+  defaultLandlord: LandlordRowsInfo = {
+    number: "",
+    id: "",
+    landlordid: "",
+    username: "",
+    password: "",
+    email: "",
+    contactNo: "",
+    firstname: "",
+    middlename: "",
+    lastname: "",
+    birthdate: "",
+    street: "",
+    barangay: "",
+    municipality: "",
+    province: "",
+    housingUnit: "",
+  };
+
+  currentLandlord = { ...this.defaultLandlord };
 
   columns = [
     {

@@ -509,6 +509,7 @@ export default class AccountsCreateForm extends Vue {
 
   defaultStudent: StudentRowsInfo = {
     number: "",
+    isStudent: true,
     id: "",
     studentId: "",
     username: "",
@@ -552,6 +553,7 @@ export default class AccountsCreateForm extends Vue {
   async resetModel() {
     this.sInfo = {
       number: "",
+      isStudent: true,
       id: "",
       studentId: "",
       username: "",

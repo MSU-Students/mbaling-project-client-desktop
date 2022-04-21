@@ -11,7 +11,7 @@
             <q-input
               dense
               filled
-              v-model="sInfo.username"
+              v-model="delAccount.username"
               placeholder="Username"
               style="width: 25rem; font-size: smaller"
             />
@@ -75,6 +75,7 @@ import {
 })
 export default class AccountsDeleteForm extends Vue {
   allStudentRecords!: StudentRowsInfo[];
+  allLandlordRecords!: StudentRowsInfo[];
   deleteStudent!: (student: StudentRowsInfo) => Promise<void>;
   deleteLandlord!: (landlord: LandlordRowsInfo) => Promise<void>;
 
@@ -82,6 +83,7 @@ export default class AccountsDeleteForm extends Vue {
 
   defaultStudent: StudentRowsInfo = {
     number: "",
+    isStudent: true,
     id: "",
     studentId: "",
     username: "",
@@ -125,8 +127,11 @@ export default class AccountsDeleteForm extends Vue {
   sInfo = { ...this.defaultStudent };
   lInfo = { ...this.defaultLandlord };
 
+  delAccount = this.sInfo || this.lInfo;
+  AccountDelete = this.deleteStudent || this.deleteLandlord!;
+
   async DeleteAccount() {
-    await this.deleteStudent(this.sInfo);
+    await this.AccountDelete(this.delAccount);
     this.$q.notify({
       type: "positive",
       message: "Deleted Successfully",

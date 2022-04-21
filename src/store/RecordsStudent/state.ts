@@ -1,5 +1,6 @@
 export interface StudentRowsInfo {
   number: string;
+  isStudent: boolean;
   password?: string;
   id: string;
   studentId: string;
@@ -54,6 +55,7 @@ function state(): StudentStateInterface {
     allStudentRecords: [
       {
         number: "1",
+        isStudent: true,
         id: "AOOAA001",
         studentId: "201812730",
         username: "palawanexpress98",
@@ -75,6 +77,7 @@ function state(): StudentStateInterface {
       },
       {
         number: "2",
+        isStudent: true,
         id: "AOOAA002",
         studentId: "201812485",
         username: "jihoonluvluv24",

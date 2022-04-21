@@ -36,7 +36,7 @@
           </template>
         </q-table>
         <div>
-          Your selection: {{studentInfo}}
+          Your selection: {{currentStudent}}
         </div>
       </div>
     </q-scroll-area>
@@ -48,7 +48,6 @@
         v-model="rightDrawerOpen"
         side="right"
         show-if-above
-        @click="displayInfo = false"
       >
         <!-- <div>
           <q-btn
@@ -59,8 +58,7 @@
           />
         </div> -->
         <div
-         v-show="displayInfo"
-         v-if="displayInfo == true"
+         v-if="displayInfo"
          class="q-mt-md flex-center text-center text-primary">
           <q-avatar
             class="q-mt-sm q-ma-md"
@@ -72,25 +70,25 @@
             N
           </q-avatar>
           <div class="info-username defaultfont">
-            <p>@{{ studentInfo.username }}</p>
+            <p>@{{ currentStudent.username }}</p>
             <span class="defaultfont-bold info-fullname text-uppercase">
-              {{ studentInfo.firstname }} {{ studentInfo.middlename }}
-              {{ studentInfo.lastname }}
+              {{ currentStudent.firstname }} {{ currentStudent.middlename }}
+              {{ currentStudent.lastname }}
             </span>
             <p class="info-other defaultfont" style="font-size: x-small">
-              {{ studentInfo.studentId }} <br />
-              {{ studentInfo.degree }}, {{ studentInfo.year }} <br />
-              {{ studentInfo.department }} <br />
-              {{ studentInfo.college }}
+              {{ currentStudent.studentId }} <br />
+              {{ currentStudent.degree }}, {{ currentStudent.year }} <br />
+              {{ currentStudent.department }} <br />
+              {{ currentStudent.college }}
             </p>
             <p class="defaultfont" style="font-size: x-small">
-              {{ studentInfo.email }} <br />
-              {{ studentInfo.contactNo }} <br />
-              {{ studentInfo.birthdate }} <br />
-              {{ studentInfo.street }}, {{ studentInfo.barangay }}
+              {{ currentStudent.email }} <br />
+              {{ currentStudent.contactNo }} <br />
+              {{ currentStudent.birthdate }} <br />
+              {{ currentStudent.street }}, {{ currentStudent.barangay }}
               <br />
-              {{ studentInfo.municipality }}, {{ studentInfo.province }} <br />
-              {{ studentInfo.housingUnit }}
+              {{ currentStudent.municipality }}, {{ currentStudent.province }} <br />
+              {{ currentStudent.housingUnit }}
             </p>
           </div>
         </div>
@@ -119,11 +117,35 @@ export default class RecordsStudent extends Vue {
   displayInfo = false;
 
   onTableRowClick(data: StudentRowsInfo) {
-    this.studentInfo = data;
+    this.currentStudent = data;
     this.displayInfo = true;
   }
 
+    defaultStudent: StudentRowsInfo = {
+    number: "",
+    isStudent: true,
+    id: "",
+    studentId: "",
+    username: "",
+    password: "",
+    email: "",
+    contactNo: "",
+    college: "",
+    department: "",
+    degree: "",
+    year: "",
+    firstname: "",
+    middlename: "",
+    lastname: "",
+    birthdate: "",
+    street: "",
+    barangay: "",
+    municipality: "",
+    province: "",
+    housingUnit: "",
+  };
 
+  currentStudent = { ...this.defaultStudent };
 
   columns = [
     {
