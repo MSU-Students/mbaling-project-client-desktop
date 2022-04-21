@@ -38,7 +38,7 @@
 
 import { Options, Vue } from "vue-class-component";
 import { mapState, mapActions } from "vuex";
-import { StudentRowsInfo } from "src/store/RecordsStudent/state";
+import { AccountStateInterface, Users } from "src/store/RecordsStudent/state";
 
 @Options({
   computed: {
@@ -50,32 +50,29 @@ import { StudentRowsInfo } from "src/store/RecordsStudent/state";
 })
 
 export default class AccountsDeleteForm extends Vue{
-  allStudentRecords!: StudentRowsInfo[];
-  deleteStudent!:(student:StudentRowsInfo) => Promise<void>;
+  allStudentRecords!: AccountStateInterface[];
+  deleteStudent!:(student:Users) => Promise<void>;
 
   //Functions for deletingStudentAccount
 
-  defaultStudent: StudentRowsInfo = {
-    number: "",
-    id: "",
-    studentId: "",
-    username: "",
-    password: "",
+  defaultStudent: Users = {
+    fName: "",
+    lName: "",
+    types: "",
     email: "",
-    contactNo: "",
-    college: "",
-    department: "",
-    degree: "",
-    year: "",
-    firstname: "",
-    middlename: "",
-    lastname: "",
     birthdate: "",
-    street: "",
-    barangay: "",
-    municipality: "",
-    province: "",
-    housingUnit: "",
+    degree: "",
+    department: "",
+    college: "",
+    contact: "",
+    gender: "",
+    yearAdmit: "",
+    address1: "",
+    address2: "",
+    address3: "",
+    address4: "",
+    housingunit: "",
+    status: "active"
   };
 
   currentStudent = {...this.defaultStudent}
