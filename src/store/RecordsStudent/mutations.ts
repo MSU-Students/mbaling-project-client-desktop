@@ -1,18 +1,28 @@
 import { MutationTree } from 'vuex';
-import { StudentRowsInfo, StudentStateInterface } from './state';
+import { AccountStateInterface } from './state';
 
-const mutation: MutationTree<StudentStateInterface> = {
-  addStudent(state, payload: StudentRowsInfo){
-    state.allStudentRecords.push(payload)
+const mutation: MutationTree<AccountStateInterface> = {
+  setAccount(state, payload) {
+    state.newUser = payload;
   },
-  removeStudent (state, targetStudent:StudentRowsInfo) {
-    const index = state.allStudentRecords.findIndex((s) => {
-      return s.username == targetStudent.username;
-    })
-    if (index >= 0) {
-      state.allStudentRecords.splice(index, 1);
-    }
-  }
-};
+  updateAccount(state, payload) {
+    state.newUser = payload;
+  },
+  deleteAccount(state, payload) {
+    state.allAccount.push(payload);
+  },
 
+  getAllUser(state, payload) {
+    state.allAccount = [];
+    state.allAccount.push(...payload);
+  },
+
+  getOneUser(state, payload) {
+    state.allAccount = payload;
+  },
+
+  getProfile(state, payload) {
+    state.allAccount = payload;
+  },
+};
 export default mutation;

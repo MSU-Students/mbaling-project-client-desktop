@@ -1,16 +1,38 @@
 <template>
   <q-layout view="hHh Lpr lff" container style="height: 40rem">
+    <div class="row">
+    <div class="col-10">
     <q-scroll-area style="height: 40rem; max-width: 77rem">
       <div>
+        <div class="q-pa-md q-gutter-sm row">
+          <q-input
+            outlined
+            color="green"
+            rounded
+            dense
+            debounce="300"
+            v-model="search"
+            placeholder="Search"
+          >
+            <template v-slot:append>
+              <q-icon name="search" />
+            </template>
+          </q-input>
+        </div>
+
         <q-table
           class="cursor-pointer"
-          :rows="allLandlordRecords"
+          :rows="landlordAccount"
           :columns="columns"
-          row-key="name"
+          row-key="number"
+          :rows-per-page-options="[0]"
           :separator="separator"
+          :filter="search"
           dense
           hide-bottom
         >
+
+
           <template v-slot:body="props">
             <q-tr :props="props">
               <q-td
@@ -33,185 +55,187 @@
         </q-table>
       </div>
     </q-scroll-area>
+    </div>
 
-    <q-drawer
-      class="bg-blue-grey-1"
-      show-if-above
-      v-model="rightDrawerOpen"
-      side="right"
-    >
-      <div
-        v-for="landlord in allLandlordRecords"
-        :key="landlord.username"
-        class="q-mt-md flex-center text-center text-primary"
-      >
-        <q-avatar
-          class="q-mt-sm q-ma-md"
-          size="8rem"
-          text-color="secondary"
-          color="primary"
-        >
-          <!-- <img :src="landlord.prfphoto" /> -->
-          L
-        </q-avatar>
-        <div class="info-username defaultfont">
-          <p>@{{ landlord.username }}</p>
-          <span class="defaultfont-bold info-fullname text-uppercase">
-            {{ landlord.firstname }} {{ landlord.middlename }}
-            {{ landlord.lastname }}
-          </span>
-          <p class="info-other defaultfont" style="font-size: x-small">
-            <!-- {{ landlord.housingName }} <br /> -->
-            {{ landlord.addressline1 }}, {{ landlord.addressline2 }} <br />
-            {{ landlord.addressline3 }}
-          </p>
-          <p class="defaultfont" style="font-size: x-small">
-            <!-- {{ landlord.email }} <br/>
-              {{ landlord.contactNo }} <br/>
-              {{ landlord.birthDate }} <br/> -->
-            {{ landlord.addressline1 }}, {{ landlord.addressline2 }} <br />
-            {{ landlord.addressline3 }}
-          </p>
+    <div class="col-2">
+      <div>
+        <div
+        v-if="displayInfo"
+         class="q-mt-md flex-center text-center text-primary">
+          <q-avatar
+            class="q-mt-sm q-ma-md"
+            size="8rem"
+            color="primary"
+            text-color="secondary"
+          >
+            <!-- <img :src="student.prfphoto"/> -->
+            N
+          </q-avatar>
+          <div class="info-username defaultfont">
+            <p>@{{ currentLandlord.username }}</p>
+            <span class="defaultfont-bold info-fullname text-uppercase">
+              {{ currentLandlord.fName }} {{ currentLandlord.mName }}
+              {{ currentLandlord.lName }}
+            </span>
+            <p class="info-other defaultfont" style="font-size: x-small">
+              {{ currentLandlord.username }} <br />
+              {{ currentLandlord.degree }}, {{ currentLandlord.yearAdmit }} <br />
+              {{ currentLandlord.department }} <br />
+              {{ currentLandlord.college }}
+            </p>
+            <p class="defaultfont" style="font-size: x-small">
+              {{ currentLandlord.email }} <br />
+              {{ currentLandlord.contact }} <br />
+              {{ currentLandlord.birthdate }} <br />
+              {{ currentLandlord.address1 }}, {{ currentLandlord.address2 }}
+              <br />
+              {{ currentLandlord.address3 }}, {{ currentLandlord.address4 }} <br />
+              {{ currentLandlord.housingunit }}
+            </p>
+          </div>
         </div>
+         <div class="row justify-evenly" v-else>Nothing</div>
       </div>
-    </q-drawer>
+    </div>
+    </div>
   </q-layout>
+  <div class="bg-greens">
+    </div>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import { LandlordRowsInfo } from "src/store/RecordsLandlord/state";
-import { mapState } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
+import { AccountCreateStudentInfo } from "src/store/AccountsCreateForm/state";
+import { UserDto } from "src/services/rest-api";
+import { AUser } from "src/store/auth/state";
+import { Users } from "src/store/RecordsStudent/state";
 
 @Options({
+  methods: {
+    ...mapActions('account', ['getAllUser']),
+  },
   computed: {
-    ...mapState("RecordsLandlord", ["allLandlordRecords"]),
+    ...mapState('account', ['allAccount']),
+    ...mapGetters("account", ["landlordAccount"]),
   },
 })
 
-// interface Ilandlord {
-//   username: string;
-//   prfphoto: string;
-//   fullname: string;
-//   housingName: string;
-//   housingAdd1: string;
-//   housingAdd2: string;
-//   housingAdd3: string;
-//   housingAdd4: string;
-//   email: string;
-//   contactNo: string;
-//   birthDate: string;
-//   address1: string;
-//   address2: string;
-//   address3: string;
-//   address4: string;
-// }
 export default class RecordsLandlord extends Vue {
-  rightDrawerOpen = false;
-  separator = "cell";
-  allLandlordRecords!: LandlordRowsInfo[];
-  landlordInfo!: LandlordRowsInfo;
+  getAllUser! : () => Promise<void>
 
-  onTableRowClick(data: LandlordRowsInfo) {
-    this.landlordInfo = data;
-    // this.rightDrawerOpen = true
+  landlordAccount!: UserDto[]
+  displayInfo = false
+  separator = 'cell'
+  allAccount!: Users[];
+  currentUser!: Users
+  search=''
+
+onTableRowClick(data:Users){
+  this.currentLandlord = data;
+  this.displayInfo = true;
+}
+
+  defaultLandlord: Users = {
+    fName: "",
+    lName: "",
+    type: "student",
+    email: "",
+    birthdate: "",
+    degree: "",
+    department: "",
+    college: "",
+    contact: "",
+    gender: "",
+    yearAdmit: "",
+    address1: "",
+    address2: "",
+    address3: "",
+    address4: "",
+    housingunit: "",
+    status: "active"
+  };
+
+  currentLandlord = { ...this.defaultLandlord };
+
+  async mounted() {
+    await this.getAllUser();
   }
-
-
-  // landlord: Ilandlord = {
-  //       username: "@pirateking_home",
-  //       prfphoto: "https://cdn.quasar.dev/img/avatar4.jpg",
-  //       fullname: "Monkey D. Luffy",
-  //       housingName: "Pirate King Apartment",
-  //       housingAdd1: "0259 5th Street",
-  //       housingAdd2: "Brgy. Dimalna II",
-  //       housingAdd3: "MSU-Marawi",
-  //       housingAdd4: "Marawi City",
-  //       email: "monkey.luffy@gmail.com",
-  //       contactNo: "0956-932-1946",
-  //       birthDate: "August 31, 1999",
-  //       address1: "1205 5th Street",
-  //       address2: "Dimaluna",
-  //       address3: "Marawi City",
-  //       address4: "Lanao Del Sur 9700",
-  //     }
-
   columns = [
+
     {
-      name: "number",
-      required: true,
-      label: "#",
-      align: "left",
-      field: "number",
+      name: 'username',
+      align: 'center',
+      label: 'USERNAME',
+      field: 'username',
     },
     {
-      name: "id",
-      align: "left",
-      label: "ID",
-      field: "id",
+      name: 'fName',
+      align: 'center',
+      label: 'FIRSTNAME',
+      field: 'fName',
     },
     {
-      name: "landlordid",
-      align: "left",
-      label: "LANDLORD ID",
-      field: "landlordid",
+      name: 'lName',
+      align: 'center',
+      label: 'LASTNAME',
+      field: 'lName',
     },
     {
-      name: "username",
-      align: "left",
-      label: "USERNAME",
-      field: "username",
+      name: 'mName',
+      align: 'center',
+      label: 'MIDDLENAME',
+      field: 'mName',
     },
     {
-      name: "firstname",
-      align: "left",
-      label: "FIRSTNAME",
-      field: "firstname",
+      name: 'type',
+      align: 'center',
+      label: 'Types',
+      field: 'type',
     },
-    {
-      name: "lastname",
-      align: "left",
-      label: "LASTNAME",
-      field: "lastname",
+
+    { name: 'contact',
+      align: 'center',
+      label: 'Contact',
+      field: 'contact'
     },
-    {
-      name: "middlename",
-      align: "left",
-      label: "MIDDLENAME",
-      field: "middlename",
+    { name: 'email',
+      align: 'center',
+      label: 'EMAIL',
+      field: 'email'
     },
-    {
-      name: "adressline1",
-      align: "left",
-      label: "ADDRESS LINE 1",
-      field: "addressline1",
+    { name: 'contact',
+      align: 'center',
+      label: 'CONTACT NO.',
+      field: 'contact'
     },
-    {
-      name: "addressline2",
-      align: "left",
-      label: "ADDRESS LINE 2",
-      field: "addressline2",
+    { name: 'birthdate',
+      align: 'center',
+      label: 'BIRTHDATE',
+      field: 'birthdate'
     },
-    {
-      name: "addressline3",
-      align: "left",
-      label: "ADDRESS LINE 3",
-      field: "addressline3",
+    { name: 'address1',
+      align: 'center',
+      label: 'STREET',
+      field: 'address1'
     },
+    { name: 'address2',
+      align: 'center',
+      label: 'BARANGAY',
+      field: 'address2'
+    },
+    { name: 'address3',
+      align: 'center',
+      label: 'MUNICIPALITY',
+      field: 'address3'
+    },
+    { name: 'address4',
+      align: 'center',
+      label: 'PROVINCE',
+      field: 'address4'
+    },
+
   ];
-  // rows = [
-  //   {
-  //     number: "1",
-  //     id: "AOOAA003",
-  //     landlordid: "20220001",
-  //     username: "pirateking_home",
-  //     firstname: "Monkey",
-  //     lastname: "Luffy",
-  //     middlename: "Damulag",
-  //     addressline1: "0059 5th Street",
-  //     addressline2: "Brgy. Dimaluna I",
-  //     addressline3: "MSU-Marawi",
-  //   },
-  // ];
+
 }
 </script>
