@@ -1,14 +1,32 @@
 <template>
   <q-layout view="hHh Lpr lff" container style="height: 40rem">
-    <q-scroll-area style="height: 40rem; max-width: 77rem">
+    <div class="row">
+    <div class="col-10">
+    <q-scroll-area style="height: 40rem">
       <div>
+        <div class="q-pa-md q-gutter-sm row">
+          <q-input
+            outlined
+            color="green"
+            rounded
+            dense
+            debounce="300"
+            v-model="search"
+            placeholder="Search"
+          >
+            <template v-slot:append>
+              <q-icon name="search" />
+            </template>
+          </q-input>
+        </div>
         <q-table
           class="cursor-pointer"
-          :rows="allStudentRecords"
+          :rows="studentAccount"
           :columns="columns"
           row-key="number"
           :rows-per-page-options="[0]"
           :separator="separator"
+          :filter="search"
           dense
           hide-bottom
         >
@@ -34,25 +52,13 @@
         </q-table>
       </div>
     </q-scroll-area>
+    </div>
 
-    <div>
-      <q-drawer
-        v-if="rightDrawerOpen == true"
-        class="bg-blue-grey-1"
-        v-model="rightDrawerOpen"
-        side="right"
-        show-if-above
-        @click="rightDrawerOpen = false"
-      >
-        <!-- <div>
-          <q-btn
-            color="primary"
-            rounded
-            label="X"
-            @click="rightDrawerOpen = false"
-          />
-        </div> -->
-        <div class="q-mt-md flex-center text-center text-primary">
+    <div class="col-2">
+      <div>
+        <div
+        v-if="displayInfo"
+        class="q-mt-md flex-center text-center text-primary">
           <q-avatar
             class="q-mt-sm q-ma-md"
             size="8rem"
@@ -63,167 +69,174 @@
             N
           </q-avatar>
           <div class="info-username defaultfont">
-            <p>@{{ studentInfo.username }}</p>
+            <p>@{{ currentStudent.username }}</p>
             <span class="defaultfont-bold info-fullname text-uppercase">
-              {{ studentInfo.firstname }} {{ studentInfo.middlename }}
-              {{ studentInfo.lastname }}
+              {{ currentStudent.fName }} {{ currentStudent.mName }}
+              {{ currentStudent.lName }}
             </span>
             <p class="info-other defaultfont" style="font-size: x-small">
-              {{ studentInfo.studentId }} <br />
-              {{ studentInfo.degree }}, {{ studentInfo.year }} <br />
-              {{ studentInfo.department }} <br />
-              {{ studentInfo.college }}
+              {{ currentStudent.username }} <br />
+              {{ currentStudent.degree }}, {{ currentStudent.yearAdmit }} <br />
+              {{ currentStudent.department }} <br />
+              {{ currentStudent.college }}
             </p>
             <p class="defaultfont" style="font-size: x-small">
-              {{ studentInfo.email }} <br />
-              {{ studentInfo.contactNo }} <br />
-              {{ studentInfo.birthdate }} <br />
-              {{ studentInfo.street }}, {{ studentInfo.barangay }}
+              {{ currentStudent.email }} <br />
+              {{ currentStudent.contact }} <br />
+              {{ currentStudent.birthdate }} <br />
+              {{ currentStudent.address1 }}, {{ currentStudent.address2 }}
               <br />
-              {{ studentInfo.municipality }}, {{ studentInfo.province }} <br />
-              {{ studentInfo.housingUnit }}
+              {{ currentStudent.address3 }}, {{ currentStudent.address4 }} <br />
+              {{ currentStudent.housingunit }}
             </p>
           </div>
         </div>
-      </q-drawer>
+        <div class="row justify-evenly" v-else>Nothing</div>
+      </div>
+    </div>
     </div>
   </q-layout>
+  <div class="bg-greens"></div>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import { StudentRowsInfo } from "src/store/RecordsStudent/state";
-import { mapState } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 import { AccountCreateStudentInfo } from "src/store/AccountsCreateForm/state";
+import { UserDto } from "src/services/rest-api";
+import { AUser } from "src/store/auth/state";
+import { Users } from "src/store/RecordsStudent/state";
 
 @Options({
+  methods: {
+    ...mapActions("account", ["getAllUser"]),
+  },
   computed: {
-    ...mapState("RecordsStudent", ["allStudentRecords"]),
+    ...mapState("account", ["allAccount"]),
+    ...mapGetters("account", ["studentAccount"]),
   },
 })
-
 export default class RecordsStudent extends Vue {
-  rightDrawerOpen = false;
-  separator = "cell";
-  allStudentRecords!: StudentRowsInfo[];
-  studentInfo!: StudentRowsInfo;
+  getAllUser!: () => Promise<void>;
+  studentAccount!: UserDto[];
 
-  onTableRowClick(data: StudentRowsInfo) {
-    this.studentInfo = data;
-    this.rightDrawerOpen = true;
+  displayInfo = false;
+  separator = "cell";
+  allAccount!: Users[];
+  currentUser!: Users;
+  filter = "student";
+  id = 0;
+  search = "";
+  
+
+  onTableRowClick(data: Users) {
+    this.currentStudent = data;
+    this.displayInfo = true;
   }
 
+  defaultStudent: Users = {
+    fName: "",
+    lName: "",
+    type: "student",
+    email: "",
+    birthdate: "",
+    degree: "",
+    department: "",
+    college: "",
+    contact: "",
+    gender: "",
+    yearAdmit: "",
+    address1: "",
+    address2: "",
+    address3: "",
+    address4: "",
+    housingunit: "",
+    status: "active"
+  };
+
+  currentStudent = { ...this.defaultStudent };
+
+  async mounted() {
+    await this.getAllUser();
+    console.log(this.studentAccount);
+  }
   columns = [
-    {
-      name: "number",
+   {
+      name: 'id',
       required: true,
-      label: "#",
-      align: "left",
-      field: (row: StudentRowsInfo) => row.number,
-      format: (val: string) => `${val}`,
-    },
-    {
-      name: "studentId",
-      align: "left",
-      label: "STUDENT ID",
-      field: "studentId",
+      label: 'STUDENT ID',
+      align: 'left',
+      field:  'id',
+      sortable: true
     },
     {
       name: "username",
-      align: "left",
+      align: "center",
       label: "USERNAME",
       field: "username",
     },
     {
-      name: "firstname",
-      align: "left",
+      name: "fName",
+      align: "center",
       label: "FIRSTNAME",
-      field: "firstname",
+      field: "fName",
     },
     {
-      name: "lastname",
-      align: "left",
+      name: "lName",
+      align: "center",
       label: "LASTNAME",
-      field: "lastname",
+      field: "lName",
     },
     {
-      name: "middlename",
-      align: "left",
+      name: "mName",
+      align: "center",
       label: "MIDDLENAME",
-      field: "middlename",
+      field: "mName",
     },
     {
       name: "degree",
-      align: "left",
+      align: "center",
       label: "DEGREE",
       field: "degree",
     },
     {
+      name: "type",
+      align: "center",
+      label: "Types",
+      field: "type",
+    },
+
+    { name: "contact", align: "center", label: "Contact", field: "contact" },
+    {
       name: "department",
-      align: "left",
+      align: "center",
       label: "DEPARTMENT",
       field: "department",
     },
+    { name: "college", align: "center", label: "COLLEGE", field: "college" },
+    { name: "email", align: "center", label: "EMAIL", field: "email" },
+    { name: "yearAdmit", align: "center", label: "YEAR", field: "yearAdmit" },
     {
-      name: "college",
-      align: "left",
-      label: "COLLEGE",
-      field: "college",
-    },
-    {
-      name: "email",
-      align: "left",
-      label: "EMAIL",
-      field: "email",
-    },
-    {
-      name: "year",
-      align: "left",
-      label: "YEAR",
-      field: "year",
-    },
-    {
-      name: "contactNo",
-      align: "left",
+      name: "contact",
+      align: "center",
       label: "CONTACT NO.",
-      field: "contactNo",
+      field: "contact",
     },
     {
       name: "birthdate",
-      align: "left",
+      align: "center",
       label: "BIRTHDATE",
       field: "birthdate",
     },
+    { name: "address1", align: "center", label: "STREET", field: "address1" },
+    { name: "address2", align: "center", label: "BARANGAY", field: "address2" },
     {
-      name: "street",
-      align: "left",
-      label: "STREET",
-      field: "street",
-    },
-    {
-      name: "barangay",
-      align: "left",
-      label: "BARANGAY",
-      field: "barangay",
-    },
-    {
-      name: "municipality",
-      align: "left",
+      name: "address3",
+      align: "center",
       label: "MUNICIPALITY",
-      field: "municipality",
+      field: "address3",
     },
-    {
-      name: "province",
-      align: "left",
-      label: "PROVINCE",
-      field: "province",
-    },
-    {
-      name: "housingUnit",
-      align: "left",
-      label: "HOUSING UNIT",
-      field: "housingUnit",
-    },
+    { name: "address4", align: "center", label: "PROVINCE", field: "address4" },
   ];
 }
 </script>
