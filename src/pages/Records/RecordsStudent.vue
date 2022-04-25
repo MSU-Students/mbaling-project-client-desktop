@@ -1,8 +1,8 @@
 <template>
   <q-layout view="hHh Lpr lff" container style="height: 40rem">
     <div class="row">
-      <div class="col-12 col-md-10">
-        <q-scroll-area style="height: 40rem; max-width: 77rem">
+      <div class="col-10">
+        <q-scroll-area style="height: 40rem">
           <div>
             <q-table
               class="cursor-pointer"
@@ -18,6 +18,7 @@
                 <q-tr :props="props">
                   <q-td
                     v-for="col in props.cols"
+                    v-model="displayInfo"
                     :key="col.name"
                     :props="props"
                     @click="onTableRowClick(props.row)"
@@ -35,15 +36,12 @@
               </template>
             </q-table>
           </div>
-          <pre> {{ data }} </pre>
+          <pre> {{ currentStudent }} </pre>
         </q-scroll-area>
+      </div>
 
-        </div>
-
-        <div
-        class="col-12 col-md-2"
-        >
-          <!-- <div>
+      <div class="col-2">
+        <!-- <div>
           <q-btn
             color="primary"
             rounded
@@ -51,11 +49,10 @@
             @click="rightDrawerOpen = false"
           />
         </div> -->
-           <div
-         v-show="studentInfo"
-         v-if="displayInfo == true"
-         @click="displayInfo = false"
-         class="q-mt-md flex-center text-center text-primary">
+        <div
+          v-if="displayInfo"
+          class="q-mt-md flex-center text-center text-primary"
+        >
           <q-avatar
             class="q-mt-sm q-ma-md"
             size="8rem"
@@ -66,30 +63,31 @@
             N
           </q-avatar>
           <div class="info-username defaultfont">
-            <p>@{{ studentInfo.username }}</p>
+            <p>@{{ currentStudent.username }}</p>
             <span class="defaultfont-bold info-fullname text-uppercase">
-              {{ studentInfo.firstname }} {{ studentInfo.middlename }}
-              {{ studentInfo.lastname }}
+              {{ currentStudent.firstname }} {{ currentStudent.middlename }}
+              {{ currentStudent.lastname }}
             </span>
             <p class="info-other defaultfont" style="font-size: x-small">
-              {{ studentInfo.studentId }} <br />
-              {{ studentInfo.degree }}, {{ studentInfo.year }} <br />
-              {{ studentInfo.department }} <br />
-              {{ studentInfo.college }}
+              {{ currentStudent.studentId }} <br />
+              {{ currentStudent.degree }}, {{ currentStudent.year }} <br />
+              {{ currentStudent.department }} <br />
+              {{ currentStudent.college }}
             </p>
             <p class="defaultfont" style="font-size: x-small">
-              {{ studentInfo.email }} <br />
-              {{ studentInfo.contactNo }} <br />
-              {{ studentInfo.birthdate }} <br />
-              {{ studentInfo.street }}, {{ studentInfo.barangay }}
+              {{ currentStudent.email }} <br />
+              {{ currentStudent.contactNo }} <br />
+              {{ currentStudent.birthdate }} <br />
+              {{ currentStudent.street }}, {{ currentStudent.barangay }}
               <br />
-              {{ studentInfo.municipality }}, {{ studentInfo.province }} <br />
-              {{ studentInfo.housingUnit }}
+              {{ currentStudent.municipality }}, {{ currentStudent.province }}
+              <br />
+              {{ currentStudent.housingUnit }}
             </p>
           </div>
         </div>
-        </div>
-
+        <div class="row justify-evenly" v-else>Nothing</div>
+      </div>
     </div>
   </q-layout>
 </template>
@@ -98,7 +96,6 @@
 import { Options, Vue } from "vue-class-component";
 import { StudentRowsInfo } from "src/store/RecordsStudent/state";
 import { mapState } from "vuex";
-import { AccountCreateStudentInfo } from "src/store/AccountsCreateForm/state";
 
 @Options({
   computed: {
@@ -112,9 +109,34 @@ export default class RecordsStudent extends Vue {
   displayInfo = false;
 
   onTableRowClick(data: StudentRowsInfo) {
-    this.studentInfo = data;
+    this.currentStudent = data;
     this.displayInfo = true;
   }
+
+  defaultStudent: StudentRowsInfo = {
+    number: "",
+    id: "",
+    studentId: "",
+    username: "",
+    password: "",
+    email: "",
+    contactNo: "",
+    college: "",
+    department: "",
+    degree: "",
+    year: "",
+    firstname: "",
+    middlename: "",
+    lastname: "",
+    birthdate: "",
+    street: "",
+    barangay: "",
+    municipality: "",
+    province: "",
+    housingUnit: "",
+  };
+
+  currentStudent = { ...this.defaultStudent };
 
   columns = [
     {
@@ -230,3 +252,4 @@ export default class RecordsStudent extends Vue {
   ];
 }
 </script>
+

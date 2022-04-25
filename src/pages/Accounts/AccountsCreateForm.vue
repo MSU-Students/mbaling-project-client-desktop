@@ -1,6 +1,6 @@
 <template>
-  <q-page class="row items-center justify-evenly">
-    <q-card class="q-my-lg bg-white accountcreate-card" style="width: 35rem;">
+  <q-page class="row justify-evenly">
+    <q-card class="q-my-lg bg-white accountcreate-card" style="width: 35rem">
       <q-tabs
         v-model="tab"
         dense
@@ -224,7 +224,6 @@
                 color="primary"
                 label="create"
                 @click="createStudent()"
-
               />
             </div>
           </q-card-section>
@@ -239,21 +238,19 @@
           </q-card-section>
           <q-card-section>
             <div
-              v-for="landlord in allLandlordAccount"
-              :key="landlord.username"
               class="q-gutter-y-sm column flex flex-center"
             >
               <q-input
                 dense
                 filled
-                v-model="landlord.username"
+                v-model="currentStudent.username"
                 placeholder="Username"
                 style="width: 25rem; font-size: smaller"
               />
               <q-input
                 dense
                 filled
-                v-model="landlord.password"
+                v-model="currentStudent.password"
                 placeholder="Password"
                 type="password"
                 style="width: 25rem; font-size: smaller"
@@ -261,7 +258,7 @@
               <q-input
                 dense
                 filled
-                v-model="landlord.MobileNo"
+                v-model="currentStudent.MobileNo"
                 mask="####-###-####"
                 placeholder="Mobile Number"
                 style="width: 25rem; font-size: smaller"
@@ -269,28 +266,28 @@
               <q-input
                 dense
                 filled
-                v-model="landlord.firstname"
+                v-model="currentStudent.firstname"
                 placeholder="Firstname"
                 style="width: 25rem; font-size: smaller"
               />
               <q-input
                 dense
                 filled
-                v-model="landlord.middlename"
+                v-model="currentStudent.middlename"
                 placeholder="Middlename"
                 style="width: 25rem; font-size: smaller"
               />
               <q-input
                 dense
                 filled
-                v-model="landlord.lastname"
+                v-model="currentStudent.lastname"
                 placeholder="Lastname"
                 style="width: 25rem; font-size: smaller"
               />
               <q-input
                 dense
                 filled
-                v-model="landlord.birthdate"
+                v-model="currentStudent.birthdate"
                 placeholder="Birthdate"
                 mask="##/##/####"
                 style="width: 25rem; font-size: smaller"
@@ -307,7 +304,7 @@
                     <q-card-section class="q-py-xs">
                       <q-select
                         class="q-mt-xs"
-                        v-model="landlord.Address1"
+                        v-model="currentStudent.street"
                         :options="Street"
                         dense
                         filled
@@ -316,7 +313,7 @@
                       />
                       <q-select
                         class="q-mt-xs"
-                        v-model="landlord.Address2"
+                        v-model="currentStudent.barangay"
                         :options="Barangay"
                         dense
                         filled
@@ -325,7 +322,7 @@
                       />
                       <q-select
                         class="q-mt-xs"
-                        v-model="landlord.Address3"
+                        v-model="currentStudent.municipality"
                         :options="Municipality"
                         dense
                         filled
@@ -334,7 +331,7 @@
                       />
                       <q-select
                         class="q-mt-xs"
-                        v-model="landlord.Address4"
+                        v-model="currentStudent.province"
                         :options="Province"
                         dense
                         filled
@@ -349,7 +346,7 @@
               <q-input
                 dense
                 filled
-                v-model="landlord.HousingUnit"
+                v-model="currentStudent.HousingUnit"
                 placeholder="Housing Unit"
                 style="width: 25rem; font-size: smaller"
               />
@@ -375,18 +372,17 @@
 </template>
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import {
-  AccountCreateStudentInfo,
-  AccountCreateLandlordInfo,
-} from "src/store/AccountsCreateForm/state";
+
 import { mapState, mapActions } from "vuex";
-import { StudentRowsInfo } from "src/store/RecordsStudent/state";
+import { StudentRowsInfo, LandlordRowsInfo } from "src/store/RecordsStudent/state";
 
 @Options({
   computed: {
     ...mapState("RecordsStudent", [
       "allStudentRecords",
       "activeStudentRecords",
+      "allLandlordRecords",
+      "activeLandlordRecords",
     ]),
   },
   methods: {
@@ -396,7 +392,7 @@ import { StudentRowsInfo } from "src/store/RecordsStudent/state";
 export default class AccountsCreateForm extends Vue {
   tab = "student";
   allStudentRecords!: StudentRowsInfo[];
-  allLandlordAccount!: AccountCreateLandlordInfo[];
+  allLandlordAccount!: LandlordRowsInfo[];
   newStudent!: (payload: StudentRowsInfo) => Promise<void>;
   Department: any[] = [];
   Degree: any[] = [];

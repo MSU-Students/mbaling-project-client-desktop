@@ -14,8 +14,6 @@ import RecordsStudent from "./RecordsStudent"
 import { StudentStateInterface } from "./RecordsStudent/state";
 import RecordsLandlord from "./RecordsLandlord"
 import { LandlordStateInterface } from "./RecordsLandlord/state"
-import AccountsCreateForm from "./AccountsCreateForm"
-import { AccountCreateInterface } from "./AccountsCreateForm/state"
 
 /*
  * If not building with SSR mode, you can
@@ -33,9 +31,7 @@ export interface StateInterface {
   RecentLogs: RecentStateInterface;
   RecordsStudent: StudentStateInterface;
   RecordsLandlord: LandlordStateInterface;
-  AccountsCreateForm: AccountCreateInterface;
 }
-
 // provide typings for `this.$store`
 declare module "@vue/runtime-core" {
   interface ComponentCustomProperties {
@@ -53,7 +49,6 @@ export default store(function (/* { ssrContext } */) {
       RecentLogs,
       RecordsStudent,
       RecordsLandlord,
-      AccountsCreateForm,
     },
 
     // enable strict mode (adds overhead!)

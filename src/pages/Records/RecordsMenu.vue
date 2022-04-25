@@ -25,7 +25,7 @@
         padding="5rem"
         color="primary"
         class="q-mx-xl"
-        to="/records/student"
+        to="/records/landlord"
       >
         <q-icon size="5rem" class="mbi-home" />
         <span class="q-mt-sm defaultfont-semibold" style="font-size: small">
