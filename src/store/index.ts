@@ -14,8 +14,6 @@ import account from "./RecordsStudent"
 import { AccountStateInterface } from "./RecordsStudent/state";
 import RecordsLandlord from "./RecordsLandlord"
 import { LandlordStateInterface } from "./RecordsLandlord/state"
-import AccountsCreateForm from "./AccountsCreateForm"
-import { AccountCreateInterface } from "./AccountsCreateForm/state"
 import { IAuthState } from "./auth/state";
 import auth from "./auth";
 
@@ -35,10 +33,8 @@ export interface StateInterface {
   account: AccountStateInterface;
   RecentLogs: RecentStateInterface;
   RecordsLandlord: LandlordStateInterface;
-  AccountsCreateForm: AccountCreateInterface;
   auth: IAuthState;
 }
-
 // provide typings for `this.$store`
 declare module "@vue/runtime-core" {
   interface ComponentCustomProperties {
@@ -56,7 +52,6 @@ export default store(function (/* { ssrContext } */) {
       RecentLogs,
       account,
       RecordsLandlord,
-      AccountsCreateForm,
       auth
     },
 

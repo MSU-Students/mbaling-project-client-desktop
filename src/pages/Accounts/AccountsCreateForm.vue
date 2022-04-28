@@ -1,6 +1,6 @@
 <template>
-  <q-page class="row items-center justify-evenly">
-    <q-card class="q-my-lg bg-white" style="width: 35rem; height: 45rem">
+  <q-page class="row justify-evenly">
+    <q-card class="q-my-lg bg-white accountcreate-card" style="width: 35rem">
       <q-tabs
         v-model="tab"
         dense
@@ -224,7 +224,6 @@
                 color="primary"
                 label="create"
                 @click="createStudent()"
-
               />
             </div>
           </q-card-section>
@@ -374,10 +373,7 @@
 </template>
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import {
-  AccountCreateStudentInfo,
-  AccountCreateLandlordInfo,
-} from "src/store/AccountsCreateForm/state";
+
 import { mapState, mapActions } from "vuex";
 import { UserDto } from "src/services/rest-api";
 
@@ -404,8 +400,6 @@ export default class AccountsCreateForm extends Vue {
   allAccount!: UserDto[];
 
   tab = "student";
-
-  newStudent!: (payload: UserDto) => Promise<void>;
   Department: any[] = [];
   Degree: any[] = [];
 
@@ -594,3 +588,8 @@ export default class AccountsCreateForm extends Vue {
   }
 }
 </script>
+<style>
+.accountcreate-card {
+  border-radius: 0px 0px 0px 0px !important;
+}
+</style>
