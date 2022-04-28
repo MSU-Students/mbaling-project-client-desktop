@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { mbalingApiService } from "./mbaling-api.service";
 import { DefaultApi, UserDto } from "./rest-api";
 
@@ -37,6 +36,3 @@ class UserService extends DefaultApi {
 
 const userService = new UserService();
 export default userService;
-=======
-
->>>>>>> aa9c42803f72025b3d353583f46bd9282f2a0bbe
