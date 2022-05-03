@@ -38,14 +38,14 @@
 
 import { Options, Vue } from "vue-class-component";
 import { mapState, mapActions } from "vuex";
-import { AccountStateInterface } from "src/store/RecordsStudent/state";
+import { AccountStateInterface } from "src/store/Records/state";
 
 @Options({
   computed: {
-    ...mapState("RecordsStudent", ["allStudentRecords", "activeStudentRecords"])
+    ...mapState("Records", ["allStudentRecords", "activeStudentRecords"])
   },
   methods: {
-    ...mapActions("RecordsStudent", ["deleteStudent"]),
+    ...mapActions("Records", ["deleteStudent"]),
   },
 })
 

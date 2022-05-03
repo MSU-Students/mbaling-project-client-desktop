@@ -8,12 +8,8 @@ import {
 
 // import example from './module-example'
 // import { ExampleStateInterface } from './module-example/state';
-import RecentLogs from "./RecentLogs";
-import { RecentStateInterface } from "./RecentLogs/state";
-import account from "./RecordsStudent"
-import { AccountStateInterface } from "./RecordsStudent/state";
-import RecordsLandlord from "./RecordsLandlord"
-import { LandlordStateInterface } from "./RecordsLandlord/state"
+import account from "./Records"
+import { AccountStateInterface } from "./Records/state";
 import { IAuthState } from "./auth/state";
 import auth from "./auth";
 
@@ -31,8 +27,6 @@ export interface StateInterface {
   // example: ExampleStateInterface;
   // Declared as unknown to avoid linting issue. Best to strongly type as per the line above.
   account: AccountStateInterface;
-  RecentLogs: RecentStateInterface;
-  RecordsLandlord: LandlordStateInterface;
   auth: IAuthState;
 }
 // provide typings for `this.$store`
@@ -49,9 +43,7 @@ export const storeKey: InjectionKey<VuexStore<StateInterface>> =
 export default store(function (/* { ssrContext } */) {
   const Store = createStore<StateInterface>({
     modules: {
-      RecentLogs,
       account,
-      RecordsLandlord,
       auth
     },
 

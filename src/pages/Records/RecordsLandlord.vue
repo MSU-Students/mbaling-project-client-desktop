@@ -108,7 +108,7 @@ import { Options, Vue } from "vue-class-component";
 import { mapActions, mapGetters, mapState } from "vuex";
 import { UserDto } from "src/services/rest-api";
 import { AUser } from "src/store/auth/state";
-import { Users } from "src/store/RecordsStudent/state";
+import { Users } from "src/store/Records/state";
 
 @Options({
   methods: {
