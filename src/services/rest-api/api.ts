@@ -128,12 +128,6 @@ export interface PostDto {
     'title': string;
     /**
      * 
-     * @type {string}
-     * @memberof PostDto
-     */
-    'username': string;
-    /**
-     * 
      * @type {number}
      * @memberof PostDto
      */
@@ -146,16 +140,28 @@ export interface PostDto {
     'housingAddress': string;
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof PostDto
      */
-    'prfphoto': string;
+    'prfphoto': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PostDto
+     */
+    'url': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PostDto
+     */
+    'landlordID': number;
     /**
      * 
      * @type {object}
      * @memberof PostDto
      */
-    'userid'?: object;
+    'userID'?: object;
 }
 /**
  * 
@@ -298,10 +304,10 @@ export interface UserDto {
     'housingunit': string;
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof UserDto
      */
-    'profile': string;
+    'prfphoto': number;
     /**
      * 
      * @type {string}
@@ -522,6 +528,36 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             // authentication bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get all media
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAllMedia: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/media`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
 
     
@@ -1127,6 +1163,16 @@ export const DefaultApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Get all media
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getAllMedia(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MediaDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAllMedia(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @summary Get all posts
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1349,6 +1395,15 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
+         * @summary Get all media
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAllMedia(options?: any): AxiosPromise<MediaDto> {
+            return localVarFp.getAllMedia(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Get all posts
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1565,6 +1620,17 @@ export class DefaultApi extends BaseAPI {
      */
     public deleteUser(id: number, options?: AxiosRequestConfig) {
         return DefaultApiFp(this.configuration).deleteUser(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get all media
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public getAllMedia(options?: AxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).getAllMedia(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
