@@ -113,29 +113,35 @@ import { Users } from "src/store/RecordsStudent/state";
 @Options({
   methods: {
     ...mapActions('account', ['getAllUser']),
+    ...mapActions('auth', ['authUser']),
   },
   computed: {
     ...mapState('account', ['allAccount']),
     ...mapGetters("account", ["landlordAccount"]),
+    ...mapState('auth', ['currentUser']),
   },
 })
 
 export default class RecordsLandlord extends Vue {
   getAllUser! : () => Promise<void>
+  authUser! : () => Promise<void>
 
   landlordAccount!: UserDto[]
   displayInfo = false
   separator = 'cell'
-  allAccount!: Users[];
-  currentUser!: Users
+  allAccount!: AUser[];
+  currentUser!: AUser
   search=''
 
-onTableRowClick(data:Users){
+
+
+onTableRowClick(data:AUser){
+  console.log(this.currentUser.id)
   this.currentLandlord = data;
   this.displayInfo = true;
 }
 
-  defaultLandlord: Users = {
+  defaultLandlord: any = {
     fName: "",
     lName: "",
     type: "student",
@@ -158,8 +164,12 @@ onTableRowClick(data:Users){
   currentLandlord = { ...this.defaultLandlord };
 
   async mounted() {
+    await this.authUser();
+    console.log(this.currentUser.id)
     await this.getAllUser();
+     this.currentUser.id
   }
+
   columns = [
 
     {
