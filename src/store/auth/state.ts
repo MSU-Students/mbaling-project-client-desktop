@@ -13,12 +13,13 @@ export interface AUser {
   college: string;
   contact: string;
   gender:string;
-  yearAdmit: string;
+  year: string;
   address1: string;
   address2: string;
   address3: string;
   address4: string;
   housingunit: string;
+  prfphoto?: number;
   status: 'active' | 'inactive'
 }
 

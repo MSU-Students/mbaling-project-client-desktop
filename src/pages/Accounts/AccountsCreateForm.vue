@@ -448,7 +448,7 @@ export default class AccountsCreateForm extends Vue {
   addNewAccount = false;
   //Functions for adding newStudentsAccount
 
-  inputStudent: UserDto = {
+  inputStudent: any = {
     fName: "",
     lName: "",
     type: "student",
@@ -467,10 +467,10 @@ export default class AccountsCreateForm extends Vue {
     address3: "",
     address4: "",
     housingunit: "",
-    profile: ""
+    profile: 0
   };
 
-  inputLandlord: UserDto = {
+  inputLandlord: any = {
     fName: "",
     lName: "",
     type: "landlord",
@@ -489,7 +489,7 @@ export default class AccountsCreateForm extends Vue {
     address3: "",
     address4: "",
     housingunit: "",
-    profile: ""
+    profile: 0
   };
 
   async resetModel() {
