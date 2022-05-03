@@ -1,6 +1,6 @@
 <template>
   <q-page class="row justify-evenly">
-    <q-card class="q-my-lg bg-white accountcreate-card" style="width: 35rem">
+    <q-card class="q-my-lg accountcreate-card" style="width: 35rem">
       <q-tabs
         v-model="tab"
         dense
@@ -21,6 +21,23 @@
           </q-card-section>
           <q-card-section>
             <div class="q-gutter-y-sm column flex flex-center">
+
+              <q-input
+                dense
+                filled
+                v-model="inputStudent.fName"
+                placeholder="Firstname"
+                style="width: 25rem; font-size: smaller"
+              />
+
+              <q-input
+                dense
+                filled
+                v-model="inputStudent.lName"
+                placeholder="Lastname"
+                style="width: 25rem; font-size: smaller"
+              />
+
               <q-input
                 dense
                 filled
@@ -43,15 +60,6 @@
                 placeholder="E-mail"
                 style="width: 25rem; font-size: smaller"
               />
-              <q-input
-                dense
-                filled
-                v-model="inputStudent.contact"
-                mask="(+63) ###-###-####"
-                placeholder="Mobile Number"
-                style="width: 25rem; font-size: smaller"
-              />
-              <!-- <q-input dense filled v-model="student.course" placeholder="Course:" style="width: 25rem; font-size: smaller" /> -->
 
               <div style="max-width: 25rem">
                 <q-expansion-item
@@ -119,41 +127,8 @@
                 </q-expansion-item>
               </div>
 
-              <q-input
-                dense
-                filled
-                v-model="inputStudent.fName"
-                placeholder="Firstname"
-                style="width: 25rem; font-size: smaller"
-              />
-              <q-input
-                dense
-                filled
-                v-model="inputStudent.mName"
-                placeholder="Middlename"
-                style="width: 25rem; font-size: smaller"
-              />
-              <q-input
-                dense
-                filled
-                v-model="inputStudent.lName"
-                placeholder="Lastname"
-                style="width: 25rem; font-size: smaller"
-              />
-              <q-input
-                dense
-                filled
-                v-model="inputStudent.birthdate"
-                mask="##/##/####"
-                placeholder="Birthdate"
-                style="width: 25rem; font-size: smaller"
-              >
-                <!-- <q-btn class="q-pt-sm q-pr-sm" unelevated :ripple="false" size="xs" icon="warning" ></q-btn> -->
-              </q-input>
-              <!-- <q-date
-                       v-model="student.birthdate"
-                       minimal
-                       /> -->
+
+
               <div style="max-width: 25rem">
                 <q-expansion-item
                   header-class="bg-grey-3 text-grey-7"
@@ -204,13 +179,6 @@
                 </q-expansion-item>
               </div>
 
-              <q-input
-                dense
-                filled
-                v-model="inputStudent.housingunit"
-                placeholder="Housing Unit"
-                style="width: 25rem; font-size: smaller"
-              />
             </div>
             <div class="flex flex-center">
               <q-btn
@@ -240,6 +208,23 @@
             <div
               class="q-gutter-y-sm column flex flex-center"
             >
+
+            <q-input
+                dense
+                filled
+                v-model="inputLandlord.fName"
+                placeholder="Firstname"
+                style="width: 25rem; font-size: smaller"
+              />
+
+              <q-input
+                dense
+                filled
+                v-model="inputLandlord.lName"
+                placeholder="Lastname"
+                style="width: 25rem; font-size: smaller"
+              />
+
               <q-input
                 dense
                 filled
@@ -247,6 +232,7 @@
                 placeholder="Username"
                 style="width: 25rem; font-size: smaller"
               />
+
               <q-input
                 dense
                 filled
@@ -255,41 +241,12 @@
                 type="password"
                 style="width: 25rem; font-size: smaller"
               />
+
               <q-input
                 dense
                 filled
-                v-model="inputLandlord.contact"
-                mask="####-###-####"
-                placeholder="Mobile Number"
-                style="width: 25rem; font-size: smaller"
-              />
-              <q-input
-                dense
-                filled
-                v-model="inputLandlord.fName"
-                placeholder="Firstname"
-                style="width: 25rem; font-size: smaller"
-              />
-              <q-input
-                dense
-                filled
-                v-model="inputLandlord.mName"
-                placeholder="Middlename"
-                style="width: 25rem; font-size: smaller"
-              />
-              <q-input
-                dense
-                filled
-                v-model="inputLandlord.lName"
-                placeholder="Lastname"
-                style="width: 25rem; font-size: smaller"
-              />
-              <q-input
-                dense
-                filled
-                v-model="inputLandlord.birthdate"
-                placeholder="Birthdate"
-                mask="##/##/####"
+                v-model="inputLandlord.email"
+                placeholder="E-mail"
                 style="width: 25rem; font-size: smaller"
               />
 
@@ -304,20 +261,11 @@
                     <q-card-section class="q-py-xs">
                       <q-select
                         class="q-mt-xs"
-                        v-model="inputLandlord.address1"
-                        :options="Street"
+                        v-model="inputLandlord.address4"
+                        :options="Province"
                         dense
                         filled
-                        label="Street:"
-                        style="width: 24rem; font-size: smaller"
-                      />
-                      <q-select
-                        class="q-mt-xs"
-                        v-model="inputLandlord.address2"
-                        :options="Barangay"
-                        dense
-                        filled
-                        label="Barangay:"
+                        label="Province:"
                         style="width: 24rem; font-size: smaller"
                       />
                       <q-select
@@ -331,11 +279,20 @@
                       />
                       <q-select
                         class="q-mt-xs"
-                        v-model="inputLandlord.address4"
-                        :options="Province"
+                        v-model="inputLandlord.address2"
+                        :options="Barangay"
                         dense
                         filled
-                        label="Province:"
+                        label="Barangay:"
+                        style="width: 24rem; font-size: smaller"
+                      />
+                      <q-select
+                        class="q-mt-xs"
+                        v-model="inputLandlord.address1"
+                        :options="Street"
+                        dense
+                        filled
+                        label="Street:"
                         style="width: 24rem; font-size: smaller"
                       />
                     </q-card-section>
@@ -343,13 +300,6 @@
                 </q-expansion-item>
               </div>
 
-              <q-input
-                dense
-                filled
-                v-model="inputLandlord.housingunit"
-                placeholder="Housing Unit"
-                style="width: 25rem; font-size: smaller"
-              />
             </div>
             <div class="flex flex-center">
               <q-btn
