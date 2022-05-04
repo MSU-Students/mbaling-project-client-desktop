@@ -28,12 +28,11 @@
         </div>
 
         <!-- DISPLAY SEARCH -->
-
         <q-list v-for="(result, index) in searchResultUser" :key="index">
           <q-item clickable class="row items-center" @click="onShowClick">
             <q-item-section avatar>
               <q-avatar size="xl">
-                <img :src="result.prfphoto" />
+                <q-img :src="`http://localhost:3000/media/${result.prfphoto}`"/>
               </q-avatar>
             </q-item-section>
 
@@ -46,7 +45,7 @@
                 {{ result.fName }}
               </q-item-label>
               <q-item-label lines="1" style="font-size: small">
-                {{ result.address1 }}
+                {{ result.address2 }}
               </q-item-label>
             </q-item-section>
           </q-item>
@@ -60,24 +59,24 @@
       <!-- STUDENT SHOW INFO -->
 
       <div v-if="displayInfo">
-        <div class="q-ma-xl row items-start">
+        <div v-for="(result, index) in searchResultUser" :key="index" class="q-ma-xl row items-start">
           <div class="col">
             <div class="flex flex-center">
+              <p>{{result.fName}}</p>
               <q-avatar size="12rem" color="primary" text-color="secondary">
-                S
+                WALIE
               </q-avatar>
             </div>
             <div class="defaultfont">
               <q-input
-                v-model="currentStudent.email"
                 readonly
                 disable
                 dense
-                label="E-mail"
+                :placeholder="`${searchResultUser.fName}`"
                 style="width: 20rem"
               />
+
               <q-input
-                v-model="currentStudent.contact"
                 readonly
                 disable
                 dense
@@ -85,7 +84,6 @@
                 style="width: 20rem"
               />
               <q-input
-                v-model="currentStudent.gender"
                 readonly
                 disable
                 dense
@@ -374,29 +372,43 @@
 </template>
 
 <script lang="ts">
+import { AUser } from "src/store/auth/state";
 import { Users } from "src/store/Records/state";
 import { Options, Vue } from "vue-class-component";
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 
 @Options({
   methods: {
-    ...mapActions("account", ["getAllUser"]),
+    ...mapActions('account', ['getAllUser']),
+    ...mapActions('auth', ['authUser']),
   },
   computed: {
-    ...mapState("account", ["allAccount"]),
+    ...mapState('account', ['allAccount']),
+    ...mapGetters("account", ["landlordAccount"]),
+    ...mapState('auth', ['currentUser']),
   },
 })
+
 export default class LogsPage extends Vue {
+
+  getAllUser! : () => Promise<void>
+  authUser! : () => Promise<void>
+
+  allAccount!: Users[];
+  currentUser!: Users
+
   search = "";
   displayInfo = false;
-  users!: Users[];
 
-  onShowClick(data: Users) {
-    this.currentStudent = data;
-    this.displayInfo = true;
+
+  async mounted() {
+    await this.authUser();
+    console.log(this.currentUser.id)
+    await this.getAllUser();
   }
 
-  defaultStudent: Users = {
+
+  defaultStudent: any = {
     fName: "",
     lName: "",
     type: "student",
@@ -407,41 +419,47 @@ export default class LogsPage extends Vue {
     college: "",
     contact: "",
     gender: "",
-    yearAdmit: "",
     address1: "",
     address2: "",
     address3: "",
     address4: "",
     housingunit: "",
     status: "active",
+    year: ""
   };
 
   currentStudent = { ...this.defaultStudent };
 
-  searchResultUser: Users[] = [
-    {
-      id: 111,
-      username: "luffy12",
-      password: "password",
-      fName: "luffy",
-      mName: "D",
-      lName: "Monkey",
-      type: "student",
-      email: "123@gmail.com",
-      birthdate: "October 19, 1998",
-      degree: "BS-IT",
-      department: "Computer Department",
-      college: "College of Technology",
-      contact: "09126337532",
-      gender: "male",
-      yearAdmit: "2018",
-      address1: "Bangon",
-      address2: "Sacayo Street",
-      address3: "Marawi City",
-      address4: "Lanao Del Sur",
-      housingunit: "PIRATEs",
-      status: "active",
-    },
+
+  onShowClick(data: Users) {
+    this.currentStudent = data;
+    this.displayInfo = true;
+  }
+
+  searchResultUser: Users [] = [
+    // {
+    //   id: 111,
+    //   username: "luffy12",
+    //   password: "password",
+    //   fName: "luffy",
+    //   mName: "D",
+    //   lName: "Monkey",
+    //   type: "student",
+    //   email: "123@gmail.com",
+    //   birthdate: "October 19, 1998",
+    //   degree: "BS-IT",
+    //   department: "Computer Department",
+    //   college: "College of Technology",
+    //   contact: "09126337532",
+    //   gender: "male",
+    //   yearAdmit: "2018",
+    //   address1: "Bangon",
+    //   address2: "Sacayo Street",
+    //   address3: "Marawi City",
+    //   address4: "Lanao Del Sur",
+    //   housingunit: "PIRATEs",
+    //   status: "active",
+    // },
     // {
     //   id: 111,
     //   username: "zoro09",
@@ -468,11 +486,13 @@ export default class LogsPage extends Vue {
   ];
 
   searchAction() {
-    const resultUsers = this.users.filter(
+    console.log('Numba Wan')
+    const resultUsers = this.allAccount.filter(
       (user) =>
         user.fName.toLowerCase().includes(this.search.toLowerCase()) ||
         user.lName.toLowerCase().includes(this.search.toLowerCase())
     );
+    console.log(resultUsers)
     this.searchResultUser = resultUsers;
   }
 

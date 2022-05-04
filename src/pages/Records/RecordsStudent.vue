@@ -144,7 +144,7 @@ export default class RecordsStudent extends Vue {
     college: "",
     contact: "",
     gender: "",
-    yearAdmit: "",
+    year: "",
     address1: "",
     address2: "",
     address3: "",
