@@ -63,8 +63,8 @@
     <q-separator vertical color="grey" />
     <div class="col-8" style="background-color: #f0f0f0cc; width: 71rem">
       <!-- STUDENT SHOW INFO -->
-
-      <div v-if="displayInfo">
+    <div v-if="this.currentStudent.type == 'student' || 'landlord'">
+      <div v-if="this.currentStudent.type == 'student' && displayInfo">
         <div class="q-ma-xl row items-start">
           <div class="col">
             <div class="flex flex-center">
@@ -213,7 +213,7 @@
 
       <!-- LANDLORD SHOW INFO -->
 
-      <!-- <div v-if="displayInfo">
+      <div v-if="this.currentStudent.type == 'landlord' && displayInfo">
         <div class="q-ma-xl row items-start">
           <div class="col">
             <div class="flex flex-center">
@@ -361,10 +361,10 @@
           </q-list>
         </q-list>
 
-
+          </div>
           </div>
         </div>
-      </div> -->
+      </div>
 
       <!-- RED LOGO -->
 
@@ -415,7 +415,7 @@ export default class LogsPage extends Vue {
   defaultStudent: any = {
     fName: "",
     lName: "",
-    type: "student",
+    type: "",
     email: "",
     birthdate: "",
     degree: "",
@@ -436,58 +436,10 @@ export default class LogsPage extends Vue {
 
   onShowClick(res: any) {
     this.displayInfo = true;
-    console.log(res);
     this.currentStudent = res;
   }
 
-  searchResultUser: Users[] = [
-    // {
-    //   id: 111,
-    //   username: "luffy12",
-    //   password: "password",
-    //   fName: "luffy",
-    //   mName: "D",
-    //   lName: "Monkey",
-    //   type: "student",
-    //   email: "123@gmail.com",
-    //   birthdate: "October 19, 1998",
-    //   degree: "BS-IT",
-    //   department: "Computer Department",
-    //   college: "College of Technology",
-    //   contact: "09126337532",
-    //   gender: "male",
-    //   yearAdmit: "2018",
-    //   address1: "Bangon",
-    //   address2: "Sacayo Street",
-    //   address3: "Marawi City",
-    //   address4: "Lanao Del Sur",
-    //   housingunit: "PIRATEs",
-    //   status: "active",
-    // },
-    // {
-    //   id: 111,
-    //   username: "zoro09",
-    //   password: "password",
-    //   fName: "zoro",
-    //   mName: "M",
-    //   lName: "Eye",
-    //   type: "landlord",
-    //   email: "123@gmail.com",
-    //   birthdate: "October 19, 1998",
-    //   degree: "BS-IT",
-    //   department: "Computer Department",
-    //   college: "College of Technology",
-    //   contact: "09126337532",
-    //   gender: "male",
-    //   yearAdmit: "2018",
-    //   address1: "Bangon",
-    //   address2: "Sacayo Street",
-    //   address3: "Marawi City",
-    //   address4: "Lanao Del Sur",
-    //   housingunit: "PIRATEs",
-    //   status: "active",
-    // },
-  ];
+  searchResultUser: Users[] = [];
 
   searchAction() {
     console.log("Numba Wan");
