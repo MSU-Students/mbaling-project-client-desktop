@@ -21,7 +21,6 @@
           </q-card-section>
           <q-card-section>
             <div class="q-gutter-y-sm column flex flex-center">
-
               <q-input
                 dense
                 filled
@@ -127,8 +126,6 @@
                 </q-expansion-item>
               </div>
 
-
-
               <div style="max-width: 25rem">
                 <q-expansion-item
                   header-class="bg-grey-3 text-grey-7"
@@ -178,7 +175,6 @@
                   </q-card>
                 </q-expansion-item>
               </div>
-
             </div>
             <div class="flex flex-center">
               <q-btn
@@ -205,11 +201,8 @@
             <q-icon class="mbi-home" size="4rem" color="primary" />
           </q-card-section>
           <q-card-section>
-            <div
-              class="q-gutter-y-sm column flex flex-center"
-            >
-
-            <q-input
+            <div class="q-gutter-y-sm column flex flex-center">
+              <q-input
                 dense
                 filled
                 v-model="inputLandlord.fName"
@@ -299,7 +292,6 @@
                   </q-card>
                 </q-expansion-item>
               </div>
-
             </div>
             <div class="flex flex-center">
               <q-btn
@@ -329,20 +321,18 @@ import { UserDto } from "src/services/rest-api";
 
 @Options({
   computed: {
-    ...mapState('account', ['allAccount']),
+    ...mapState("account", ["allAccount"]),
   },
   methods: {
-    ...mapActions('account', [
-      'addAccount',
-      'editAccount',
-      'deleteAccount',
-      'getAllUser',
+    ...mapActions("account", [
+      "addAccount",
+      "editAccount",
+      "deleteAccount",
+      "getAllUser",
     ]),
   },
 })
-
 export default class AccountsCreateForm extends Vue {
-
   addAccount!: (payload: UserDto) => Promise<void>;
   editAccount!: (payload: UserDto) => Promise<void>;
   deleteAccount!: (payload: UserDto) => Promise<void>;
@@ -467,7 +457,7 @@ export default class AccountsCreateForm extends Vue {
     address3: "",
     address4: "",
     housingunit: "",
-    profile: 0
+    profile: 0,
   };
 
   inputLandlord: any = {
@@ -489,51 +479,71 @@ export default class AccountsCreateForm extends Vue {
     address3: "",
     address4: "",
     housingunit: "",
-    profile: 0
+    profile: 0,
   };
 
   async resetModel() {
     this.inputStudent = {
       fName: "",
-    lName: "",
-    type: "",
-    status: "",
-    username: "",
-    password: "",
-    birthdate: "",
-    degree: "",
-    department: "",
-    college: "",
-    contact: "",
-    gender: "",
-    year: "",
-    address1: "",
-    address2: "",
-    address3: "",
-    address4: "",
-    housingunit: "",
-    profile: ""
-
+      lName: "",
+      type: "",
+      status: "",
+      username: "",
+      password: "",
+      birthdate: "",
+      degree: "",
+      department: "",
+      college: "",
+      contact: "",
+      gender: "",
+      year: "",
+      address1: "",
+      address2: "",
+      address3: "",
+      address4: "",
+      housingunit: "",
+      profile: "",
+    };
+    this.inputLandlord = {
+      fName: "",
+      lName: "",
+      type: "",
+      status: "",
+      username: "",
+      password: "",
+      birthdate: "",
+      degree: "",
+      department: "",
+      college: "",
+      contact: "",
+      gender: "",
+      year: "",
+      address1: "",
+      address2: "",
+      address3: "",
+      address4: "",
+      housingunit: "",
+      profile: "",
     };
   }
 
   async createStudent() {
-   await this.addAccount(this.inputStudent);
+    await this.addAccount(this.inputStudent);
     this.addNewAccount = false;
     this.resetModel();
     this.$q.notify({
-      type: 'positive',
-      message: 'Successfully Adeded.',
+      type: "positive",
+      message: "Successfully Adeded.",
     });
   }
 
   async createLandlord() {
-   await this.addAccount(this.inputLandlord);
+    await this.addAccount(this.inputLandlord);
     this.addNewAccount = false;
     this.resetModel();
     this.$q.notify({
-      type: 'positive',
-      message: 'Successfully Adeded.',
+      type: "positive",
+      message: "Successfully Adeded.",
     });
   }
 }
