@@ -29,10 +29,16 @@
 
         <!-- DISPLAY SEARCH -->
         <q-list v-for="(result, index) in searchResultUser" :key="index">
-          <q-item clickable class="row items-center" @click="onShowClick">
+          <q-item
+            clickable
+            class="row items-center"
+            @click="onShowClick(result)"
+          >
             <q-item-section avatar>
               <q-avatar size="xl">
-                <q-img :src="`http://localhost:3000/media/${result.prfphoto}`"/>
+                <q-img
+                  :src="`http://localhost:3000/media/${result.prfphoto}`"
+                />
               </q-avatar>
             </q-item-section>
 
@@ -46,6 +52,7 @@
               </q-item-label>
               <q-item-label lines="1" style="font-size: small">
                 {{ result.address2 }}
+                <p>@{{ result.username }}</p>
               </q-item-label>
             </q-item-section>
           </q-item>
@@ -55,28 +62,28 @@
     </div>
     <q-separator vertical color="grey" />
     <div class="col-8" style="background-color: #f0f0f0cc; width: 71rem">
-
       <!-- STUDENT SHOW INFO -->
 
       <div v-if="displayInfo">
-        <div v-for="(result, index) in searchResultUser" :key="index" class="q-ma-xl row items-start">
+        <div class="q-ma-xl row items-start">
           <div class="col">
             <div class="flex flex-center">
-              <p>{{result.fName}}</p>
               <q-avatar size="12rem" color="primary" text-color="secondary">
-                WALIE
+                <q-icon name="person" />
               </q-avatar>
             </div>
             <div class="defaultfont">
               <q-input
+                v-model="currentStudent.email"
                 readonly
                 disable
                 dense
-                :placeholder="`${searchResultUser.fName}`"
+                label="Email"
                 style="width: 20rem"
               />
 
               <q-input
+                v-model="currentStudent.contact"
                 readonly
                 disable
                 dense
@@ -84,6 +91,7 @@
                 style="width: 20rem"
               />
               <q-input
+                v-model="currentStudent.gender"
                 readonly
                 disable
                 dense
@@ -160,44 +168,44 @@
         </div>
         <div class="row q-ma-xl">
           <div class="col q-mr-lg">
-          Student Course
-          <q-btn
-          class="float-right"
-            label="edit"
-            :ripple="false"
-            unelevated
-            rounded
-            dense
-            no-caps
-            color="primary"
-            text-color="white"
-            style="height: 1.5rem; width: 5rem; font-size: smaller"
-          />
+            Student Course
+            <q-btn
+              class="float-right"
+              label="edit"
+              :ripple="false"
+              unelevated
+              rounded
+              dense
+              no-caps
+              color="primary"
+              text-color="white"
+              style="height: 1.5rem; width: 5rem; font-size: smaller"
+            />
 
-          <q-input
-            v-model="currentStudent.degree"
-            readonly
-            disable
-            dense
-            label="Degree"
-            style="width: 41rem"
-          />
-          <q-input
-            v-model="currentStudent.department"
-            readonly
-            disable
-            dense
-            label="Department"
-            style="width: 41rem"
-          />
-          <q-input
-            v-model="currentStudent.college"
-            readonly
-            disable
-            dense
-            label="College"
-            style="width: 41rem"
-          />
+            <q-input
+              v-model="currentStudent.degree"
+              readonly
+              disable
+              dense
+              label="Degree"
+              style="width: 41rem"
+            />
+            <q-input
+              v-model="currentStudent.department"
+              readonly
+              disable
+              dense
+              label="Department"
+              style="width: 41rem"
+            />
+            <q-input
+              v-model="currentStudent.college"
+              readonly
+              disable
+              dense
+              label="College"
+              style="width: 41rem"
+            />
           </div>
           <div class="col-4"></div>
         </div>
@@ -379,34 +387,30 @@ import { mapActions, mapGetters, mapState } from "vuex";
 
 @Options({
   methods: {
-    ...mapActions('account', ['getAllUser']),
-    ...mapActions('auth', ['authUser']),
+    ...mapActions("account", ["getAllUser"]),
+    ...mapActions("auth", ["authUser"]),
   },
   computed: {
-    ...mapState('account', ['allAccount']),
+    ...mapState("account", ["allAccount"]),
     ...mapGetters("account", ["landlordAccount"]),
-    ...mapState('auth', ['currentUser']),
+    ...mapState("auth", ["currentUser"]),
   },
 })
-
 export default class LogsPage extends Vue {
-
-  getAllUser! : () => Promise<void>
-  authUser! : () => Promise<void>
+  getAllUser!: () => Promise<void>;
+  authUser!: () => Promise<void>;
 
   allAccount!: Users[];
-  currentUser!: Users
+  currentUser!: Users;
 
   search = "";
   displayInfo = false;
 
-
   async mounted() {
     await this.authUser();
-    console.log(this.currentUser.id)
+    console.log(this.currentUser.id);
     await this.getAllUser();
   }
-
 
   defaultStudent: any = {
     fName: "",
@@ -425,18 +429,18 @@ export default class LogsPage extends Vue {
     address4: "",
     housingunit: "",
     status: "active",
-    year: ""
+    year: "",
   };
 
   currentStudent = { ...this.defaultStudent };
 
-
-  onShowClick(data: Users) {
-    this.currentStudent = data;
+  onShowClick(res: any) {
     this.displayInfo = true;
+    console.log(res);
+    this.currentStudent = res;
   }
 
-  searchResultUser: Users [] = [
+  searchResultUser: Users[] = [
     // {
     //   id: 111,
     //   username: "luffy12",
@@ -486,13 +490,13 @@ export default class LogsPage extends Vue {
   ];
 
   searchAction() {
-    console.log('Numba Wan')
+    console.log("Numba Wan");
     const resultUsers = this.allAccount.filter(
       (user) =>
         user.fName.toLowerCase().includes(this.search.toLowerCase()) ||
         user.lName.toLowerCase().includes(this.search.toLowerCase())
     );
-    console.log(resultUsers)
+    console.log(resultUsers);
     this.searchResultUser = resultUsers;
   }
 

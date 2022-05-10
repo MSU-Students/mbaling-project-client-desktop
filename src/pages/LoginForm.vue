@@ -83,7 +83,7 @@ export default class LoginForm extends Vue {
           textColor: "primary",
           type: 'positive',
           classes: "defaultfont",
-          message: 'You are logged in' + this.currentUser.fName,
+          message: 'You are logged in ' + this.currentUser.fName,
         });
       }
     } catch (error) {
