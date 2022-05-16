@@ -79,7 +79,7 @@
             </div>
           </div>
         </div>
-
+<!-- Edit Profile -->
         <div class="q-mt-md flex flex-center">
           <q-btn
             label="edit"
@@ -91,9 +91,148 @@
             color="primary"
             text-color="white"
             style="height: 1.5rem; width: 5rem; font-size: smaller"
+            @click="onShowDialog()"
           />
         </div>
 
+    <q-dialog v-model="Dialog" persistent>
+      <q-card style="width: 40rem;">
+        <q-card-section>
+          <div class="flex flex-center">
+            <q-avatar class="q-my-md" size="8rem">
+            <img :src="admin.prfphoto" />
+          </q-avatar>
+
+          </div>
+        </q-card-section>
+
+          <div class="q-gutter-y-sm column flex flex-center">
+          <q-input
+                dense
+                filled
+                v-model="admin.firstname"
+                stack-label
+                label="FirstName:"
+                placeholder="Firstname"
+                style="width: 25rem; font-size: smaller"
+                lazy-rules
+                :rules="[(val) => (val && val.length > 0) || 'Please Input your FirstName']"
+                hide-bottom-space
+              />
+          <q-input
+                dense
+                filled
+                v-model="admin.lastname"
+                stack-label
+                label="LastName:"
+                placeholder="LastName"
+                style="width: 25rem; font-size: smaller"
+                lazy-rules
+                :rules="[(val) => (val && val.length > 0) || 'Please Input your FirstName']"
+                hide-bottom-space
+              />
+          <q-input
+                dense
+                filled
+                v-model="admin.middlename"
+                stack-label
+                label="MiddleName:"
+                placeholder="MiddleName"
+                style="width: 25rem; font-size: smaller"
+                lazy-rules
+                :rules="[(val) => (val && val.length > 0) || 'Please Input your FirstName']"
+                hide-bottom-space
+              />
+          <q-input
+                dense
+                filled
+                v-model="admin.username"
+                stack-label
+                label="UserName:"
+                placeholder="UserName"
+                style="width: 25rem; font-size: smaller"
+                lazy-rules
+                :rules="[(val) => (val && val.length > 0) || 'Please Input your FirstName']"
+                hide-bottom-space
+              />
+          <q-input
+                dense
+                filled
+                v-model="admin.password"
+                placeholder="Password"
+                style="width: 25rem; font-size: smaller"
+                lazy-rules
+                :rules="[(val) => (val && val.length > 0) || 'Please Input your Password']"
+                hide-bottom-space
+                :type="isPwd ? 'password' : 'text'"
+              >
+              <template v-slot:append>
+                   <q-icon
+                        :name="isPwd ? 'visibility_off' : 'visibility '"
+                        class="cursor-pointer"
+                       @click="isPwd = !isPwd"
+                   />
+                </template>
+              </q-input>
+          <q-select
+                class="q-mt-xs"
+                v-model="admin.position"
+                :options="Position"
+                dense
+                filled
+                label="Position:"
+                style="width: 25rem; font-size: smaller"
+                lazy-rules
+                :rules="[(val) => (val && val.length > 0) || 'Please Choose Your College']"
+                hide-bottom-space
+              />
+          <q-select
+                class="q-mt-xs"
+                v-model="admin.office"
+                :options="Office"
+                dense
+                filled
+                label="Office:"
+                style="width: 25rem; font-size: smaller"
+                lazy-rules
+                :rules="[(val) => (val && val.length > 0) || 'Please Choose Your College']"
+                hide-bottom-space
+              />
+      </div>
+
+        <div class="flex flex-center defaultfont">
+          <q-btn
+          :ripple="false"
+          unelevated
+          rounded
+          dense
+          no-caps
+          outline
+          class="text-#BE282D q-ma-md"
+          style="height: 1.5rem; width: 6rem; font-size: smaller"
+          color="primary"
+          label="cancel"
+          v-close-popup
+          />
+          <q-btn
+          class="text-white q-my-md"
+          align="center"
+          :ripple="false"
+          unelevated
+          rounded
+          dense
+          no-caps
+          style="height: 1.5rem; width: 6rem; font-size: smaller"
+          color="primary"
+          label="save"
+          @click="onSave()"
+          v-close-popup
+          />
+        </div>
+      </q-card>
+    </q-dialog>
+
+<!-- Logout Button -->
         <q-btn
           icon="bi-box-arrow-right"
           label="Logout"
@@ -129,6 +268,7 @@ interface Iadmin {
 
 export default class MainLayout extends Vue {
   rightDrawerOpen = false;
+  isPwd = true;
 
   async toggleRightDrawer() {
     this.rightDrawerOpen = !this.rightDrawerOpen;
@@ -143,5 +283,23 @@ export default class MainLayout extends Vue {
     position: "Secretary",
     office: "Housing Management Division",
   };
+
+// Edit Profile
+Dialog = false;
+async onShowDialog(){
+  this.Dialog = true;
+}
+async onSave(){
+}
+  Position = [
+    "Assistant Director",
+    "Secretary",
+    "Officer",
+  ];
+  Office = [
+    "Housing Management Division",
+  ]
+
 }
 </script>
+
