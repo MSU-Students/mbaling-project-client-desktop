@@ -599,9 +599,13 @@ export default class LogsPage extends Vue {
     await this.editAccount(this.currentInfo);
     this.editStudentCourse = false;
     this.$q.notify({
-      type: 'positive',
-      message: 'Successfully Edited!.',
-    });
+          position: 'bottom',
+          color: "secondary",
+          textColor: "primary",
+          type: 'positive',
+          classes: "defaultfont",
+          message: 'Account Updated',
+        });
   }
   async OpenEditStudent(){
     this.editStudentCourse = true;

@@ -532,6 +532,8 @@ export default class AccountsCreateForm extends Vue {
     address3: "",
     address4: "",
     housingunit: "",
+    chatLink: "",
+    mapLink: "",
     profile: 0,
   };
 
@@ -605,7 +607,6 @@ export default class AccountsCreateForm extends Vue {
   async createStudent() {
    await this.addAccount(this.inputStudent);
     this.addNewAccount = false;
-    this.resetModel();
      this.$q.notify({
           position: 'bottom',
           color: "secondary",

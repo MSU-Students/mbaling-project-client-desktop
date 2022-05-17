@@ -75,7 +75,7 @@ export default class LoginForm extends Vue {
         userName: this.username,
         password: this.password,
       });
-      if (this.currentUser.type == 'student') {
+      if (this.currentUser.type == 'admin') {
         await this.$router.replace('/logs');
         this.$q.notify({
           position: 'top',
