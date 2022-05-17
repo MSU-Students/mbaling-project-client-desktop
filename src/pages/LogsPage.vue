@@ -1,9 +1,11 @@
 <template>
   <div class="row">
     <div class="col-3">
-      <div style="height: 40rem">
+      <q-page>
         <div class="q-mt-lg flex flex-center">
-          <!-- SEARCH INPUT FIELD -->
+
+<!-- SEARCH INPUT FIELD -->
+
           <q-form @submit="searchAction()">
             <q-input
               v-model="search"
@@ -15,7 +17,9 @@
               class="searchinput"
               style="width: 20rem"
               @clear="clearSearch()"
-              @keyup.enter="searchAction()"
+              lazy-rules
+              :rules="[(val) => (val && val.length > 0) || 'Please input keywords to search']"
+               hide-bottom-space
             >
               <template v-slot:prepend>
                 <q-btn flat round size="sm">
@@ -27,11 +31,14 @@
           <q-separator class="q-mt-sm" color="grey" style="width: 20rem" />
         </div>
 
-        <!-- DISPLAY SEARCH -->
+<!-- DISPLAY SEARCH -->
+
         <q-list v-for="(result, index) in searchResultUser" :key="index">
           <q-item
             clickable
-            class="row items-center"
+            dense
+            class="q-pt-md q-my-sm row items-center"
+            style="height: 3rem"
             @click="onShowClick(result)"
           >
             <q-item-section avatar>
@@ -41,7 +48,7 @@
                 />
               </q-avatar>
             </q-item-section>
-
+          <div class="col">
             <q-item-section>
               <q-item-label
                 lines="1"
@@ -51,123 +58,195 @@
                 {{ result.fName }}
               </q-item-label>
               <q-item-label lines="1" style="font-size: small">
-                {{ result.address2 }}
                 <p>@{{ result.username }}</p>
               </q-item-label>
             </q-item-section>
+            </div>
+          <div class="col-3 defaultfont-light q-mb-md text-grey-7" style="font-size: smaller" >{{ result.type }}</div>
           </q-item>
         </q-list>
-      </div>
-      <!-- -------------------------------------- -->
+      </q-page>
+<!-- -------------------------------------- -->
     </div>
     <q-separator vertical color="grey" />
     <div class="col-8" style="background-color: #f0f0f0cc; width: 71rem">
-      <!-- STUDENT SHOW INFO -->
-    <div v-if="this.currentStudent.type == 'student' || 'landlord'">
-      <div v-if="this.currentStudent.type == 'student' && displayInfo">
+
+<!-- STUDENT SHOW INFO -->
+
+      <q-page v-if="this.currentInfo.type == 'student' && displayInfo">
         <div class="q-ma-xl row items-start">
           <div class="col">
             <div class="flex flex-center">
               <q-avatar size="12rem" color="primary" text-color="secondary">
-                <q-icon name="person" />
+                S
               </q-avatar>
             </div>
             <div class="defaultfont">
               <q-input
-                v-model="currentStudent.email"
+                v-model="currentInfo.email"
                 readonly
                 disable
                 dense
+                stack-label
                 label="Email"
                 style="width: 20rem"
               />
 
               <q-input
-                v-model="currentStudent.contact"
+                v-model="currentInfo.contact"
                 readonly
                 disable
                 dense
+                stack-label
                 label="Mobile Number"
                 style="width: 20rem"
               />
               <q-input
-                v-model="currentStudent.gender"
+                v-model="currentInfo.gender"
                 readonly
                 disable
                 dense
+                stack-label
                 label="Gender"
                 style="width: 20rem"
               />
               <q-input
-                v-model="currentStudent.birthdate"
+                v-model="currentInfo.birthdate"
                 readonly
                 disable
                 dense
+                stack-label
                 label="Date of Birth"
                 style="width: 20rem"
               />
             </div>
           </div>
           <div class="col">
-            <span>@{{ currentStudent.username }} </span>
+            <span>@{{ currentInfo.username }} </span>
             <q-input
-              v-model="currentStudent.fName"
+              v-model="currentInfo.fName"
               readonly
               disable
+              stack-label
               label="First Name"
               style="width: 20rem"
             />
             <q-input
-              v-model="currentStudent.mName"
+              v-model="currentInfo.mName"
               readonly
               disable
+              stack-label
               label="Middle Name"
               style="width: 20rem"
             />
             <q-input
-              v-model="currentStudent.lName"
+              v-model="currentInfo.lName"
               readonly
               disable
+              stack-label
               label="Last Name"
               style="width: 20rem"
             />
             <q-input
-              v-model="currentStudent.address1"
+              v-model="currentInfo.address1"
               readonly
               disable
               dense
-              label="Province"
+              stack-label
+              label="Street"
               style="width: 20rem"
             />
             <q-input
-              v-model="currentStudent.address2"
+              v-model="currentInfo.address2"
               readonly
               disable
               dense
-              label="Municipality"
-              style="width: 20rem"
-            />
-            <q-input
-              v-model="currentStudent.address3"
-              readonly
-              disable
-              dense
+              stack-label
               label="Barangay"
               style="width: 20rem"
             />
             <q-input
-              v-model="currentStudent.address4"
+              v-model="currentInfo.address3"
               readonly
               disable
               dense
-              label="Street"
+              stack-label
+              label="Municipality"
+              style="width: 20rem"
+            />
+            <q-input
+              v-model="currentInfo.address4"
+              readonly
+              disable
+              dense
+              stack-label
+              label="Province"
               style="width: 20rem"
             />
           </div>
           <div class="col"></div>
         </div>
         <div class="row q-ma-xl">
-          <div class="col q-mr-lg">
+
+
+<!-- Edit Student Info -->
+            <div class="col q-mr-lg" v-if="editStudentCourse">
+            Student Course
+            <q-btn
+              class="float-right"
+              label="save"
+              :ripple="false"
+              unelevated
+              rounded
+              dense
+              no-caps
+              color="primary"
+              style="color: white; height: 1.5rem; width: 5rem; font-size: smaller"
+              @click="onSaveEditStudent()"
+            />
+            <q-select
+              class="q-mt-xs"
+              v-model="currentInfo.college"
+              :options="College"
+              dense
+              label="College:"
+              style="width: 41rem; font-size: smaller"
+            />
+            <q-select
+              class="q-mt-xs"
+              :v-model="
+              currentInfo.college ==
+                  'College of Business Administration and Accountancy' ||
+                  'College of Information Technology' ||
+                  'King Faisal Center for Islamic, Arabic and Asian Studies'
+                  ? selectedDepartment()
+                  : selectedDepartment
+                  "
+              v-model="currentInfo.department"
+              :options="Department"
+              dense
+              label="Department:"
+              style="width: 41rem; font-size: smaller"
+              />
+            <q-select
+              class="q-mt-xs"
+              :v-model="
+              currentInfo.college ==
+                  'College of Business Administration and Accountancy' ||
+                  'College of Information Technology' ||
+                  'King Faisal Center for Islamic, Arabic and Asian Studies'
+                  ? selectedDegree()
+                  : selectedDegree
+                  "
+              v-model="currentInfo.degree"
+              :options="Degree"
+              dense
+              label="Degree:"
+              style="width: 41rem; font-size: smaller"
+              />
+          </div>
+
+          <div class="col q-mr-lg" v-else>
             Student Course
             <q-btn
               class="float-right"
@@ -177,43 +256,45 @@
               rounded
               dense
               no-caps
-              color="primary"
-              text-color="white"
-              style="height: 1.5rem; width: 5rem; font-size: smaller"
+              outline
+              style="color: #BE282D; height: 1.5rem; width: 5rem; font-size: smaller"
+              @click="OpenEditStudent()"
             />
-
             <q-input
-              v-model="currentStudent.degree"
+              v-model="currentInfo.college"
               readonly
               disable
               dense
-              label="Degree"
+              stack-label
+              label="College"
               style="width: 41rem"
             />
             <q-input
-              v-model="currentStudent.department"
+              v-model="currentInfo.department"
               readonly
               disable
               dense
+              stack-label
               label="Department"
               style="width: 41rem"
             />
             <q-input
-              v-model="currentStudent.college"
+              v-model="currentInfo.degree"
               readonly
               disable
               dense
-              label="College"
+              stack-label
+              label="Degree"
               style="width: 41rem"
             />
           </div>
           <div class="col-4"></div>
         </div>
-      </div>
+      </q-page>
 
-      <!-- LANDLORD SHOW INFO -->
+<!-- LANDLORD SHOW INFO -->
 
-      <div v-if="this.currentStudent.type == 'landlord' && displayInfo">
+      <q-page v-else-if="this.currentInfo.type == 'landlord' && displayInfo">
         <div class="q-ma-xl row items-start">
           <div class="col">
             <div class="flex flex-center">
@@ -223,163 +304,157 @@
             </div>
             <div class="defaultfont">
               <q-input
-                v-model="currentStudent.email"
+                v-model="currentInfo.email"
                 readonly
                 disable
                 dense
+                stack-label
                 label="E-mail"
                 style="width: 20rem"
               />
               <q-input
-                v-model="currentStudent.contact"
+                v-model="currentInfo.contact"
                 readonly
                 disable
                 dense
+                stack-label
                 label="Mobile Number"
                 style="width: 20rem"
               />
               <q-input
-                v-model="currentStudent.gender"
+                v-model="currentInfo.gender"
                 readonly
                 disable
                 dense
+                stack-label
                 label="Gender"
                 style="width: 20rem"
               />
               <q-input
-                v-model="currentStudent.birthdate"
+                v-model="currentInfo.birthdate"
                 readonly
                 disable
                 dense
+                stack-label
                 label="Date of Birth"
                 style="width: 20rem"
               />
             </div>
           </div>
           <div class="col">
-           <span> @{{ currentStudent.username }} </span>
+            <span> @{{ currentInfo.username }} </span>
             <q-input
-              v-model="currentStudent.fName"
+              v-model="currentInfo.fName"
               readonly
               disable
               label="First Name"
               style="width: 20rem"
             />
             <q-input
-              v-model="currentStudent.mName"
+              v-model="currentInfo.mName"
               readonly
               disable
               label="Middle Name"
               style="width: 20rem"
             />
             <q-input
-              v-model="currentStudent.lName"
+              v-model="currentInfo.lName"
               readonly
               disable
               label="Last Name"
               style="width: 20rem"
             />
             <q-input
-              v-model="currentStudent.address1"
+              v-model="currentInfo.address1"
               readonly
               disable
               dense
-              label="Province"
+              stack-label
+              label="Street"
               style="width: 20rem"
             />
             <q-input
-              v-model="currentStudent.address2"
+              v-model="currentInfo.address2"
               readonly
               disable
               dense
-              label="Municipality"
-              style="width: 20rem"
-            />
-            <q-input
-              v-model="currentStudent.address3"
-              readonly
-              disable
-              dense
+              stack-label
               label="Barangay"
               style="width: 20rem"
             />
             <q-input
-              v-model="currentStudent.address4"
+              v-model="currentInfo.address3"
               readonly
               disable
               dense
-              label="Street"
+              stack-label
+              label="Municipality"
+              style="width: 20rem"
+            />
+            <q-input
+              v-model="currentInfo.address4"
+              readonly
+              disable
+              dense
+              stack-label
+              label="Province"
               style="width: 20rem"
             />
           </div>
           <div class="col">
-            <span class="defaultfont-bold" style="font-size: medium;">PIRATE KING APARTMENT</span><br>
-            <span class="defaultfont" style="font-size: medium;">List of boarders</span> <br>
+            <span class="defaultfont-bold" style="font-size: medium"
+              >PIRATE KING APARTMENT</span
+            ><br />
+            <span class="defaultfont" style="font-size: medium"
+              >List of boarders</span
+            >
+            <br />
 
-
-              <q-list v-for="(result, index) in searchResultUser" :key="index">
-          <q-list class="row items-center" bordered separator style="background-color: white; width: 20rem;">
-            <q-item-section class="q-ma-xs" avatar>
-              <q-avatar size="xl">
-                <img :src="result.prfphoto" />
-              </q-avatar>
-            </q-item-section>
-
-            <q-item-section>
-              <q-item-label
-                lines="1"
-                class="defaultfont-semibold"
-                style="font-size: medium"
+            <q-list v-for="(result, index) in searchResultUser" :key="index">
+              <q-list
+                class="row items-center"
+                bordered
+                separator
+                style="background-color: white; width: 20rem"
               >
-                {{ result.fName }}
-              </q-item-label>
-              <q-item-label lines="1" style="font-size: small">
-                {{ result.address1 }}
-              </q-item-label>
-            </q-item-section>
-          </q-list>
-          <q-list class="row items-center" bordered separator style="background-color: white; width: 20rem;">
-            <q-item-section class="q-ma-xs" avatar>
-              <q-avatar size="xl">
-                <img :src="result.prfphoto" />
-              </q-avatar>
-            </q-item-section>
+                <q-item-section class="q-ma-xs" avatar>
+                  <q-avatar size="xl">
+                    <img :src="result.prfphoto" />
+                  </q-avatar>
+                </q-item-section>
 
-            <q-item-section>
-              <q-item-label
-                lines="1"
-                class="defaultfont-semibold"
-                style="font-size: medium"
-              >
-                {{ result.fName }}
-              </q-item-label>
-              <q-item-label lines="1" style="font-size: small">
-                {{ result.address1 }}
-              </q-item-label>
-            </q-item-section>
-
-          </q-list>
-        </q-list>
-
-          </div>
+                <q-item-section>
+                  <q-item-label
+                    lines="1"
+                    class="defaultfont-semibold"
+                    style="font-size: medium"
+                  >
+                    {{ result.fName }}
+                  </q-item-label>
+                  <q-item-label lines="1" style="font-size: small">
+                    {{ result.address1 }}
+                  </q-item-label>
+                </q-item-section>
+              </q-list>
+            </q-list>
           </div>
         </div>
-      </div>
+      </q-page>
 
-      <!-- RED LOGO -->
+<!-- RED LOGO BACKGROUND -->
 
-      <div v-else class="q-mt-xl q-pt-xl flex flex-center">
+      <q-page v-else class="row items-center justify-evenly">
         <q-img
-          class="q-mt-xl"
           src="~assets/mbaling-logo-red.svg"
           style="max-width: 15rem"
         />
-      </div>
+      </q-page>
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import { UserDto } from "src/services/rest-api";
 import { AUser } from "src/store/auth/state";
 import { Users } from "src/store/Records/state";
 import { Options, Vue } from "vue-class-component";
@@ -387,7 +462,7 @@ import { mapActions, mapGetters, mapState } from "vuex";
 
 @Options({
   methods: {
-    ...mapActions("account", ["getAllUser"]),
+    ...mapActions("account", ["getAllUser", "editAccount"]),
     ...mapActions("auth", ["authUser"]),
   },
   computed: {
@@ -399,6 +474,7 @@ import { mapActions, mapGetters, mapState } from "vuex";
 export default class LogsPage extends Vue {
   getAllUser!: () => Promise<void>;
   authUser!: () => Promise<void>;
+  editAccount!: (payload: UserDto) => Promise<void>;
 
   allAccount!: Users[];
   currentUser!: Users;
@@ -412,7 +488,85 @@ export default class LogsPage extends Vue {
     await this.getAllUser();
   }
 
-  defaultStudent: any = {
+  Department: any[] = [];
+  Degree: any[] = [];
+
+  //Courses Choices
+  College = [
+    "College of Business Administration and Accountancy",
+    "College of Information and Computing Sciences",
+    "King Faisal Center for Islamic, Arabic and Asian Studies",
+  ];
+
+  selectedDepartment() {
+    if (
+      this.currentInfo.college ==
+      "College of Business Administration and Accountancy"
+    ) {
+      return (this.Department = [
+        "Department of Economic",
+        "Department of Marketing",
+        "Department of Management",
+        "Department of Accounting",
+      ]);
+    } else if (
+      this.currentInfo.college ==
+      "College of Information and Computing Sciences"
+    ) {
+      return (this.Department = [
+        "Department of Information Sciences",
+        "Department of Computing Sciences",
+      ]);
+    } else if (
+      this.currentInfo.college ==
+      "King Faisal Center for Islamic, Arabic and Asian Studies"
+    ) {
+      return (this.Department = [
+        "Department of International Relations",
+        "Department of Islamic Studies",
+        "Department of Teaching Arabic",
+      ]);
+    }
+  }
+
+  selectedDegree() {
+    if (
+      this.currentInfo.college ==
+      "College of Business Administration and Accountancy"
+    ) {
+      return (this.Degree = [
+        "Accountancy",
+        "Business Economics",
+        "BSBA Entrepreneurial Marketing",
+        "BSBA Management",
+        "BSBA Human Resource Management",
+        "BSBA Marketing Management",
+        "BSBA Entrepreneurship",
+      ]);
+    } else if (
+      this.currentInfo.college ==
+      "College of Information and Computing Sciences"
+    ) {
+      return (this.Degree = [
+        "Bachelor of Science in Computer Science",
+        "Bachelor of Science in Entertaiment and Multimedia Computing",
+        "Bachelor of Science in Information System",
+        "Bachelor of Science in information Technology (Database)",
+        "Bachelor of Science in information Technology (Networking)",
+      ]);
+    } else if (
+      this.currentInfo.college ==
+      "King Faisal Center for Islamic, Arabic and Asian Studies"
+    ) {
+      return (this.Degree = [
+        "Bachelor of Arts in Islamic Studies (Shari'ah)",
+        "Bachelor of Science in Teaching Arabic",
+        "Bachelor of Science in International Relations",
+      ]);
+    }
+  }
+
+  currentInfo: any = {
     fName: "",
     lName: "",
     type: "",
@@ -432,17 +586,33 @@ export default class LogsPage extends Vue {
     year: "",
   };
 
-  currentStudent = { ...this.defaultStudent };
 
   onShowClick(res: any) {
     this.displayInfo = true;
-    this.currentStudent = res;
+    this.currentInfo = res;
   }
+
+// Edit Function for Student Courses
+  editStudentCourse = false;
+
+  async onSaveEditStudent(){
+    await this.editAccount(this.currentInfo);
+    this.editStudentCourse = false;
+    this.$q.notify({
+      type: 'positive',
+      message: 'Successfully Edited!.',
+    });
+  }
+  async OpenEditStudent(){
+    this.editStudentCourse = true;
+    this.currentInfo = {...this.currentInfo}
+  }
+
+// Search Funtion
 
   searchResultUser: Users[] = [];
 
   searchAction() {
-    console.log("Numba Wan");
     const resultUsers = this.allAccount.filter(
       (user) =>
         user.fName.toLowerCase().includes(this.search.toLowerCase()) ||
