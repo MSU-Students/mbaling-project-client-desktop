@@ -94,13 +94,16 @@
             </p>
           </div>
         </div>
-         <div class="row justify-evenly" v-else>Nothing</div>
+         <q-page v-else class="row items-center justify-evenly">
+        <q-img
+          src="~assets/mbaling-logo-red.svg"
+          style="max-width: 10rem"
+        />
+      </q-page>
       </div>
     </div>
     </div>
   </q-layout>
-  <div class="bg-greens">
-    </div>
 </template>
 
 <script lang="ts">
