@@ -7,7 +7,7 @@
         <div class="q-pa-md q-gutter-sm row">
           <q-input
             outlined
-            color="green"
+            color="primary"
             rounded
             dense
             debounce="300"

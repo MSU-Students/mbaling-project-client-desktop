@@ -467,7 +467,10 @@ export default class AccountsCreateForm extends Vue {
     address3: "",
     address4: "",
     housingunit: "",
-    profile: 0
+    chatLink: "",
+    prfphoto: 0,
+    mapLink: "",
+    housingID: 0
   };
 
   inputLandlord: any = {
@@ -489,7 +492,10 @@ export default class AccountsCreateForm extends Vue {
     address3: "",
     address4: "",
     housingunit: "",
-    profile: 0
+    chatLink: "",
+    prfphoto: 0,
+    mapLink: "",
+    housingID: 0
   };
 
   async resetModel() {
@@ -521,10 +527,14 @@ export default class AccountsCreateForm extends Vue {
    await this.addAccount(this.inputStudent);
     this.addNewAccount = false;
     this.resetModel();
-    this.$q.notify({
-      type: 'positive',
-      message: 'Successfully Adeded.',
-    });
+     this.$q.notify({
+          position: 'bottom',
+          color: "secondary",
+          textColor: "primary",
+          type: 'positive',
+          classes: "defaultfont",
+          message: 'Account Created',
+        });
   }
 
   async createLandlord() {
@@ -532,9 +542,13 @@ export default class AccountsCreateForm extends Vue {
     this.addNewAccount = false;
     this.resetModel();
     this.$q.notify({
-      type: 'positive',
-      message: 'Successfully Adeded.',
-    });
+          position: 'bottom',
+          color: "secondary",
+          textColor: "primary",
+          type: 'positive',
+          classes: "defaultfont",
+          message: 'Account Created',
+        });
   }
 }
 </script>
