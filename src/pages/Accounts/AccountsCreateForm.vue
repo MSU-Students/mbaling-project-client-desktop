@@ -19,6 +19,7 @@
           <q-card-section class="q-py-xs row items-center justify-evenly">
             <q-icon class="mbi-account" size="4rem" color="primary" />
           </q-card-section>
+          <q-form @submit="createStudent()" @reset="resetModel()" greedy>
           <q-card-section>
             <div class="q-gutter-y-sm column flex flex-center">
               <q-input
@@ -27,6 +28,9 @@
                 v-model="inputStudent.fName"
                 placeholder="Firstname"
                 style="width: 25rem; font-size: smaller"
+                lazy-rules
+                :rules="[(val) => (val && val.length > 0) || 'Please Input your FirstName']"
+                hide-bottom-space
               />
 
               <q-input
@@ -35,6 +39,9 @@
                 v-model="inputStudent.lName"
                 placeholder="Lastname"
                 style="width: 25rem; font-size: smaller"
+                lazy-rules
+                :rules="[(val) => (val && val.length > 0) || 'Please Input your LastName']"
+                hide-bottom-space
               />
 
               <q-input
@@ -43,21 +50,39 @@
                 v-model="inputStudent.username"
                 placeholder="Username"
                 style="width: 25rem; font-size: smaller"
+                lazy-rules
+                :rules="[(val) => (val && val.length > 0) || 'Please Input your Username']"
+                hide-bottom-space
               />
               <q-input
                 dense
                 filled
                 v-model="inputStudent.password"
                 placeholder="Password"
-                type="password"
                 style="width: 25rem; font-size: smaller"
-              />
+                lazy-rules
+                :rules="[(val) => (val && val.length > 0) || 'Please Input your Password']"
+                hide-bottom-space
+                :type="isPwd ? 'password' : 'text'"
+              >
+              <template v-slot:append>
+                   <q-icon
+                        :name="isPwd ? 'visibility_off' : 'visibility '"
+                        class="cursor-pointer"
+                       @click="isPwd = !isPwd"
+                   />
+                </template>
+              </q-input>
               <q-input
                 dense
                 filled
                 v-model="inputStudent.email"
                 placeholder="E-mail"
                 style="width: 25rem; font-size: smaller"
+                lazy-rules
+                :rules="[(val) => (val && val.length > 0) || 'Please Input your Email']"
+                hide-bottom-space
+                type="email"
               />
 
               <div style="max-width: 25rem">
@@ -77,6 +102,9 @@
                         filled
                         label="College:"
                         style="width: 24rem; font-size: smaller"
+                        lazy-rules
+                        :rules="[(val) => (val && val.length > 0) || 'Please Choose Your College']"
+                        hide-bottom-space
                       />
                       <q-select
                         class="q-mt-xs"
@@ -94,6 +122,9 @@
                         filled
                         label="Department:"
                         style="width: 24rem; font-size: smaller"
+                        lazy-rules
+                        :rules="[(val) => (val && val.length > 0) || 'Please Choose Your Department']"
+                        hide-bottom-space
                       />
                       <q-select
                         class="q-mt-xs"
@@ -111,16 +142,11 @@
                         filled
                         label="Degree:"
                         style="width: 24rem; font-size: smaller"
+                        lazy-rules
+                        :rules="[(val) => (val && val.length > 0) || 'Please Choose Your Degree']"
+                        hide-bottom-space
                       />
-                      <q-select
-                        class="q-mt-xs"
-                        v-model="inputStudent.yearAdmit"
-                        :options="Year"
-                        dense
-                        filled
-                        label="Year:"
-                        style="width: 24rem; font-size: smaller"
-                      />
+
                     </q-card-section>
                   </q-card>
                 </q-expansion-item>
@@ -133,46 +159,52 @@
                   label="Address:"
                   style="width: 25rem; font-size: smaller"
                 >
-                  <q-card>
-                    <q-card-section class="q-py-xs">
-                      <q-select
-                        class="q-mt-xs"
-                        v-model="inputStudent.address4"
-                        :options="Province"
-                        dense
-                        filled
-                        label="Province:"
-                        style="width: 24rem; font-size: smaller"
-                      />
-                      <q-select
-                        class="q-mt-xs"
-                        v-model="inputStudent.address3"
-                        :options="Municipality"
-                        dense
-                        filled
-                        label="Municipality:"
-                        style="width: 24rem; font-size: smaller"
-                      />
-                      <q-select
-                        class="q-mt-xs"
-                        v-model="inputStudent.address2"
-                        :options="Barangay"
-                        dense
-                        filled
-                        label="Barangay:"
-                        style="width: 24rem; font-size: smaller"
-                      />
-                      <q-select
-                        class="q-mt-xs"
-                        v-model="inputStudent.address1"
-                        :options="Street"
-                        dense
-                        filled
-                        label="Street:"
-                        style="width: 24rem; font-size: smaller"
-                      />
-                    </q-card-section>
-                  </q-card>
+                  <q-card-section class="q-py-xs">
+                    <q-input
+                      class="q-mt-xs"
+                      dense
+                      filled
+                      v-model="inputStudent.address4"
+                      label="Province:"
+                      style="width: 24rem; font-size: smaller"
+                      lazy-rules
+                      :rules="[(val) => (val && val.length > 0) || 'Please Input your Province']"
+                      hide-bottom-space
+                    />
+                    <q-input
+                      class="q-mt-xs"
+                      dense
+                      filled
+                      v-model="inputStudent.address3"
+                      label="Municipality:"
+                      style="width: 24rem; font-size: smaller"
+                      lazy-rules
+                      :rules="[(val) => (val && val.length > 0) || 'Please Input your Municipality']"
+                      hide-bottom-space
+                    />
+                    <q-input
+                      class="q-mt-xs"
+                      dense
+                      filled
+                      v-model="inputStudent.address2"
+                      label="Barangay:"
+                      style="width: 24rem; font-size: smaller"
+                      lazy-rules
+                      :rules="[(val) => (val && val.length > 0) || 'Please Input your Barangay']"
+                      hide-bottom-space
+                    />
+                    <q-input
+                      class="q-mt-xs"
+                      dense
+                      filled
+                      v-model="inputStudent.address1"
+                      label="Street:"
+                      style="width: 24rem; font-size: smaller"
+                      lazy-rules
+                      :rules="[(val) => (val && val.length > 0) || 'Please Input your Street']"
+                      hide-bottom-space
+                    />
+                  </q-card-section>
                 </q-expansion-item>
               </div>
             </div>
@@ -183,14 +215,28 @@
                 rounded
                 dense
                 no-caps
-                class="text-white q-mt-md"
+                outline
+                class="text-#BE282D q-ma-md"
+                style="height: 1.5rem; width: 6rem; font-size: smaller"
+                color="primary"
+                label="reset"
+                type="reset"
+              />
+              <q-btn
+                :ripple="false"
+                unelevated
+                rounded
+                dense
+                no-caps
+                class="text-white q-ma-md"
                 style="height: 1.5rem; width: 6rem; font-size: smaller"
                 color="primary"
                 label="create"
-                @click="createStudent()"
+                type="submit"
               />
             </div>
           </q-card-section>
+          </q-form>
         </q-tab-panel>
       </q-tab-panels>
 
@@ -200,6 +246,7 @@
           <q-card-section class="q-py-xs row items-center justify-evenly">
             <q-icon class="mbi-home" size="4rem" color="primary" />
           </q-card-section>
+          <q-form @submit="createLandlord()" @reset="resetModel()" greedy>
           <q-card-section>
             <div class="q-gutter-y-sm column flex flex-center">
               <q-input
@@ -208,6 +255,9 @@
                 v-model="inputLandlord.fName"
                 placeholder="Firstname"
                 style="width: 25rem; font-size: smaller"
+                lazy-rules
+                :rules="[(val) => (val && val.length > 0) || 'Please Input your FirstName']"
+                hide-bottom-space
               />
 
               <q-input
@@ -216,6 +266,9 @@
                 v-model="inputLandlord.lName"
                 placeholder="Lastname"
                 style="width: 25rem; font-size: smaller"
+                lazy-rules
+                :rules="[(val) => (val && val.length > 0) || 'Please Input your LastName']"
+                hide-bottom-space
               />
 
               <q-input
@@ -224,6 +277,9 @@
                 v-model="inputLandlord.username"
                 placeholder="Username"
                 style="width: 25rem; font-size: smaller"
+                lazy-rules
+                :rules="[(val) => (val && val.length > 0) || 'Please Input your Username']"
+                hide-bottom-space
               />
 
               <q-input
@@ -231,9 +287,20 @@
                 filled
                 v-model="inputLandlord.password"
                 placeholder="Password"
-                type="password"
                 style="width: 25rem; font-size: smaller"
-              />
+                lazy-rules
+                :rules="[(val) => (val && val.length > 0) || 'Please Input your Password']"
+                hide-bottom-space
+                :type="isPwd ? 'password' : 'text'"
+              >
+                <template v-slot:append>
+                   <q-icon
+                        :name="isPwd ? 'visibility_off' : 'visibility '"
+                        class="cursor-pointer"
+                       @click="isPwd = !isPwd"
+                   />
+                </template>
+              </q-input>
 
               <q-input
                 dense
@@ -241,6 +308,9 @@
                 v-model="inputLandlord.email"
                 placeholder="E-mail"
                 style="width: 25rem; font-size: smaller"
+                lazy-rules
+                :rules="[(val) => (val && val.length > 0) || 'Please Input your Email']"
+                hide-bottom-space
               />
 
               <div style="max-width: 25rem">
@@ -252,43 +322,51 @@
                 >
                   <q-card>
                     <q-card-section class="q-py-xs">
-                      <q-select
-                        class="q-mt-xs"
-                        v-model="inputLandlord.address4"
-                        :options="Province"
-                        dense
-                        filled
-                        label="Province:"
-                        style="width: 24rem; font-size: smaller"
-                      />
-                      <q-select
-                        class="q-mt-xs"
-                        v-model="inputLandlord.address3"
-                        :options="Municipality"
-                        dense
-                        filled
-                        label="Municipality:"
-                        style="width: 24rem; font-size: smaller"
-                      />
-                      <q-select
-                        class="q-mt-xs"
-                        v-model="inputLandlord.address2"
-                        :options="Barangay"
-                        dense
-                        filled
-                        label="Barangay:"
-                        style="width: 24rem; font-size: smaller"
-                      />
-                      <q-select
-                        class="q-mt-xs"
-                        v-model="inputLandlord.address1"
-                        :options="Street"
-                        dense
-                        filled
-                        label="Street:"
-                        style="width: 24rem; font-size: smaller"
-                      />
-                    </q-card-section>
+                    <q-input
+                      class="q-mt-xs"
+                      dense
+                      filled
+                      v-model="inputLandlord.address4"
+                      label="Province:"
+                      style="width: 24rem; font-size: smaller"
+                      lazy-rules
+                      :rules="[(val) => (val && val.length > 0) || 'Please Input your Province']"
+                       hide-bottom-space
+                    />
+                    <q-input
+                      class="q-mt-xs"
+                      dense
+                      filled
+                      v-model="inputLandlord.address3"
+                      label="Municipality:"
+                      style="width: 24rem; font-size: smaller"
+                      lazy-rules
+                      :rules="[(val) => (val && val.length > 0) || 'Please Input your Municipality']"
+                       hide-bottom-space
+                    />
+                    <q-input
+                      class="q-mt-xs"
+                      dense
+                      filled
+                      v-model="inputLandlord.address2"
+                      label="Barangay:"
+                      style="width: 24rem; font-size: smaller"
+                      lazy-rules
+                      :rules="[(val) => (val && val.length > 0) || 'Please Input your Barangay']"
+                       hide-bottom-space
+                    />
+                    <q-input
+                      class="q-mt-xs"
+                      dense
+                      filled
+                      v-model="inputLandlord.address1"
+                      label="Street:"
+                      style="width: 24rem; font-size: smaller"
+                      lazy-rules
+                      :rules="[(val) => (val && val.length > 0) || 'Please Input your Street']"
+                       hide-bottom-space
+                    />
+                  </q-card-section>
                   </q-card>
                 </q-expansion-item>
               </div>
@@ -300,14 +378,28 @@
                 rounded
                 dense
                 no-caps
-                class="text-white q-mt-md"
+                outline
+                class="text-#BE282D q-ma-md"
+                style="height: 1.5rem; width: 6rem; font-size: smaller"
+                color="primary"
+                label="reset"
+                type="reset"
+              />
+              <q-btn
+                :ripple="false"
+                unelevated
+                rounded
+                dense
+                no-caps
+                class="text-white q-ma-md"
                 style="height: 1.5rem; width: 6rem; font-size: smaller"
                 color="primary"
                 label="create"
-                @click="createLandlord()"
+                type="submit"
               />
             </div>
           </q-card-section>
+          </q-form>
         </q-tab-panel>
       </q-tab-panels>
     </q-card>
@@ -338,6 +430,7 @@ export default class AccountsCreateForm extends Vue {
   deleteAccount!: (payload: UserDto) => Promise<void>;
   getAllUser!: () => Promise<void>;
   allAccount!: UserDto[];
+  isPwd = true;
 
   tab = "student";
   Department: any[] = [];
@@ -418,24 +511,6 @@ export default class AccountsCreateForm extends Vue {
     }
   }
 
-  Year = [
-    "1st Year College",
-    "2nd Year College",
-    "3rd Year College",
-    "4th Year College",
-  ];
-
-  //Address Choices Info
-
-  Province = ["Lanao Del Sur"];
-
-  Municipality = ["Marawi City"];
-
-  Barangay = ["MSU - Marawi"];
-
-  Street = ["5th Street", "4th Street"];
-
-  addNewAccount = false;
   //Functions for adding newStudentsAccount
 
   inputStudent: any = {
@@ -529,21 +604,20 @@ export default class AccountsCreateForm extends Vue {
 
   async createStudent() {
     await this.addAccount(this.inputStudent);
-    this.addNewAccount = false;
-    this.resetModel();
+    // this.resetModel();
     this.$q.notify({
       type: "positive",
-      message: "Successfully Adeded.",
+      message: "Successfully Added.",
     });
+
   }
 
   async createLandlord() {
     await this.addAccount(this.inputLandlord);
-    this.addNewAccount = false;
-    this.resetModel();
+    // this.resetModel();
     this.$q.notify({
       type: "positive",
-      message: "Successfully Adeded.",
+      message: "Successfully Added.",
     });
   }
 }
