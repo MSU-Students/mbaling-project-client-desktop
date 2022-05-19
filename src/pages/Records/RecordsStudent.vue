@@ -240,6 +240,12 @@ export default class RecordsStudent extends Vue {
       field: "address3",
     },
     { name: "address4", align: "center", label: "PROVINCE", field: "address4" },
+    {
+      name: "gender",
+      align: "center",
+      label: "GENDER",
+      field: "gender",
+    },
   ];
 }
 </script>
