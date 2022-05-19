@@ -620,20 +620,19 @@ export default class AccountsCreateForm extends Vue {
           textColor: "primary",
           type: 'positive',
           classes: "defaultfont",
-          message: 'Account Created',
+          message: 'Student Created',
         });
   }
 
   async createLandlord() {
     await this.addAccount(this.inputLandlord);
-    // this.resetModel();
     this.$q.notify({
           position: 'bottom',
           color: "secondary",
           textColor: "primary",
           type: 'positive',
           classes: "defaultfont",
-          message: 'Account Created',
+          message: 'Landlord Created',
         });
   }
 }

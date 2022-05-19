@@ -488,6 +488,69 @@ export default class LogsPage extends Vue {
     await this.getAllUser();
   }
 
+  currentInfo: any = {
+    fName: "",
+    lName: "",
+    type: "",
+    email: "",
+    birthdate: "",
+    degree: "",
+    department: "",
+    college: "",
+    contact: "",
+    gender: "",
+    address1: "",
+    address2: "",
+    address3: "",
+    address4: "",
+    housingunit: "",
+    status: "active",
+    year: "",
+  };
+
+
+  onShowClick(res: any) {
+    this.displayInfo = true;
+    this.currentInfo = res;
+  }
+
+// Edit Function for Student Courses
+  editStudentCourse = false;
+
+  async onSaveEditStudent(){
+    await this.editAccount(this.currentInfo);
+    this.editStudentCourse = false;
+    this.$q.notify({
+          position: 'bottom',
+          color: "secondary",
+          textColor: "primary",
+          type: 'positive',
+          classes: "defaultfont",
+          message: 'Account Updated',
+        });
+  }
+  async OpenEditStudent(){
+    this.editStudentCourse = true;
+    this.currentInfo = {...this.currentInfo}
+  }
+
+// Search Funtion
+
+  searchResultUser: Users[] = [];
+
+  searchAction() {
+    const resultUsers = this.allAccount.filter(
+      (user) =>
+        user.fName.toLowerCase().includes(this.search.toLowerCase()) ||
+        user.lName.toLowerCase().includes(this.search.toLowerCase())
+    );
+    console.log(resultUsers);
+    this.searchResultUser = resultUsers;
+  }
+
+  clearSearch() {
+    this.search = "";
+  }
   Department: any[] = [];
   Degree: any[] = [];
 
@@ -564,70 +627,6 @@ export default class LogsPage extends Vue {
         "Bachelor of Science in International Relations",
       ]);
     }
-  }
-
-  currentInfo: any = {
-    fName: "",
-    lName: "",
-    type: "",
-    email: "",
-    birthdate: "",
-    degree: "",
-    department: "",
-    college: "",
-    contact: "",
-    gender: "",
-    address1: "",
-    address2: "",
-    address3: "",
-    address4: "",
-    housingunit: "",
-    status: "active",
-    year: "",
-  };
-
-
-  onShowClick(res: any) {
-    this.displayInfo = true;
-    this.currentInfo = res;
-  }
-
-// Edit Function for Student Courses
-  editStudentCourse = false;
-
-  async onSaveEditStudent(){
-    await this.editAccount(this.currentInfo);
-    this.editStudentCourse = false;
-    this.$q.notify({
-          position: 'bottom',
-          color: "secondary",
-          textColor: "primary",
-          type: 'positive',
-          classes: "defaultfont",
-          message: 'Account Updated',
-        });
-  }
-  async OpenEditStudent(){
-    this.editStudentCourse = true;
-    this.currentInfo = {...this.currentInfo}
-  }
-
-// Search Funtion
-
-  searchResultUser: Users[] = [];
-
-  searchAction() {
-    const resultUsers = this.allAccount.filter(
-      (user) =>
-        user.fName.toLowerCase().includes(this.search.toLowerCase()) ||
-        user.lName.toLowerCase().includes(this.search.toLowerCase())
-    );
-    console.log(resultUsers);
-    this.searchResultUser = resultUsers;
-  }
-
-  clearSearch() {
-    this.search = "";
   }
 }
 </script>
