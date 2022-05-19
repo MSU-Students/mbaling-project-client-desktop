@@ -68,7 +68,7 @@
               class="defaultfont-bold text-uppercase"
               style="font-size: medium"
             >
-              {{ currentUser.fName }} {{ currentUser.mName.charAt(0) }}.
+              {{ currentUser.fName }} {{ currentUser.mName }}.
               {{ currentUser.lName }}
             </span>
             <div>
@@ -102,6 +102,15 @@
             <q-avatar class="q-my-md" size="8rem">
            <q-img :src="`http://localhost:3000/media/${currentUser.prfphoto}`" />
           </q-avatar>
+          <div class="q-mt-sm q-px-xl">
+         <q-file
+          outlined
+          label="Upload Image"
+          accept=".jpg, image/*"
+          v-model="imageAttachement"
+        >
+        </q-file>
+      </div>
 
           </div>
         </q-card-section>
@@ -225,7 +234,7 @@
           style="height: 1.5rem; width: 6rem; font-size: smaller"
           color="primary"
           label="save"
-          @click="onSave()"
+          @click="onSaveAdminAccount()"
           v-close-popup
           />
         </div>
@@ -254,6 +263,7 @@
 </template>
 
 <script lang="ts">
+import { MediaDto, UserDto } from "src/services/rest-api";
 import { AUser } from "src/store/auth/state";
 import { Options, Vue } from "vue-class-component";
 import { mapActions, mapState } from "vuex";
@@ -261,6 +271,8 @@ import { mapActions, mapState } from "vuex";
 @Options({
   methods: {
     ...mapActions("auth", ["authUser"]),
+     ...mapActions("account", ["editAccount", "getAllUser"]),
+     ...mapActions("media", ["uploadMedia"]),
   },
   computed: {
     ...mapState("auth", ["currentUser"]),
@@ -268,17 +280,34 @@ import { mapActions, mapState } from "vuex";
 })
 
 export default class MainLayout extends Vue {
+
+  editAccount!: (payload: UserDto) => Promise<void>;
+  uploadMedia!: (payload: File) => Promise<MediaDto>;
+  authUser!: () => Promise<void>;
+  currentUser!: any;
+
+  imageAttachement: File[] | File = [];
   rightDrawerOpen = false;
   isPwd = true;
-
-  authUser!: () => Promise<void>;
-  currentUser!: AUser;
-
+  editAdminProfile = false;
 
   async mounted() {
     await this.authUser();
   }
 
+    async onSaveAdminAccount() {
+    const media = await this.uploadMedia(this.imageAttachement as File);
+    await this.editAccount({...this.currentUser, prfphoto: media.id});
+    this.editAdminProfile = false;
+    this.$q.notify({
+          position: 'bottom',
+          color: "secondary",
+          textColor: "primary",
+          type: 'positive',
+          classes: "defaultfont",
+          message: 'Account Updated',
+        });
+  }
   async toggleRightDrawer() {
     this.rightDrawerOpen = !this.rightDrawerOpen;
   }

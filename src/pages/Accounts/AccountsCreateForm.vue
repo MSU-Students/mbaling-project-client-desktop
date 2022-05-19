@@ -626,6 +626,7 @@ export default class AccountsCreateForm extends Vue {
 
   async createLandlord() {
     await this.addAccount(this.inputLandlord);
+    window.location.reload();
     this.$q.notify({
           position: 'bottom',
           color: "secondary",
