@@ -59,22 +59,22 @@
 
         <div class="q-mt-xl flex-center text-center text-primary">
           <q-avatar class="q-mt-xl q-ma-md" size="8rem">
-            <img :src="admin.prfphoto" />
+            <q-img :src="`http://localhost:3000/media/${currentUser.prfphoto}`" />
           </q-avatar>
 
           <div>
-            <p style="font-size: small">@{{ admin.username }}</p>
+            <p style="font-size: small">@{{ currentUser.username }}</p>
             <span
               class="defaultfont-bold text-uppercase"
               style="font-size: medium"
             >
-              {{ admin.firstname }} {{ admin.middlename.charAt(0) }}.
-              {{ admin.lastname }}
+              {{ currentUser.fName }} {{ currentUser.mName.charAt(0) }}.
+              {{ currentUser.lName }}
             </span>
             <div>
               <p style="font-size: smaller; line-height: 0.85rem">
-                {{ admin.position }} <br />
-                {{ admin.office }}
+                {{ currentUser.position }} <br />
+                {{ currentUser.office }}
               </p>
             </div>
           </div>
@@ -100,7 +100,7 @@
         <q-card-section>
           <div class="flex flex-center">
             <q-avatar class="q-my-md" size="8rem">
-            <img :src="admin.prfphoto" />
+           <q-img :src="`http://localhost:3000/media/${currentUser.prfphoto}`" />
           </q-avatar>
 
           </div>
@@ -110,7 +110,7 @@
           <q-input
                 dense
                 filled
-                v-model="admin.firstname"
+                v-model="currentUser.fName"
                 stack-label
                 label="FirstName:"
                 placeholder="Firstname"
@@ -122,7 +122,7 @@
           <q-input
                 dense
                 filled
-                v-model="admin.lastname"
+                v-model="currentUser.lName"
                 stack-label
                 label="LastName:"
                 placeholder="LastName"
@@ -134,7 +134,7 @@
           <q-input
                 dense
                 filled
-                v-model="admin.middlename"
+                v-model="currentUser.mName"
                 stack-label
                 label="MiddleName:"
                 placeholder="MiddleName"
@@ -146,7 +146,7 @@
           <q-input
                 dense
                 filled
-                v-model="admin.username"
+                v-model="currentUser.username"
                 stack-label
                 label="UserName:"
                 placeholder="UserName"
@@ -158,7 +158,7 @@
           <q-input
                 dense
                 filled
-                v-model="admin.password"
+                v-model="currentUser.password"
                 placeholder="Password"
                 style="width: 25rem; font-size: smaller"
                 lazy-rules
@@ -176,7 +176,7 @@
               </q-input>
           <q-select
                 class="q-mt-xs"
-                v-model="admin.position"
+                v-model="currentUser.position"
                 :options="Position"
                 dense
                 filled
@@ -188,7 +188,7 @@
               />
           <q-select
                 class="q-mt-xs"
-                v-model="admin.office"
+                v-model="currentUser.office"
                 :options="Office"
                 dense
                 filled
@@ -254,35 +254,34 @@
 </template>
 
 <script lang="ts">
-import { Vue } from "vue-class-component";
+import { AUser } from "src/store/auth/state";
+import { Options, Vue } from "vue-class-component";
+import { mapActions, mapState } from "vuex";
 
-interface Iadmin {
-  username: string;
-  prfphoto: string;
-  firstname: string;
-  middlename: string;
-  lastname: string;
-  position: string;
-  office: string;
-}
+@Options({
+  methods: {
+    ...mapActions("auth", ["authUser"]),
+  },
+  computed: {
+    ...mapState("auth", ["currentUser"]),
+  },
+})
 
 export default class MainLayout extends Vue {
   rightDrawerOpen = false;
   isPwd = true;
 
+  authUser!: () => Promise<void>;
+  currentUser!: AUser;
+
+
+  async mounted() {
+    await this.authUser();
+  }
+
   async toggleRightDrawer() {
     this.rightDrawerOpen = !this.rightDrawerOpen;
   }
-
-  admin: Iadmin = {
-    username: "admin_hmd",
-    prfphoto: "https://cdn.quasar.dev/img/avatar3.jpg",
-    firstname: "Strygwyr",
-    middlename: "Sand",
-    lastname: "Martell",
-    position: "Secretary",
-    office: "Housing Management Division",
-  };
 
 // Edit Profile
 Dialog = false;

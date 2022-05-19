@@ -425,9 +425,9 @@ import { UserDto } from "src/services/rest-api";
   },
 })
 export default class AccountsCreateForm extends Vue {
-  addAccount!: (payload: UserDto) => Promise<void>;
-  editAccount!: (payload: UserDto) => Promise<void>;
-  deleteAccount!: (payload: UserDto) => Promise<void>;
+  addAccount!: (payload: any) => Promise<void>;
+  editAccount!: (payload: any) => Promise<void>;
+  deleteAccount!: (payload: any) => Promise<void>;
   getAllUser!: () => Promise<void>;
   allAccount!: UserDto[];
   isPwd = true;
@@ -556,6 +556,8 @@ export default class AccountsCreateForm extends Vue {
     address3: "",
     address4: "",
     housingunit: "",
+    chatLink: "",
+    mapLink: "",
     profile: 0,
   };
 
@@ -579,6 +581,8 @@ export default class AccountsCreateForm extends Vue {
       address3: "",
       address4: "",
       housingunit: "",
+      chatLink: "",
+      mapLink: "",
       profile: "",
     };
     this.inputLandlord = {
@@ -600,6 +604,8 @@ export default class AccountsCreateForm extends Vue {
       address3: "",
       address4: "",
       housingunit: "",
+      chatLink: "",
+      mapLink: "",
       profile: "",
     };
   }
@@ -607,6 +613,7 @@ export default class AccountsCreateForm extends Vue {
   async createStudent() {
    await this.addAccount(this.inputStudent);
     this.addNewAccount = false;
+    window.location.reload();
      this.$q.notify({
           position: 'bottom',
           color: "secondary",
