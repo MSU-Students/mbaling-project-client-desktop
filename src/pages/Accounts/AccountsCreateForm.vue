@@ -313,7 +313,7 @@
                 hide-bottom-space
               />
 
-              <div style="max-width: 25rem">
+              <!-- <div style="max-width: 25rem">
                 <q-expansion-item
                   header-class="bg-grey-3 text-grey-7"
                   dense
@@ -369,7 +369,7 @@
                   </q-card-section>
                   </q-card>
                 </q-expansion-item>
-              </div>
+              </div> -->
             </div>
             <div class="flex flex-center">
               <q-btn
@@ -613,7 +613,6 @@ export default class AccountsCreateForm extends Vue {
   async createStudent() {
    await this.addAccount(this.inputStudent);
     this.addNewAccount = false;
-    window.location.reload();
      this.$q.notify({
           position: 'bottom',
           color: "secondary",
@@ -622,11 +621,12 @@ export default class AccountsCreateForm extends Vue {
           classes: "defaultfont",
           message: 'Student Created',
         });
+        window.location.reload();
   }
 
   async createLandlord() {
     await this.addAccount(this.inputLandlord);
-    window.location.reload();
+
     this.$q.notify({
           position: 'bottom',
           color: "secondary",
@@ -635,6 +635,7 @@ export default class AccountsCreateForm extends Vue {
           classes: "defaultfont",
           message: 'Landlord Created',
         });
+         window.location.reload();
   }
 }
 </script>
