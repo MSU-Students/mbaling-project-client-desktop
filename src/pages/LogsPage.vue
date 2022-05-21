@@ -41,11 +41,13 @@
             style="height: 3rem"
             @click="onShowClick(result)"
           >
-            <q-item-section avatar>
-              <q-avatar size="xl">
-                <q-img
+            <q-item-section class="q-pb-md" avatar>
+              <q-avatar size="lg">
+                <q-img v-if="result.prfphoto" class="avatar q-pt-none q-mt-none"
                   :src="`http://localhost:3000/media/${result.prfphoto}`"
                 />
+                <img v-if="!result.prfphoto" class="avatar q-pt-none q-mt-none" src="https://i.postimg.cc/FzcjmLj3/LOGO.jpg" />
+
               </q-avatar>
             </q-item-section>
           <div class="col">
@@ -55,7 +57,7 @@
                 class="defaultfont-semibold"
                 style="font-size: medium"
               >
-                {{ result.fName }}
+                {{ result.lName }} {{ result.fName }}
               </q-item-label>
               <q-item-label lines="1" style="font-size: small">
                 <p>@{{ result.username }}</p>
@@ -78,7 +80,10 @@
           <div class="col">
             <div class="flex flex-center">
               <q-avatar size="12rem" color="primary" text-color="secondary">
-                S
+                <q-img v-if="currentInfo.prfphoto" class="avatar q-pt-none q-mt-none"
+                  :src="`http://localhost:3000/media/${currentInfo.prfphoto}`"
+                />
+                <img v-if="!currentInfo.prfphoto" class="avatar q-pt-none q-mt-none" src="https://i.postimg.cc/FzcjmLj3/LOGO.jpg" />
               </q-avatar>
             </div>
             <div class="defaultfont">
@@ -299,7 +304,10 @@
           <div class="col">
             <div class="flex flex-center">
               <q-avatar size="12rem" color="primary" text-color="secondary">
-                L
+                <q-img v-if="currentInfo.prfphoto" class="avatar q-pt-none q-mt-none"
+                  :src="`http://localhost:3000/media/${currentInfo.prfphoto}`"
+                />
+                <img v-if="!currentInfo.prfphoto" class="avatar q-pt-none q-mt-none" src="https://i.postimg.cc/FzcjmLj3/LOGO.jpg" />
               </q-avatar>
             </div>
             <div class="defaultfont">
@@ -551,6 +559,7 @@ export default class LogsPage extends Vue {
   clearSearch() {
     this.search = "";
   }
+
   Department: any[] = [];
   Degree: any[] = [];
 
@@ -630,6 +639,14 @@ export default class LogsPage extends Vue {
   }
 }
 </script>
+<style>
+.avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50% !important;
+  border: 2px solid rgb(190, 40, 45) !important;
+}
+</style>
 
 
 

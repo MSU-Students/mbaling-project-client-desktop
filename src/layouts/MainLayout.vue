@@ -59,7 +59,13 @@
 
         <div class="q-mt-xl flex-center text-center text-primary">
           <q-avatar class="q-mt-xl q-ma-md" size="8rem">
-            <q-img :src="`http://localhost:3000/media/${currentUser.prfphoto}`" />
+            <!-- <q-img
+              :src="`http://localhost:3000/media/${currentUser.prfphoto}`"
+            /> -->
+            <q-img v-if="currentUser.prfphoto" class="avatar q-pt-none q-mt-none"
+                  :src="`http://localhost:3000/media/${currentUser.prfphoto}`"
+                />
+                <img v-if="!currentUser.prfphoto" class="avatar q-pt-none q-mt-none" src="https://i.postimg.cc/FzcjmLj3/LOGO.jpg" />
           </q-avatar>
 
           <div>
@@ -79,7 +85,7 @@
             </div>
           </div>
         </div>
-<!-- Edit Profile -->
+        <!-- Edit Profile -->
         <div class="q-mt-md flex flex-center">
           <q-btn
             label="edit"
@@ -95,28 +101,37 @@
           />
         </div>
 
-    <q-dialog v-model="Dialog" persistent>
-      <q-card style="width: 40rem;">
-        <q-card-section>
-          <div class="flex flex-center">
-            <q-avatar class="q-my-md" size="8rem">
-           <q-img :src="`http://localhost:3000/media/${currentUser.prfphoto}`" />
-          </q-avatar>
-          <div class="q-mt-sm q-px-xl">
-         <q-file
-          outlined
-          label="Upload Image"
-          accept=".jpg, image/*"
-          v-model="imageAttachement"
-        >
-        </q-file>
-      </div>
+        <q-dialog v-model="Dialog" persistent>
+          <q-card style="width: 40rem">
+            <q-card-section>
+              <div class="flex flex-center">
+                <q-avatar class="q-my-md" size="8rem">
+                  <!-- <q-img :src="`http://localhost:3000/media/${currentUser.prfphoto}`" /> -->
+                  <q-img
+                    v-if="currentUser.prfphoto"
+                    class="avatar q-pt-none q-mt-none"
+                    :src="`http://localhost:3000/media/${currentUser.prfphoto}`"
+                  />
+                  <img
+                    v-if="!currentUser.prfphoto"
+                    class="avatar q-pt-none q-mt-none"
+                    src="https://i.postimg.cc/FzcjmLj3/LOGO.jpg"
+                  />
+                </q-avatar>
+                <div class="q-mt-sm q-px-xl">
+                  <q-file
+                    outlined
+                    label="Upload Image"
+                    accept=".jpg, image/*"
+                    v-model="imageAttachement"
+                  >
+                  </q-file>
+                </div>
+              </div>
+            </q-card-section>
 
-          </div>
-        </q-card-section>
-
-          <div class="q-gutter-y-sm column flex flex-center">
-          <q-input
+            <div class="q-gutter-y-sm column flex flex-center">
+              <q-input
                 dense
                 filled
                 v-model="currentUser.fName"
@@ -125,10 +140,13 @@
                 placeholder="Firstname"
                 style="width: 25rem; font-size: smaller"
                 lazy-rules
-                :rules="[(val) => (val && val.length > 0) || 'Please Input your FirstName']"
+                :rules="[
+                  (val) =>
+                    (val && val.length > 0) || 'Please Input your FirstName',
+                ]"
                 hide-bottom-space
               />
-          <q-input
+              <q-input
                 dense
                 filled
                 v-model="currentUser.lName"
@@ -137,10 +155,13 @@
                 placeholder="LastName"
                 style="width: 25rem; font-size: smaller"
                 lazy-rules
-                :rules="[(val) => (val && val.length > 0) || 'Please Input your FirstName']"
+                :rules="[
+                  (val) =>
+                    (val && val.length > 0) || 'Please Input your FirstName',
+                ]"
                 hide-bottom-space
               />
-          <q-input
+              <q-input
                 dense
                 filled
                 v-model="currentUser.mName"
@@ -149,10 +170,13 @@
                 placeholder="MiddleName"
                 style="width: 25rem; font-size: smaller"
                 lazy-rules
-                :rules="[(val) => (val && val.length > 0) || 'Please Input your FirstName']"
+                :rules="[
+                  (val) =>
+                    (val && val.length > 0) || 'Please Input your FirstName',
+                ]"
                 hide-bottom-space
               />
-          <q-input
+              <q-input
                 dense
                 filled
                 v-model="currentUser.username"
@@ -161,29 +185,35 @@
                 placeholder="UserName"
                 style="width: 25rem; font-size: smaller"
                 lazy-rules
-                :rules="[(val) => (val && val.length > 0) || 'Please Input your FirstName']"
+                :rules="[
+                  (val) =>
+                    (val && val.length > 0) || 'Please Input your FirstName',
+                ]"
                 hide-bottom-space
               />
-          <q-input
+              <q-input
                 dense
                 filled
                 v-model="currentUser.password"
                 placeholder="Password"
                 style="width: 25rem; font-size: smaller"
                 lazy-rules
-                :rules="[(val) => (val && val.length > 0) || 'Please Input your Password']"
+                :rules="[
+                  (val) =>
+                    (val && val.length > 0) || 'Please Input your Password',
+                ]"
                 hide-bottom-space
                 :type="isPwd ? 'password' : 'text'"
               >
-              <template v-slot:append>
-                   <q-icon
-                        :name="isPwd ? 'visibility_off' : 'visibility '"
-                        class="cursor-pointer"
-                       @click="isPwd = !isPwd"
-                   />
+                <template v-slot:append>
+                  <q-icon
+                    :name="isPwd ? 'visibility_off' : 'visibility '"
+                    class="cursor-pointer"
+                    @click="isPwd = !isPwd"
+                  />
                 </template>
               </q-input>
-          <q-select
+              <q-select
                 class="q-mt-xs"
                 v-model="currentUser.position"
                 :options="Position"
@@ -192,10 +222,13 @@
                 label="Position:"
                 style="width: 25rem; font-size: smaller"
                 lazy-rules
-                :rules="[(val) => (val && val.length > 0) || 'Please Choose Your College']"
+                :rules="[
+                  (val) =>
+                    (val && val.length > 0) || 'Please Choose Your College',
+                ]"
                 hide-bottom-space
               />
-          <q-select
+              <q-select
                 class="q-mt-xs"
                 v-model="currentUser.office"
                 :options="Office"
@@ -204,44 +237,47 @@
                 label="Office:"
                 style="width: 25rem; font-size: smaller"
                 lazy-rules
-                :rules="[(val) => (val && val.length > 0) || 'Please Choose Your College']"
+                :rules="[
+                  (val) =>
+                    (val && val.length > 0) || 'Please Choose Your College',
+                ]"
                 hide-bottom-space
               />
-      </div>
+            </div>
 
-        <div class="flex flex-center defaultfont">
-          <q-btn
-          :ripple="false"
-          unelevated
-          rounded
-          dense
-          no-caps
-          outline
-          class="text-#BE282D q-ma-md"
-          style="height: 1.5rem; width: 6rem; font-size: smaller"
-          color="primary"
-          label="cancel"
-          v-close-popup
-          />
-          <q-btn
-          class="text-white q-my-md"
-          align="center"
-          :ripple="false"
-          unelevated
-          rounded
-          dense
-          no-caps
-          style="height: 1.5rem; width: 6rem; font-size: smaller"
-          color="primary"
-          label="save"
-          @click="onSaveAdminAccount()"
-          v-close-popup
-          />
-        </div>
-      </q-card>
-    </q-dialog>
+            <div class="flex flex-center defaultfont">
+              <q-btn
+                :ripple="false"
+                unelevated
+                rounded
+                dense
+                no-caps
+                outline
+                class="text-#BE282D q-ma-md"
+                style="height: 1.5rem; width: 6rem; font-size: smaller"
+                color="primary"
+                label="cancel"
+                v-close-popup
+              />
+              <q-btn
+                class="text-white q-my-md"
+                align="center"
+                :ripple="false"
+                unelevated
+                rounded
+                dense
+                no-caps
+                style="height: 1.5rem; width: 6rem; font-size: smaller"
+                color="primary"
+                label="save"
+                @click="onSaveAdminAccount()"
+                v-close-popup
+              />
+            </div>
+          </q-card>
+        </q-dialog>
 
-<!-- Logout Button -->
+        <!-- Logout Button -->
         <q-btn
           icon="bi-box-arrow-right"
           label="Logout"
@@ -271,16 +307,14 @@ import { mapActions, mapState } from "vuex";
 @Options({
   methods: {
     ...mapActions("auth", ["authUser"]),
-     ...mapActions("account", ["editAccount", "getAllUser"]),
-     ...mapActions("media", ["uploadMedia"]),
+    ...mapActions("account", ["editAccount", "getAllUser"]),
+    ...mapActions("media", ["uploadMedia"]),
   },
   computed: {
     ...mapState("auth", ["currentUser"]),
   },
 })
-
 export default class MainLayout extends Vue {
-
   editAccount!: (payload: UserDto) => Promise<void>;
   uploadMedia!: (payload: File) => Promise<MediaDto>;
   authUser!: () => Promise<void>;
@@ -295,39 +329,31 @@ export default class MainLayout extends Vue {
     await this.authUser();
   }
 
-    async onSaveAdminAccount() {
+  async onSaveAdminAccount() {
     const media = await this.uploadMedia(this.imageAttachement as File);
-    await this.editAccount({...this.currentUser, prfphoto: media.id});
+    await this.editAccount({ ...this.currentUser, prfphoto: media.id });
     this.editAdminProfile = false;
     this.$q.notify({
-          position: 'bottom',
-          color: "secondary",
-          textColor: "primary",
-          type: 'positive',
-          classes: "defaultfont",
-          message: 'Account Updated',
-        });
+      position: "bottom",
+      color: "secondary",
+      textColor: "primary",
+      type: "positive",
+      classes: "defaultfont",
+      message: "Account Updated",
+    });
   }
   async toggleRightDrawer() {
     this.rightDrawerOpen = !this.rightDrawerOpen;
   }
 
-// Edit Profile
-Dialog = false;
-async onShowDialog(){
-  this.Dialog = true;
-}
-async onSave(){
-}
-  Position = [
-    "Assistant Director",
-    "Secretary",
-    "Officer",
-  ];
-  Office = [
-    "Housing Management Division",
-  ]
-
+  // Edit Profile
+  Dialog = false;
+  async onShowDialog() {
+    this.Dialog = true;
+  }
+  async onSave() {}
+  Position = ["Assistant Director", "Secretary", "Officer"];
+  Office = ["Housing Management Division"];
 }
 </script>
 

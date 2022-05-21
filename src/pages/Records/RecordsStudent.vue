@@ -1,104 +1,115 @@
 <template>
   <q-layout view="hHh Lpr lff" container style="height: 40rem">
     <div class="row">
-    <div class="col-10">
-    <q-scroll-area style="height: 40rem">
-      <div>
-        <div class="q-pa-md q-gutter-sm row">
-          <q-input
-            outlined
-            color="primary"
-            rounded
-            dense
-            debounce="300"
-            v-model="search"
-            placeholder="Search"
-          >
-            <template v-slot:append>
-              <q-icon name="search" />
-            </template>
-          </q-input>
-        </div>
-        <q-table
-          class="cursor-pointer"
-          :rows="studentAccount"
-          :columns="columns"
-          row-key="number"
-          :rows-per-page-options="[0]"
-          :separator="separator"
-          :filter="search"
-          dense
-          hide-bottom
-        >
-          <template v-slot:body="props">
-            <q-tr :props="props">
-              <q-td
-                v-for="col in props.cols"
-                :key="col.name"
-                :props="props"
-                @click="onTableRowClick(props.row)"
+      <div class="col-10">
+        <q-scroll-area style="height: 40rem">
+          <div>
+            <div class="q-pa-md q-gutter-sm row">
+              <q-input
+                outlined
+                color="primary"
+                rounded
+                dense
+                debounce="300"
+                v-model="search"
+                placeholder="Search"
               >
-                {{ col.value }}
-              </q-td>
-            </q-tr>
-            <q-tr v-show="props.expand" :props="props">
-              <q-td colspan="100%">
-                <div class="text-left">
-                  This is expand slot for row above: {{ props.row.name }}.
-                </div>
-              </q-td>
-            </q-tr>
-          </template>
-        </q-table>
-      </div>
-    </q-scroll-area>
-    </div>
-
-    <div class="col-2">
-      <div>
-        <div
-        v-if="displayInfo"
-        class="q-mt-md flex-center text-center text-primary">
-          <q-avatar
-            class="q-mt-sm q-ma-md"
-            size="8rem"
-            color="primary"
-            text-color="secondary"
-          >
-            <!-- <img :src="student.prfphoto"/> -->
-            N
-          </q-avatar>
-          <div class="info-username defaultfont">
-            <p>@{{ currentStudent.username }}</p>
-            <span class="defaultfont-bold info-fullname text-uppercase">
-              {{ currentStudent.fName }} {{ currentStudent.mName }}
-              {{ currentStudent.lName }}
-            </span>
-            <p class="info-other defaultfont" style="font-size: x-small">
-              {{ currentStudent.username }} <br />
-              {{ currentStudent.degree }}, {{ currentStudent.yearAdmit }} <br />
-              {{ currentStudent.department }} <br />
-              {{ currentStudent.college }}
-            </p>
-            <p class="defaultfont" style="font-size: x-small">
-              {{ currentStudent.email }} <br />
-              {{ currentStudent.contact }} <br />
-              {{ currentStudent.birthdate }} <br />
-              {{ currentStudent.address1 }}, {{ currentStudent.address2 }}
-              <br />
-              {{ currentStudent.address3 }}, {{ currentStudent.address4 }} <br />
-              {{ currentStudent.housingunit }}
-            </p>
+                <template v-slot:append>
+                  <q-icon name="search" />
+                </template>
+              </q-input>
+            </div>
+            <q-table
+              class="cursor-pointer q-data-table"
+              :rows="studentAccount"
+              :columns="columns"
+              row-key="number"
+              :rows-per-page-options="[0]"
+              :separator="separator"
+              :filter="search"
+              dense
+              hide-bottom
+            >
+              <template v-slot:body="props">
+                <q-tr :props="props">
+                  <q-td
+                    v-for="col in props.cols"
+                    :key="col.name"
+                    :props="props"
+                    @click="onTableRowClick(props.row)"
+                  >
+                    {{ col.value }}
+                  </q-td>
+                </q-tr>
+                <q-tr v-show="props.expand" :props="props">
+                  <q-td colspan="100%">
+                    <div class="text-left">
+                      This is expand slot for row above: {{ props.row.name }}.
+                    </div>
+                  </q-td>
+                </q-tr>
+              </template>
+            </q-table>
           </div>
-        </div>
-        <q-page v-else class="row items-center justify-evenly">
-        <q-img
-          src="~assets/mbaling-logo-red.svg"
-          style="max-width: 10rem"
-        />
-      </q-page>
+        </q-scroll-area>
       </div>
-    </div>
+
+      <div class="col-2">
+        <div>
+          <div
+            v-if="displayInfo"
+            class="q-mt-md flex-center text-center text-primary"
+          >
+            <q-avatar
+              class="q-mt-sm q-ma-md"
+              size="8rem"
+              color="primary"
+              text-color="secondary"
+            >
+              <q-img
+                v-if="currentStudent.prfphoto"
+                class="avatar q-pt-none q-mt-none"
+                :src="`http://localhost:3000/media/${currentStudent.prfphoto}`"
+              />
+              <img
+                v-if="!currentStudent.prfphoto"
+                class="avatar q-pt-none q-mt-none"
+                src="https://i.postimg.cc/FzcjmLj3/LOGO.jpg"
+              />
+            </q-avatar>
+            <div class="info-username defaultfont">
+              <p>@{{ currentStudent.username }}</p>
+              <span class="defaultfont-bold info-fullname text-uppercase">
+                {{ currentStudent.fName }} {{ currentStudent.mName }}
+                {{ currentStudent.lName }}
+              </span>
+              <p class="info-other defaultfont" style="font-size: x-small">
+                {{ currentStudent.username }} <br />
+                {{ currentStudent.degree }}, {{ currentStudent.yearAdmit }}
+                <br />
+                {{ currentStudent.department }} <br />
+                {{ currentStudent.college }}
+              </p>
+              <p class="defaultfont" style="font-size: x-small">
+                {{ currentStudent.email }} <br />
+                {{ currentStudent.contact }} <br />
+                {{ currentStudent.birthdate }} <br />
+                {{ currentStudent.address1 }}, {{ currentStudent.address2 }}
+                <br />
+                {{ currentStudent.address3 }}, {{ currentStudent.address4 }}
+                <br />
+                {{ currentStudent.housingunit }}
+              </p>
+            </div>
+          </div>
+          <q-page v-else class="row items-center justify-evenly">
+            <q-img
+              src="~assets/mbaling-logo-red.svg"
+              style="max-width: 10rem"
+            />
+          </q-page>
+        </div>
+      </div>
     </div>
   </q-layout>
 </template>
@@ -131,7 +142,6 @@ export default class RecordsStudent extends Vue {
   id = 0;
   search = "";
 
-
   onTableRowClick(data: Users) {
     this.currentStudent = data;
     this.displayInfo = true;
@@ -154,7 +164,7 @@ export default class RecordsStudent extends Vue {
     address3: "",
     address4: "",
     housingunit: "",
-    status: "active"
+    status: "active",
   };
 
   currentStudent = { ...this.defaultStudent };
@@ -164,13 +174,13 @@ export default class RecordsStudent extends Vue {
     console.log(this.studentAccount);
   }
   columns = [
-   {
-      name: 'id',
+    {
+      name: "id",
       required: true,
-      label: 'STUDENT ID',
-      align: 'left',
-      field:  'id',
-      sortable: true
+      label: "STUDENT ID",
+      align: "center",
+      field: "id",
+      sortable: true,
     },
     {
       name: "username",
@@ -197,28 +207,71 @@ export default class RecordsStudent extends Vue {
       field: "mName",
     },
     {
+      name: "gender",
+      align: "center",
+      label: "GENDER",
+      field: "gender",
+    },
+    {
       name: "degree",
       align: "center",
       label: "DEGREE",
       field: "degree",
     },
     {
-      name: "type",
-      align: "center",
-      label: "Types",
-      field: "type",
-    },
-
-    { name: "contact", align: "center", label: "Contact", field: "contact" },
-    {
       name: "department",
       align: "center",
       label: "DEPARTMENT",
       field: "department",
     },
-    { name: "college", align: "center", label: "COLLEGE", field: "college" },
-    { name: "email", align: "center", label: "EMAIL", field: "email" },
-    { name: "yearAdmit", align: "center", label: "YEAR", field: "yearAdmit" },
+    {
+      name: "college",
+      align: "center",
+      label: "COLLEGE",
+      field: "college"
+    },
+    {
+      name: "yearAdmit",
+      align: "center",
+      label: "YEAR ADMIT",
+      field: "yearAdmit"
+    },
+    {
+      name: "address1",
+      align: "center",
+      label: "STREET",
+      field: "address1"
+    },
+    {
+      name: "address2",
+      align: "center",
+      label: "BARANGAY",
+      field: "address2"
+    },
+    {
+      name: "address3",
+      align: "center",
+      label: "MUNICIPALITY",
+      field: "address3",
+    },
+    {
+      name: "address4",
+      align: "center",
+      label: "PROVINCE",
+      field: "address4"
+    },
+    {
+      name: "housingunit",
+      align: "center",
+      label: "HOUSING UNIT",
+      field: "housingunit",
+    },
+    {
+      name: "email",
+      align: "center",
+      label: "EMAIL",
+      field: "email"
+    },
     {
       name: "contact",
       align: "center",
@@ -231,22 +284,18 @@ export default class RecordsStudent extends Vue {
       label: "BIRTHDATE",
       field: "birthdate",
     },
-    { name: "address1", align: "center", label: "STREET", field: "address1" },
-    { name: "address2", align: "center", label: "BARANGAY", field: "address2" },
-    {
-      name: "address3",
-      align: "center",
-      label: "MUNICIPALITY",
-      field: "address3",
-    },
-    { name: "address4", align: "center", label: "PROVINCE", field: "address4" },
-    {
-      name: "gender",
-      align: "center",
-      label: "GENDER",
-      field: "gender",
-    },
   ];
 }
 </script>
+<style>
+.avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50% !important;
+  border: 2px solid rgb(190, 40, 45) !important;
+}
+.q-data-table td {
+  text-align: left;
+}
+</style>
 
