@@ -97,7 +97,7 @@
             color="primary"
             text-color="white"
             style="height: 1.5rem; width: 5rem; font-size: smaller"
-            @click="onShowDialog()"
+            @click="onShowDialog(currentUser)"
           />
         </div>
 
@@ -108,12 +108,12 @@
                 <q-avatar class="q-my-md" size="8rem">
                   <!-- <q-img :src="`http://localhost:3000/media/${currentUser.prfphoto}`" /> -->
                   <q-img
-                    v-if="currentUser.prfphoto"
+                    v-if="inputAccount.prfphoto"
                     class="avatar q-pt-none q-mt-none"
-                    :src="`http://localhost:3000/media/${currentUser.prfphoto}`"
+                    :src="`http://localhost:3000/media/${inputAccount.prfphoto}`"
                   />
                   <img
-                    v-if="!currentUser.prfphoto"
+                    v-if="!inputAccount.prfphoto"
                     class="avatar q-pt-none q-mt-none"
                     src="https://i.postimg.cc/FzcjmLj3/LOGO.jpg"
                   />
@@ -134,7 +134,7 @@
               <q-input
                 dense
                 filled
-                v-model="currentUser.fName"
+                v-model="inputAccount.fName"
                 stack-label
                 label="FirstName:"
                 placeholder="Firstname"
@@ -149,7 +149,7 @@
               <q-input
                 dense
                 filled
-                v-model="currentUser.lName"
+                v-model="inputAccount.lName"
                 stack-label
                 label="LastName:"
                 placeholder="LastName"
@@ -164,7 +164,7 @@
               <q-input
                 dense
                 filled
-                v-model="currentUser.mName"
+                v-model="inputAccount.mName"
                 stack-label
                 label="MiddleName:"
                 placeholder="MiddleName"
@@ -179,7 +179,7 @@
               <q-input
                 dense
                 filled
-                v-model="currentUser.username"
+                v-model="inputAccount.username"
                 stack-label
                 label="UserName:"
                 placeholder="UserName"
@@ -194,7 +194,7 @@
               <q-input
                 dense
                 filled
-                v-model="currentUser.password"
+                v-model="inputAccount.password"
                 placeholder="Password"
                 style="width: 25rem; font-size: smaller"
                 lazy-rules
@@ -215,7 +215,7 @@
               </q-input>
               <q-select
                 class="q-mt-xs"
-                v-model="currentUser.position"
+                v-model="inputAccount.position"
                 :options="Position"
                 dense
                 filled
@@ -230,7 +230,7 @@
               />
               <q-select
                 class="q-mt-xs"
-                v-model="currentUser.office"
+                v-model="inputAccount.office"
                 :options="Office"
                 dense
                 filled
@@ -329,9 +329,32 @@ export default class MainLayout extends Vue {
     await this.authUser();
   }
 
+  async toggleRightDrawer() {
+    this.rightDrawerOpen = !this.rightDrawerOpen;
+  }
+
+  inputAccount: any = {
+    prfphoto: 0,
+    fName: "",
+    lName: "",
+    mName: "",
+    username: "",
+    password: "",
+    position: "",
+    office: "",
+  }
+
+  // Edit Profile
+  Dialog = false;
+  async onShowDialog(val: AUser) {
+    this.Dialog = true;
+    this.inputAccount = {...val}
+  }
+
   async onSaveAdminAccount() {
-    const media = await this.uploadMedia(this.imageAttachement as File);
-    await this.editAccount({ ...this.currentUser, prfphoto: media.id });
+    // const media = await this.uploadMedia(this.imageAttachement as File);
+    // await this.editAccount({ ...this.inputAccount, prfphoto: media.id });
+    await this.editAccount(this.inputAccount)
     this.editAdminProfile = false;
     this.$q.notify({
       position: "bottom",
@@ -341,17 +364,9 @@ export default class MainLayout extends Vue {
       classes: "defaultfont",
       message: "Account Updated",
     });
-  }
-  async toggleRightDrawer() {
-    this.rightDrawerOpen = !this.rightDrawerOpen;
+    window.location.reload();
   }
 
-  // Edit Profile
-  Dialog = false;
-  async onShowDialog() {
-    this.Dialog = true;
-  }
-  async onSave() {}
   Position = ["Assistant Director", "Secretary", "Officer"];
   Office = ["Housing Management Division"];
 }
