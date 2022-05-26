@@ -102,10 +102,9 @@
               </p>
             </div>
             <q-btn
-            rounded
-            dense
+            flat
             style="font-size: small"
-            class="defaultfont"
+            class="q-ma-lg absolute-bottom-right defaultfont"
             label="Delete Account"
             @click="onDeleteStudent() "
             />
@@ -116,6 +115,42 @@
               style="max-width: 10rem"
             />
           </q-page>
+          <q-dialog v-model="deleteStudentDialog" persistent>
+
+          <q-card class="flex flex-center" style="width: 20rem">
+            <div class="row">
+              <div class="flex flex-center defaultfont">
+              <q-btn
+                :ripple="false"
+                unelevated
+                rounded
+                dense
+                no-caps
+                outline
+                class="text-#BE282D q-ma-md"
+                style="height: 1.5rem; width: 6rem; font-size: smaller"
+                color="primary"
+                label="Di"
+                v-close-popup
+              />
+              <q-btn
+                class="text-white q-my-md"
+                align="center"
+                :ripple="false"
+                unelevated
+                rounded
+                dense
+                no-caps
+                style="height: 1.5rem; width: 6rem; font-size: smaller"
+                color="primary"
+                label="Owai"
+                @click="confirmDelete()"
+                v-close-popup
+              />
+            </div>
+            </div>
+          </q-card>
+        </q-dialog>
         </div>
       </div>
     </div>
@@ -182,8 +217,16 @@ export default class RecordsStudent extends Vue {
     console.log(this.studentAccount);
   }
 
+  // Delete Student Account
+  deleteStudentDialog = false;
+
   async onDeleteStudent(){
-      console.log('Delete Here')
+    this.deleteStudentDialog = true;
+     console.log('Delete Here')
+  }
+
+  async confirmDelete(){
+    console.log("Paynal!")
   }
 
   columns = [
