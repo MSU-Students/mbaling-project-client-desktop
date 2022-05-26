@@ -16,8 +16,8 @@ const actions: ActionTree<AccountStateInterface, StateInterface> = {
     await context.dispatch('getAllUser');
   },
 
-  async deleteAccount(context, user_id: number): Promise<any> {
-    const result = await userService.delete(user_id);
+  async deleteAccount(context, id: number): Promise<any> {
+    const result = await userService.delete(id);
     context.commit('deleteAccount', result);
   },
 

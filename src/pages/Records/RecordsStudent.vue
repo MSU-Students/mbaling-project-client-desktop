@@ -102,7 +102,8 @@
               </p>
             </div>
             <q-btn
-            flat
+            rounded
+            dense
             style="font-size: small"
             class="q-ma-lg absolute-bottom-right defaultfont"
             label="Delete Account"
@@ -117,8 +118,12 @@
           </q-page>
           <q-dialog v-model="deleteStudentDialog" persistent>
 
-          <q-card class="flex flex-center" style="width: 20rem">
+          <q-card class="flex flex-center" style="width: 40rem">
             <div class="row">
+              <div @submit="delAccount()">
+            <q-card-section>
+              <q-input dense filled v-model="confirmDeleteAccount" placeholder="Username" style="width: 25rem; font-size: smaller" />
+              </q-card-section>
               <div class="flex flex-center defaultfont">
               <q-btn
                 :ripple="false"
@@ -130,7 +135,7 @@
                 class="text-#BE282D q-ma-md"
                 style="height: 1.5rem; width: 6rem; font-size: smaller"
                 color="primary"
-                label="Di"
+                label="cancel"
                 v-close-popup
               />
               <q-btn
@@ -143,10 +148,12 @@
                 no-caps
                 style="height: 1.5rem; width: 6rem; font-size: smaller"
                 color="primary"
-                label="Owai"
-                @click="confirmDelete()"
+                label="paynal"
+                type="submit"
+                @click="delAccount(props.row)"
                 v-close-popup
               />
+            </div>
             </div>
             </div>
           </q-card>
@@ -159,14 +166,14 @@
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import { mapActions, mapGetters, mapState } from "vuex";
+import { mapActions, mapGetters, mapState, Payload } from "vuex";
 import { UserDto } from "src/services/rest-api";
 import { AUser } from "src/store/auth/state";
 import { Users } from "src/store/Records/state";
 
 @Options({
   methods: {
-    ...mapActions("account", ["getAllUser"]),
+    ...mapActions("account", ["getAllUser","deleteAccount"]),
   },
   computed: {
     ...mapState("account", ["allAccount"]),
@@ -174,6 +181,7 @@ import { Users } from "src/store/Records/state";
   },
 })
 export default class RecordsStudent extends Vue {
+  deleteAccount!: () => (Payload: Users) => Promise<void>;
   getAllUser!: () => Promise<void>;
   studentAccount!: UserDto[];
 
@@ -184,6 +192,7 @@ export default class RecordsStudent extends Vue {
   filter = "student";
   id = 0;
   search = "";
+  confirm="confirm"
 
   onTableRowClick(data: Users) {
     this.currentStudent = data;
@@ -218,15 +227,23 @@ export default class RecordsStudent extends Vue {
   }
 
   // Delete Student Account
+  confirmDeleteAccount = "confirm";
+
+  async delAccount(val: UserDto){
+
+    if(this.confirmDeleteAccount == this.confirm){
+      this.deleteAccount(val.id as UserDto);
+
+      console.log("delete Here")
+    } else{
+      console.log("delete failed!")
+    }
+  }
+
   deleteStudentDialog = false;
 
   async onDeleteStudent(){
     this.deleteStudentDialog = true;
-     console.log('Delete Here')
-  }
-
-  async confirmDelete(){
-    console.log("Paynal!")
   }
 
   columns = [
