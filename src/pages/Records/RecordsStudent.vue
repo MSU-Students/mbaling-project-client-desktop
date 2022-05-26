@@ -101,6 +101,14 @@
                 {{ currentStudent.housingunit }}
               </p>
             </div>
+            <q-btn
+            rounded
+            dense
+            style="font-size: small"
+            class="defaultfont"
+            label="Delete Account"
+            @click="onDeleteStudent() "
+            />
           </div>
           <q-page v-else class="row items-center justify-evenly">
             <q-img
@@ -173,6 +181,11 @@ export default class RecordsStudent extends Vue {
     await this.getAllUser();
     console.log(this.studentAccount);
   }
+
+  async onDeleteStudent(){
+      console.log('Delete Here')
+  }
+
   columns = [
     {
       name: "id",
@@ -285,6 +298,8 @@ export default class RecordsStudent extends Vue {
       field: "birthdate",
     },
   ];
+
+
 }
 </script>
 <style>

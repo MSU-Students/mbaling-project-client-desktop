@@ -9,9 +9,9 @@
 
       <q-card-section>
         <div class="q-gutter-y-sm column flex flex-center">
-        <q-input dense filled v-model="currentStudent.username" placeholder="Username" style="width: 25rem; font-size: smaller" />
-        <q-input dense filled v-model="currentStudent.email" placeholder="E-mail" style="width: 25rem; font-size: smaller" />
-        <q-input dense filled v-model="currentStudent.password" placeholder="Password" type="password" style="width: 25rem; font-size: smaller" />
+        <q-input dense filled placeholder="Username" style="width: 25rem; font-size: smaller" />
+        <q-input dense filled  placeholder="E-mail" style="width: 25rem; font-size: smaller" />
+        <q-input dense filled placeholder="Password" type="password" style="width: 25rem; font-size: smaller" />
         </div>
         <div class="flex flex-center">
           <q-btn
@@ -37,32 +37,41 @@
 <script lang="ts">
 
 import { Options, Vue } from "vue-class-component";
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
 import { AccountStateInterface } from "src/store/Records/state";
+import { UserDto } from "src/services/rest-api";
 
 @Options({
-  computed: {
-    ...mapState("Records", ["allStudentRecords", "activeStudentRecords"])
-  },
   methods: {
-    ...mapActions("Records", ["deleteStudent"]),
+    ...mapActions("account", ["getAllUser", "editAccount", "deleteAccount"]),
+    ...mapActions("auth", ["authUser"]),
+  },
+  computed: {
+    ...mapState("account", ["allAccount"]),
+    ...mapGetters("account", ["landlordAccount"]),
+    ...mapState("auth", ["currentUser"]),
   },
 })
 
 export default class AccountsDeleteForm extends Vue{
-  allStudentRecords!: AccountStateInterface[];
-  deleteStudent!:(student:AccountStateInterface) => Promise<void>;
+  getAllUser!: () => Promise<void>;
+  authUser!: () => Promise<void>;
+  editAccount!: (payload: UserDto) => Promise<void>;
+  deleteAccount!: (payload: any) => Promise<void>;
 
-  //Functions for deletingStudentAccount
+  // allStudentRecords!: AccountStateInterface[];
+  // deleteStudent!:(student:AccountStateInterface) => Promise<void>;
 
-  defaultStudent: AccountStateInterface = {
-    allAccount: []
-  };
+  // //Functions for deletingStudentAccount
 
-  currentStudent = {...this.defaultStudent}
+  // defaultStudent: AccountStateInterface = {
+  //   allAccount: []
+  // };
 
-  async deleteAccount(){
-    await this.deleteStudent(this.currentStudent)
+  // currentStudent = {...this.defaultStudent}
+
+  async deleteUser(){
+    await this.deleteAccount(4)
     this.$q.notify({
       type: "positive",
       message: "Success",
