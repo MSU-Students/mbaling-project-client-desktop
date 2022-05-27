@@ -199,7 +199,6 @@ export default class RecordsLandlord extends Vue {
   allAccount!: AUser[];
   currentUser!: AUser;
   search = "";
-  confirm = "confirm";
   confirmDeleteAccount=""
 
 
@@ -209,12 +208,15 @@ export default class RecordsLandlord extends Vue {
     this.displayInfo = true;
   }
 
+  async resetConfirm () {
+      this.confirmDeleteAccount = "";
+  }
 
   async delAccount(val: any){
 
 
-    if(this.confirmDeleteAccount == this.confirm || 'Confirm'){
-      await this.deleteAccount(val.id as any);
+    if((this.confirmDeleteAccount == "confirm") || (this.confirmDeleteAccount == "Confirm")){
+      await this.deleteAccount(val);
         this.$q.notify({
           type: 'positive',
           caption: 'Successfully Deleted ',
@@ -224,7 +226,7 @@ export default class RecordsLandlord extends Vue {
           textColor: "primary",
           classes: "defaultfont",
         });
-
+      this.resetConfirm()
       console.log("delete Here")
     } else{
        this.$q.notify({

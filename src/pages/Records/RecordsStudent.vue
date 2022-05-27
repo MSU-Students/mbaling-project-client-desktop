@@ -197,7 +197,6 @@ export default class RecordsStudent extends Vue {
   filter = "student";
   id = 0;
   search = "";
-  confirm="confirm"
 
   onTableRowClick(data: Users) {
     this.currentStudent = data;
@@ -232,12 +231,16 @@ export default class RecordsStudent extends Vue {
   }
 
   // Delete Student Account
+
+  async resetConfirm () {
+      this.confirmDeleteAccount = "";
+  }
   confirmDeleteAccount = "";
 
   async delAccount(val: any){
 
 
-    if(this.confirmDeleteAccount == this.confirm){
+   if((this.confirmDeleteAccount == "confirm") || (this.confirmDeleteAccount == "Confirm")){
       await this.deleteAccount(val);
         this.$q.notify({
           type: 'positive',
@@ -248,7 +251,7 @@ export default class RecordsStudent extends Vue {
           textColor: "primary",
           classes: "defaultfont",
         });
-
+      this.resetConfirm()
       console.log("delete Here")
     } else{
        this.$q.notify({

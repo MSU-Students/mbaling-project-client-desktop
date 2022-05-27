@@ -305,6 +305,7 @@
               <q-input
                 dense
                 filled
+                type="email"
                 v-model="inputLandlord.email"
                 placeholder="E-mail"
                 style="width: 25rem; font-size: smaller"
@@ -313,7 +314,7 @@
                 hide-bottom-space
               />
 
-              <!-- <div style="max-width: 25rem">
+              <div style="max-width: 25rem">
                 <q-expansion-item
                   header-class="bg-grey-3 text-grey-7"
                   dense
@@ -329,9 +330,7 @@
                       v-model="inputLandlord.address4"
                       label="Province:"
                       style="width: 24rem; font-size: smaller"
-                      lazy-rules
-                      :rules="[(val) => (val && val.length > 0) || 'Please Input your Province']"
-                       hide-bottom-space
+
                     />
                     <q-input
                       class="q-mt-xs"
@@ -340,9 +339,7 @@
                       v-model="inputLandlord.address3"
                       label="Municipality:"
                       style="width: 24rem; font-size: smaller"
-                      lazy-rules
-                      :rules="[(val) => (val && val.length > 0) || 'Please Input your Municipality']"
-                       hide-bottom-space
+
                     />
                     <q-input
                       class="q-mt-xs"
@@ -351,9 +348,7 @@
                       v-model="inputLandlord.address2"
                       label="Barangay:"
                       style="width: 24rem; font-size: smaller"
-                      lazy-rules
-                      :rules="[(val) => (val && val.length > 0) || 'Please Input your Barangay']"
-                       hide-bottom-space
+
                     />
                     <q-input
                       class="q-mt-xs"
@@ -362,14 +357,12 @@
                       v-model="inputLandlord.address1"
                       label="Street:"
                       style="width: 24rem; font-size: smaller"
-                      lazy-rules
-                      :rules="[(val) => (val && val.length > 0) || 'Please Input your Street']"
-                       hide-bottom-space
+
                     />
                   </q-card-section>
                   </q-card>
                 </q-expansion-item>
-              </div> -->
+              </div>
             </div>
             <div class="flex flex-center">
               <q-btn

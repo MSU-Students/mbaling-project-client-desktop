@@ -17,9 +17,7 @@
               class="searchinput"
               style="width: 20rem"
               @clear="clearSearch()"
-              lazy-rules
-              :rules="[(val) => (val && val.length > 0) || 'Please input keywords to search']"
-               hide-bottom-space
+
             >
               <template v-slot:prepend>
                 <q-btn flat round size="sm">
