@@ -25,7 +25,11 @@ class UserService extends DefaultApi {
 
   async delete(id: number) {
     const response = await mbalingApiService.deleteUser(id);
-    return response.data;
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      [];
+    }
   }
 
   async getUserProfile() {

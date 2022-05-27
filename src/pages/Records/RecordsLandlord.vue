@@ -102,6 +102,14 @@
                 {{ currentLandlord.housingunit }}
               </p>
             </div>
+             <q-btn
+            rounded
+            dense
+            style="font-size: small"
+            class="q-ma-lg absolute-bottom-right defaultfont"
+            label="Delete Account"
+            @click="onDeleteStudent() "
+            />
           </div>
           <q-page v-else class="row items-center justify-evenly">
             <q-img
@@ -109,6 +117,53 @@
               style="max-width: 10rem"
             />
           </q-page>
+          <q-dialog v-model="deleteStudentDialog" persistent>
+
+          <q-card class="flex flex-center" style="width: 40rem">
+            <div class="row">
+              <div @submit="delAccount(currentLandlord.id)">
+            <q-card-section>
+              <q-input
+              hint="To delete the account type: 'Conifrm'"
+              dense
+              filled
+              v-model="confirmDeleteAccount"
+              style="width: 25rem; font-size: smaller" />
+              </q-card-section>
+              <div class="flex flex-center defaultfont">
+              <q-btn
+                :ripple="false"
+                unelevated
+                rounded
+                dense
+                no-caps
+                outline
+                class="text-#BE282D q-ma-md"
+                style="height: 1.5rem; width: 6rem; font-size: smaller"
+                color="primary"
+                label="cancel"
+                v-close-popup
+              />
+              <q-btn
+                class="text-white q-my-md"
+                align="center"
+                :ripple="false"
+                unelevated
+                rounded
+                dense
+                no-caps
+                style="height: 1.5rem; width: 6rem; font-size: smaller"
+                color="primary"
+                label="paynal"
+                type="submit"
+                @click="delAccount(currentLandlord.id)"
+                v-close-popup
+              />
+            </div>
+            </div>
+            </div>
+          </q-card>
+        </q-dialog>
         </div>
       </div>
     </div>
@@ -124,7 +179,7 @@ import { Users } from "src/store/Records/state";
 
 @Options({
   methods: {
-    ...mapActions("account", ["getAllUser"]),
+    ...mapActions("account", ["getAllUser","deleteAccount"]),
     ...mapActions("auth", ["authUser"]),
   },
   computed: {
@@ -134,6 +189,7 @@ import { Users } from "src/store/Records/state";
   },
 })
 export default class RecordsLandlord extends Vue {
+  deleteAccount!: (id: UserDto) => Promise<void>;
   getAllUser!: () => Promise<void>;
   authUser!: () => Promise<void>;
 
@@ -143,11 +199,51 @@ export default class RecordsLandlord extends Vue {
   allAccount!: AUser[];
   currentUser!: AUser;
   search = "";
+  confirm = "confirm";
+  confirmDeleteAccount=""
+
 
   onTableRowClick(data: AUser) {
     console.log(this.currentUser.id);
     this.currentLandlord = data;
     this.displayInfo = true;
+  }
+
+
+  async delAccount(val: any){
+
+
+    if(this.confirmDeleteAccount == this.confirm || 'Confirm'){
+      await this.deleteAccount(val.id as any);
+        this.$q.notify({
+          type: 'positive',
+          caption: 'Successfully Deleted ',
+          message: 'Successfully',
+          position: 'bottom',
+          color: "secondary",
+          textColor: "primary",
+          classes: "defaultfont",
+        });
+
+      console.log("delete Here")
+    } else{
+       this.$q.notify({
+          type: 'warning',
+          caption: 'Please type "Confirm" to delete',
+          message: 'Delete Failed',
+          position: 'bottom',
+          color: "primary",
+          textColor: "secondary",
+          classes: "defaultfont",
+        });
+      console.log("delete failed!")
+    }
+  }
+
+  deleteStudentDialog = false;
+
+  async onDeleteStudent(){
+    this.deleteStudentDialog = true;
   }
 
   defaultLandlord: any = {

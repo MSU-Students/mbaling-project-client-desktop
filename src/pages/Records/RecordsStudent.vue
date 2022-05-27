@@ -120,9 +120,14 @@
 
           <q-card class="flex flex-center" style="width: 40rem">
             <div class="row">
-              <div @submit="delAccount()">
+              <div @submit="delAccount(currentStudent.id)">
             <q-card-section>
-              <q-input dense filled v-model="confirmDeleteAccount" placeholder="Username" style="width: 25rem; font-size: smaller" />
+              <q-input
+              hint="To delete the account type: 'Conifrm'"
+              dense
+              filled
+              v-model="confirmDeleteAccount"
+              style="width: 25rem; font-size: smaller" />
               </q-card-section>
               <div class="flex flex-center defaultfont">
               <q-btn
@@ -150,7 +155,7 @@
                 color="primary"
                 label="paynal"
                 type="submit"
-                @click="delAccount(props.row)"
+                @click="delAccount(currentStudent.id)"
                 v-close-popup
               />
             </div>
@@ -181,7 +186,7 @@ import { Users } from "src/store/Records/state";
   },
 })
 export default class RecordsStudent extends Vue {
-  deleteAccount!: () => (Payload: Users) => Promise<void>;
+  deleteAccount!: (id: UserDto) => Promise<void>;
   getAllUser!: () => Promise<void>;
   studentAccount!: UserDto[];
 
@@ -227,15 +232,34 @@ export default class RecordsStudent extends Vue {
   }
 
   // Delete Student Account
-  confirmDeleteAccount = "confirm";
+  confirmDeleteAccount = "";
 
-  async delAccount(val: UserDto){
+  async delAccount(val: any){
+
 
     if(this.confirmDeleteAccount == this.confirm){
-      this.deleteAccount(val.id as UserDto);
+      await this.deleteAccount(val);
+        this.$q.notify({
+          type: 'positive',
+          caption: 'Successfully Deleted ',
+          message: 'Successfully',
+          position: 'bottom',
+          color: "secondary",
+          textColor: "primary",
+          classes: "defaultfont",
+        });
 
       console.log("delete Here")
     } else{
+       this.$q.notify({
+          type: 'warning',
+          caption: 'Please type "Confirm" to delete',
+          message: 'Delete Failed',
+          position: 'bottom',
+          color: "primary",
+          textColor: "secondary",
+          classes: "defaultfont",
+        });
       console.log("delete failed!")
     }
   }
