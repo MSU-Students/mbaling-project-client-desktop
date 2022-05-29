@@ -213,7 +213,7 @@
                   />
                 </template>
               </q-input>
-              <q-select
+              <!-- <q-select
                 class="q-mt-xs"
                 v-model="inputAccount.position"
                 :options="Position"
@@ -242,7 +242,7 @@
                     (val && val.length > 0) || 'Please Choose Your College',
                 ]"
                 hide-bottom-space
-              />
+              /> -->
             </div>
 
             <div class="flex flex-center defaultfont">

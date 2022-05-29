@@ -604,6 +604,7 @@ export default class AccountsCreateForm extends Vue {
   }
 
   async createStudent() {
+    try {
    await this.addAccount(this.inputStudent);
     this.addNewAccount = false;
      this.$q.notify({
@@ -615,9 +616,20 @@ export default class AccountsCreateForm extends Vue {
           message: 'Student Created',
         });
         window.location.reload();
+        } catch (error) {
+          this.$q.notify({
+          position: 'bottom',
+          color: "primary",
+          textColor: "secondary",
+          type: 'negative',
+          classes: "defaultfont",
+          message: 'Username is already exist!',
+        });
+        }
   }
 
   async createLandlord() {
+    try {
     await this.addAccount(this.inputLandlord);
 
     this.$q.notify({
@@ -629,6 +641,16 @@ export default class AccountsCreateForm extends Vue {
           message: 'Landlord Created',
         });
          window.location.reload();
+  } catch (error) {
+          this.$q.notify({
+          position: 'bottom',
+          color: "primary",
+          textColor: "secondary",
+          type: 'negative',
+          classes: "defaultfont",
+          message: 'Username is already exist!',
+        });
+        }
   }
 }
 </script>

@@ -2,23 +2,40 @@
   <q-layout view="hHh Lpr lff" container style="height: 40rem">
     <div class="row">
       <div class="col-10">
-        <q-scroll-area style="height: 40rem; max-width: 77rem">
+        <q-scroll-area style="height: 40rem;">
           <div>
-            <div class="q-pa-md q-gutter-sm row">
-              <q-input
-                outlined
-                color="primary"
-                rounded
-                dense
-                debounce="300"
-                v-model="search"
-                placeholder="Search"
-              >
-                <template v-slot:append>
-                  <q-icon name="search" />
-                </template>
-              </q-input>
+            <div class="q-my-sm">
+            <div class="row">
+              <q-page-sticky expand position="top">
+
+                <div
+                  class="col"
+                >
+                  <p class="q-mt-md q-ml-md defaultfont" style="font-size: x-large;">Landlord's Records</p>
+                </div>
+
+      <!-- Search Function -->
+                <div class="col">
+                  <div class="q-mb-xs row float-right" >
+                    <q-input
+                      color="primary"
+                      dense
+                      style="max-width: 20rem;"
+                      debounce="300"
+                      v-model="search"
+                      placeholder="Search"
+                    >
+                      <template v-slot:append>
+                        <q-icon name="search" />
+                      </template>
+                    </q-input>
+                  </div>
+                </div>
+                <div class="col" style="max-width: 16rem"></div>
+              </q-page-sticky>
             </div>
+            </div>
+            <q-separator class="q-mt-xl"/>
 
             <q-table
               class="cursor-pointer q-data-table"
@@ -61,6 +78,8 @@
             v-if="displayInfo"
             class="q-mt-md flex-center text-center text-primary"
           >
+          <div class="column">
+            <div class="col">
             <q-avatar
               class="q-mt-sm q-ma-md"
               size="8rem"
@@ -102,14 +121,27 @@
                 {{ currentLandlord.housingunit }}
               </p>
             </div>
-             <q-btn
+            </div>
+            <div class="col">
+              <q-icon
+              class="q-mt-xl q-mx-lg bi-snow"
+              size="2rem"
+              @click="onShowBoarders"/>
+
+              <q-icon
+              class="q-mt-xl q-mx-lg bi-trash"
+              size="2rem"
+              @click="onDeleteStudent()"/>
+             <!-- <q-btn
             rounded
             dense
             style="font-size: small"
             class="q-ma-lg absolute-bottom-right defaultfont"
             label="Delete Account"
             @click="onDeleteStudent() "
-            />
+            /> -->
+          </div>
+          </div>
           </div>
           <q-page v-else class="row items-center justify-evenly">
             <q-img
@@ -117,14 +149,67 @@
               style="max-width: 10rem"
             />
           </q-page>
-          <q-dialog v-model="deleteStudentDialog" persistent>
 
-          <q-card class="flex flex-center" style="width: 40rem">
+<!-- Show Boarders -->
+
+          <q-dialog v-model="showBoarders" persistent>
+              <q-card class="flex flex-center" style="width: 30rem; height: 35rem">
+                 <div class="column">
+                   <div class="col">
+                 <span class="defaultfont-bold flex flex-center" style="font-size: medium">
+                  {{ currentLandlord.housingunit }}
+                 </span>
+                  </div>
+                  <div class="col">
+                 <span class="defaultfont flex flex-center q-mb-md" style="font-size: medium">
+                   List of boarders
+                 </span>
+                  </div>
+                  <div class="col">
+                    <q-scroll-area style="height: 25rem; width: 25rem">
+                    <div v-for="n in 100" :key="n" class="q-py-xs">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing
+                    elit, sed do eiusmod tempor incididunt ut labore et
+                    dolore magna aliqua.
+                    </div>
+                    </q-scroll-area>
+                  </div>
+                  <div class="col flex flex-center">
+                    <q-btn
+                      class="text-white q-mt-lg"
+                      align="center"
+                      :ripple="false"
+                      unelevated
+                      rounded
+                      dense
+                      no-caps
+                      style="height: 1.5rem; width: 6rem; font-size: smaller"
+                      color="primary"
+                      label="close"
+                      v-close-popup
+                    />
+                  </div>
+                 </div>
+              </q-card>
+          </q-dialog>
+
+<!-- Confirm Delete -->
+
+          <q-dialog v-model="deleteStudentDialog" persistent>
+          <q-card class="flex flex-center" style="width: 30rem">
             <div class="row">
               <div @submit="delAccount(currentLandlord.id)">
             <q-card-section>
+              <div class="column flex flex-center text-primary defaultfont">
+                <div class="col">
+              <q-icon size="3rem" class="q-my-md bi-trash" />
+                </div>
+                <div class="col">
+              <p style="font-size: small;">Please type "Confirm" to delete Account</p>
+                </div>
+              </div>
               <q-input
-              hint="To delete the account type: 'Conifrm'"
+              hint="Note: Accounts that is deleted will never retrieve"
               dense
               filled
               v-model="confirmDeleteAccount"
@@ -154,7 +239,7 @@
                 no-caps
                 style="height: 1.5rem; width: 6rem; font-size: smaller"
                 color="primary"
-                label="paynal"
+                label="delete"
                 type="submit"
                 @click="delAccount(currentLandlord.id)"
                 v-close-popup
@@ -163,6 +248,7 @@
             </div>
             </div>
           </q-card>
+      <!--  -->
         </q-dialog>
         </div>
       </div>
@@ -213,8 +299,6 @@ export default class RecordsLandlord extends Vue {
   }
 
   async delAccount(val: any){
-
-
     if((this.confirmDeleteAccount == "confirm") || (this.confirmDeleteAccount == "Confirm")){
       await this.deleteAccount(val);
         this.$q.notify({
@@ -246,6 +330,12 @@ export default class RecordsLandlord extends Vue {
 
   async onDeleteStudent(){
     this.deleteStudentDialog = true;
+  }
+
+  showBoarders = false;
+
+  async onShowBoarders(){
+    this.showBoarders = true;
   }
 
   defaultLandlord: any = {

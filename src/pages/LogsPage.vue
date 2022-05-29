@@ -31,12 +31,14 @@
 
 <!-- DISPLAY SEARCH -->
 
+      <q-scroll-area style="height: 35rem; width: 23rem;">
         <q-list v-for="(result, index) in searchResultUser" :key="index">
+          <div v-if="(result.type == 'student') || (result.type == 'landlord')">
           <q-item
             clickable
             dense
             class="q-pt-md q-my-sm row items-center"
-            style="height: 3rem"
+            style="height: 3rem;"
             @click="onShowClick(result)"
           >
             <q-item-section class="q-pb-md" avatar>
@@ -64,7 +66,9 @@
             </div>
           <div class="col-3 defaultfont-light q-mb-md text-grey-7" style="font-size: smaller" >{{ result.type }}</div>
           </q-item>
+          </div>
         </q-list>
+       </q-scroll-area>
       </q-page>
 <!-- -------------------------------------- -->
     </div>
@@ -407,6 +411,7 @@
               style="width: 20rem"
             />
           </div>
+    <!-- List of Boarders -->
           <div class="col">
             <span class="defaultfont-bold" style="font-size: medium"
               >PIRATE KING APARTMENT</span
@@ -415,8 +420,13 @@
               >List of boarders</span
             >
             <br />
-
-            <q-list v-for="(result, index) in searchResultUser" :key="index">
+          <q-scroll-area style="height: 30rem; width: 20rem;">
+            <div v-for="n in 100" :key="n" class="q-py-xs">
+              Lorem ipsum dolor sit amet, consectetur adipisicing
+              elit, sed do eiusmod tempor incididunt ut labore et
+              dolore magna aliqua.
+             </div>
+            <!-- <q-list v-for="(result, index) in searchResultUser" :key="index">
               <q-list
                 class="row items-center"
                 bordered
@@ -442,7 +452,8 @@
                   </q-item-label>
                 </q-item-section>
               </q-list>
-            </q-list>
+            </q-list> -->
+            </q-scroll-area>
           </div>
         </div>
       </q-page>

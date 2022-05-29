@@ -2,23 +2,49 @@
   <q-layout view="hHh Lpr lff" container style="height: 40rem">
     <div class="row">
       <div class="col-10">
-        <q-scroll-area style="height: 40rem">
+        <q-scroll-area style="height: 40rem;">
           <div>
-            <div class="q-pa-md q-gutter-sm row">
-              <q-input
-                outlined
-                color="primary"
-                rounded
-                dense
-                debounce="300"
-                v-model="search"
-                placeholder="Search"
-              >
-                <template v-slot:append>
-                  <q-icon name="search" />
-                </template>
-              </q-input>
+            <div class="q-my-sm">
+            <div class="row">
+              <q-page-sticky expand position="top">
+
+                <div
+                  class="col"
+                >
+                  <p class="q-mt-md q-ml-md defaultfont" style="font-size: x-large;">Student's Records</p>
+                </div>
+                <div class="col">
+                  <q-select
+                  class="q-pb-xs"
+                  dense
+                  v-model="defaultStudent.college"
+                  :options="collegeChoices"
+                  >
+                  </q-select>
+                </div>
+      <!-- Search Function -->
+                <div class="col" >
+                  <div class="q-mb-xs row float-right" >
+                    <q-input
+                      color="primary"
+                      dense
+                      style="max-width: 20rem;"
+                      debounce="300"
+                      v-model="search"
+                      placeholder="Search"
+                    >
+                      <template v-slot:append>
+                        <q-icon name="search" />
+                      </template>
+                    </q-input>
+                  </div>
+                </div>
+                <div class="col" style="max-width: 16rem"></div>
+              </q-page-sticky>
             </div>
+            </div>
+            <q-separator class="q-mt-xl"/>
+
             <q-table
               class="cursor-pointer q-data-table"
               :rows="studentAccount"
@@ -30,6 +56,7 @@
               dense
               hide-bottom
             >
+
               <template v-slot:body="props">
                 <q-tr :props="props">
                   <q-td
@@ -60,55 +87,66 @@
             v-if="displayInfo"
             class="q-mt-md flex-center text-center text-primary"
           >
-            <q-avatar
-              class="q-mt-sm q-ma-md"
-              size="8rem"
-              color="primary"
-              text-color="secondary"
-            >
-              <q-img
-                v-if="currentStudent.prfphoto"
-                class="avatar q-pt-none q-mt-none"
-                :src="`http://localhost:3000/media/${currentStudent.prfphoto}`"
-              />
-              <img
-                v-if="!currentStudent.prfphoto"
-                class="avatar q-pt-none q-mt-none"
-                src="https://i.postimg.cc/FzcjmLj3/LOGO.jpg"
-              />
-            </q-avatar>
-            <div class="info-username defaultfont">
-              <p>@{{ currentStudent.username }}</p>
-              <span class="defaultfont-bold info-fullname text-uppercase">
-                {{ currentStudent.fName }} {{ currentStudent.mName }}
-                {{ currentStudent.lName }}
-              </span>
-              <p class="info-other defaultfont" style="font-size: x-small">
-                {{ currentStudent.username }} <br />
-                {{ currentStudent.degree }}, {{ currentStudent.yearAdmit }}
-                <br />
-                {{ currentStudent.department }} <br />
-                {{ currentStudent.college }}
-              </p>
-              <p class="defaultfont" style="font-size: x-small">
-                {{ currentStudent.email }} <br />
-                {{ currentStudent.contact }} <br />
-                {{ currentStudent.birthdate }} <br />
-                {{ currentStudent.address1 }}, {{ currentStudent.address2 }}
-                <br />
-                {{ currentStudent.address3 }}, {{ currentStudent.address4 }}
-                <br />
-                {{ currentStudent.housingunit }}
-              </p>
-            </div>
-            <q-btn
+            <div class="column">
+              <div class="col">
+                <q-avatar
+                  class="q-mt-sm q-ma-md"
+                  size="8rem"
+                  color="primary"
+                  text-color="secondary"
+                >
+                  <q-img
+                    v-if="currentStudent.prfphoto"
+                    class="avatar q-pt-none q-mt-none"
+                    :src="`http://localhost:3000/media/${currentStudent.prfphoto}`"
+                  />
+                  <img
+                    v-if="!currentStudent.prfphoto"
+                    class="avatar q-pt-none q-mt-none"
+                    src="https://i.postimg.cc/FzcjmLj3/LOGO.jpg"
+                  />
+                </q-avatar>
+                <div class="info-username defaultfont">
+                  <p>@{{ currentStudent.username }}</p>
+                  <span class="defaultfont-bold info-fullname text-uppercase">
+                    {{ currentStudent.fName }} {{ currentStudent.mName }}
+                    {{ currentStudent.lName }}
+                  </span>
+                  <p class="info-other defaultfont" style="font-size: x-small">
+                    {{ currentStudent.username }} <br />
+                    {{ currentStudent.degree }}, {{ currentStudent.yearAdmit }}
+                    <br />
+                    {{ currentStudent.department }} <br />
+                    {{ currentStudent.college }}
+                  </p>
+                  <p class="defaultfont" style="font-size: x-small">
+                    {{ currentStudent.email }} <br />
+                    {{ currentStudent.contact }} <br />
+                    {{ currentStudent.birthdate }} <br />
+                    {{ currentStudent.address1 }}, {{ currentStudent.address2 }}
+                    <br />
+                    {{ currentStudent.address3 }}, {{ currentStudent.address4 }}
+                    <br />
+                    {{ currentStudent.housingunit }}
+                  </p>
+                </div>
+              </div>
+              <div class="col">
+                <q-icon
+                  class="q-mt-xl bi-trash"
+                  size="2rem"
+                  @click="onDeleteStudent()"
+                />
+                <!-- <q-btn
             rounded
             dense
             style="font-size: small"
-            class="q-ma-lg absolute-bottom-right defaultfont"
+            class="q-ma-lg defaultfont"
             label="Delete Account"
             @click="onDeleteStudent() "
-            />
+            /> -->
+              </div>
+            </div>
           </div>
           <q-page v-else class="row items-center justify-evenly">
             <q-img
@@ -117,52 +155,66 @@
             />
           </q-page>
           <q-dialog v-model="deleteStudentDialog" persistent>
-
-          <q-card class="flex flex-center" style="width: 40rem">
-            <div class="row">
-              <div @submit="delAccount(currentStudent.id)">
-            <q-card-section>
-              <q-input
-              hint="To delete the account type: 'Conifrm'"
-              dense
-              filled
-              v-model="confirmDeleteAccount"
-              style="width: 25rem; font-size: smaller" />
-              </q-card-section>
-              <div class="flex flex-center defaultfont">
-              <q-btn
-                :ripple="false"
-                unelevated
-                rounded
-                dense
-                no-caps
-                outline
-                class="text-#BE282D q-ma-md"
-                style="height: 1.5rem; width: 6rem; font-size: smaller"
-                color="primary"
-                label="cancel"
-                v-close-popup
-              />
-              <q-btn
-                class="text-white q-my-md"
-                align="center"
-                :ripple="false"
-                unelevated
-                rounded
-                dense
-                no-caps
-                style="height: 1.5rem; width: 6rem; font-size: smaller"
-                color="primary"
-                label="paynal"
-                type="submit"
-                @click="delAccount(currentStudent.id)"
-                v-close-popup
-              />
-            </div>
-            </div>
-            </div>
-          </q-card>
-        </q-dialog>
+            <!-- Confirm Delete -->
+            <q-card class="flex flex-center" style="width: 30rem">
+              <div class="row">
+                <div @submit="delAccount(currentStudent.id)">
+                  <q-card-section>
+                    <div
+                      class="column flex flex-center text-primary defaultfont"
+                    >
+                      <div class="col">
+                        <q-icon size="3rem" class="q-my-md bi-trash" />
+                      </div>
+                      <div class="col">
+                        <p style="font-size: small">
+                          Please type "Confirm" to delete Account
+                        </p>
+                      </div>
+                    </div>
+                    <q-input
+                      hint="Note: Accounts that is deleted will never retrieve"
+                      dense
+                      filled
+                      v-model="confirmDeleteAccount"
+                      style="width: 25rem; font-size: smaller"
+                    />
+                  </q-card-section>
+                  <div class="flex flex-center defaultfont">
+                    <q-btn
+                      :ripple="false"
+                      unelevated
+                      rounded
+                      dense
+                      no-caps
+                      outline
+                      class="text-#BE282D q-ma-md"
+                      style="height: 1.5rem; width: 6rem; font-size: smaller"
+                      color="primary"
+                      label="cancel"
+                      v-close-popup
+                    />
+                    <q-btn
+                      class="text-white q-my-md"
+                      align="center"
+                      :ripple="false"
+                      unelevated
+                      rounded
+                      dense
+                      no-caps
+                      style="height: 1.5rem; width: 6rem; font-size: smaller"
+                      color="primary"
+                      label="delete"
+                      type="submit"
+                      @click="delAccount(currentStudent.id)"
+                      v-close-popup
+                    />
+                  </div>
+                </div>
+              </div>
+            </q-card>
+            <!--  -->
+          </q-dialog>
         </div>
       </div>
     </div>
@@ -178,7 +230,7 @@ import { Users } from "src/store/Records/state";
 
 @Options({
   methods: {
-    ...mapActions("account", ["getAllUser","deleteAccount"]),
+    ...mapActions("account", ["getAllUser", "deleteAccount"]),
   },
   computed: {
     ...mapState("account", ["allAccount"]),
@@ -194,9 +246,9 @@ export default class RecordsStudent extends Vue {
   separator = "cell";
   allAccount!: Users[];
   currentUser!: Users;
-  filter = "student";
-  id = 0;
+  filter = "";
   search = "";
+  id = 0;
 
   onTableRowClick(data: Users) {
     this.currentStudent = data;
@@ -211,7 +263,7 @@ export default class RecordsStudent extends Vue {
     birthdate: "",
     degree: "",
     department: "",
-    college: "",
+    college: "All",
     contact: "",
     gender: "",
     year: "",
@@ -232,46 +284,54 @@ export default class RecordsStudent extends Vue {
 
   // Delete Student Account
 
-  async resetConfirm () {
-      this.confirmDeleteAccount = "";
+  async resetConfirm() {
+    this.confirmDeleteAccount = "";
   }
   confirmDeleteAccount = "";
 
-  async delAccount(val: any){
-
-
-   if((this.confirmDeleteAccount == "confirm") || (this.confirmDeleteAccount == "Confirm")){
+  async delAccount(val: any) {
+    if (
+      this.confirmDeleteAccount == "confirm" ||
+      this.confirmDeleteAccount == "Confirm"
+    ) {
       await this.deleteAccount(val);
-        this.$q.notify({
-          type: 'positive',
-          caption: 'Successfully Deleted ',
-          message: 'Successfully',
-          position: 'bottom',
-          color: "secondary",
-          textColor: "primary",
-          classes: "defaultfont",
-        });
-      this.resetConfirm()
-      console.log("delete Here")
-    } else{
-       this.$q.notify({
-          type: 'warning',
-          caption: 'Please type "Confirm" to delete',
-          message: 'Delete Failed',
-          position: 'bottom',
-          color: "primary",
-          textColor: "secondary",
-          classes: "defaultfont",
-        });
-      console.log("delete failed!")
+      this.$q.notify({
+        type: "positive",
+        caption: "Successfully Deleted ",
+        message: "Successfully",
+        position: "bottom",
+        color: "secondary",
+        textColor: "primary",
+        classes: "defaultfont",
+      });
+      this.resetConfirm();
+      console.log("delete Here");
+    } else {
+      this.$q.notify({
+        type: "warning",
+        caption: 'Please type "Confirm" to delete',
+        message: "Delete Failed",
+        position: "bottom",
+        color: "primary",
+        textColor: "secondary",
+        classes: "defaultfont",
+      });
+      console.log("delete failed!");
     }
   }
 
   deleteStudentDialog = false;
 
-  async onDeleteStudent(){
+  async onDeleteStudent() {
     this.deleteStudentDialog = true;
   }
+
+// Filter Choices
+  collegeChoices = [
+    "College of Business Administration and Accountancy",
+    "College of Information and Computing Sciences",
+    "King Faisal Center for Islamic, Arabic and Asian Studies",
+  ];
 
   columns = [
     {
@@ -328,25 +388,25 @@ export default class RecordsStudent extends Vue {
       name: "college",
       align: "center",
       label: "COLLEGE",
-      field: "college"
+      field: "college",
     },
     {
       name: "yearAdmit",
       align: "center",
       label: "YEAR ADMIT",
-      field: "yearAdmit"
+      field: "yearAdmit",
     },
     {
       name: "address1",
       align: "center",
       label: "STREET",
-      field: "address1"
+      field: "address1",
     },
     {
       name: "address2",
       align: "center",
       label: "BARANGAY",
-      field: "address2"
+      field: "address2",
     },
     {
       name: "address3",
@@ -358,7 +418,7 @@ export default class RecordsStudent extends Vue {
       name: "address4",
       align: "center",
       label: "PROVINCE",
-      field: "address4"
+      field: "address4",
     },
     {
       name: "housingunit",
@@ -370,7 +430,7 @@ export default class RecordsStudent extends Vue {
       name: "email",
       align: "center",
       label: "EMAIL",
-      field: "email"
+      field: "email",
     },
     {
       name: "contact",
@@ -385,8 +445,6 @@ export default class RecordsStudent extends Vue {
       field: "birthdate",
     },
   ];
-
-
 }
 </script>
 <style>
