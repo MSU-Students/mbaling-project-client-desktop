@@ -400,7 +400,6 @@
 </template>
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-
 import { mapState, mapActions } from "vuex";
 import { UserDto } from "src/services/rest-api";
 
@@ -578,6 +577,7 @@ export default class AccountsCreateForm extends Vue {
       mapLink: "",
       profile: "",
     };
+    window.location.reload();
     this.inputLandlord = {
       fName: "",
       lName: "",
@@ -601,6 +601,7 @@ export default class AccountsCreateForm extends Vue {
       mapLink: "",
       profile: "",
     };
+    window.location.reload();
   }
 
   async createStudent() {

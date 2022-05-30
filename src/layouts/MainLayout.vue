@@ -21,8 +21,8 @@
 
       <q-btn-group flat spread style="height: 2rem; width: 25rem">
         <q-btn
-          icon="bi-stopwatch"
-          label="Recent Logs"
+          icon="bi-search"
+          label="Search"
           :ripple="false"
           size="sm"
           to="/logs"
@@ -39,7 +39,7 @@
           label="Accounts"
           :ripple="false"
           size="sm"
-          to="/accounts"
+          to="/accounts/create"
         />
       </q-btn-group>
     </q-header>
@@ -320,7 +320,7 @@ export default class MainLayout extends Vue {
   authUser!: () => Promise<void>;
   currentUser!: any;
 
-  imageAttachement: File[] | File = [];
+  imageAttachement: File = new File([], "Pick a Profile Picture");
   rightDrawerOpen = false;
   isPwd = true;
   editAdminProfile = false;
@@ -352,19 +352,22 @@ export default class MainLayout extends Vue {
   }
 
   async onSaveAdminAccount() {
-    // const media = await this.uploadMedia(this.imageAttachement as File);
-    // await this.editAccount({ ...this.inputAccount, prfphoto: media.id });
-    await this.editAccount(this.inputAccount)
-    this.editAdminProfile = false;
-    this.$q.notify({
-      position: "bottom",
-      color: "secondary",
-      textColor: "primary",
-      type: "positive",
-      classes: "defaultfont",
-      message: "Account Updated",
-    });
-    window.location.reload();
+
+    try {
+         if (this.imageAttachement.size > 0) {
+        this.editAdminProfile = false;
+        const media = await this.uploadMedia(this.imageAttachement as File);
+        await this.editAccount({ ...this.inputAccount, prfphoto: media.id });
+      } else if (this.imageAttachement.size <= 0) {
+        await this.editAccount({ ...this.inputAccount });
+      }
+          window.location.reload();
+    } catch (error) {
+      this.$q.notify({
+        type: "negative",
+        message: "Unsuccessfully Update",
+      });
+    }
   }
 
   Position = ["Assistant Director", "Secretary", "Officer"];
