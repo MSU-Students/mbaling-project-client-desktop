@@ -16,7 +16,7 @@
 
       <!-- Search Function -->
                 <div class="col">
-                  <div class="q-mb-xs row float-right" >
+                  <!-- <div class="q-mb-xs row float-right" >
                     <q-input
                       color="primary"
                       dense
@@ -29,7 +29,7 @@
                         <q-icon name="search" />
                       </template>
                     </q-input>
-                  </div>
+                  </div> -->
                 </div>
                 <div class="col" style="max-width: 16rem"></div>
               </q-page-sticky>
