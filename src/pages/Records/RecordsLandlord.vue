@@ -153,10 +153,10 @@
 <!-- Show Boarders -->
 
           <q-dialog v-model="showBoarders" persistent>
-              <q-card class="flex flex-center" style="width: 30rem; height: 35rem">
+              <q-card  style="width: 35rem; height: 35rem">
                  <div class="column">
                    <div class="col">
-                 <span class="defaultfont-bold flex flex-center" style="font-size: medium">
+                 <span class="defaultfont-bold flex flex-center q-mt-lg" style="font-size: medium">
                   {{ currentLandlord.housingunit }}
                  </span>
                   </div>
@@ -166,12 +166,27 @@
                  </span>
                   </div>
                   <div class="col">
-                    <q-scroll-area style="height: 25rem; width: 25rem">
-                    <div v-for="n in 100" :key="n" class="q-py-xs">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing
-                    elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua.
-                    </div>
+                 <span class="defaultfont q-ml-sm q-mb-md" style="font-size: medium">
+                   Account
+                 </span>
+                  </div>
+                  <div class="col">
+                    <q-scroll-area style="height: 25rem; width: 35rem">
+                    <q-table
+                flat
+                dense
+                hide-bottom
+                :columns="columnStudent"
+                :rows="data"
+                row-key="status"
+              >
+              </q-table>
+
+              <div class="col">
+                 <span class="defaultfont q-ml-sm q-mb-md" style="font-size: medium">
+                   Non-Account
+                 </span>
+                  </div>
                     </q-scroll-area>
                   </div>
                   <div class="col flex flex-center">
@@ -259,7 +274,7 @@
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
 import { mapActions, mapGetters, mapState } from "vuex";
-import { UserDto } from "src/services/rest-api";
+import { ApplicationDto, UserDto } from "src/services/rest-api";
 import { AUser } from "src/store/auth/state";
 import { Users } from "src/store/Records/state";
 
@@ -267,19 +282,25 @@ import { Users } from "src/store/Records/state";
   methods: {
     ...mapActions("account", ["getAllUser","deleteAccount"]),
     ...mapActions("auth", ["authUser"]),
+    ...mapActions("application", ["getAllApplication", "updateApplication"]),
   },
   computed: {
     ...mapState("account", ["allAccount"]),
     ...mapGetters("account", ["landlordAccount"]),
+    ...mapGetters("application", ["getAcceptedAccount"]),
     ...mapState("auth", ["currentUser"]),
   },
 })
 export default class RecordsLandlord extends Vue {
+  getAllApplication!: () => Promise<void>;
   deleteAccount!: (id: UserDto) => Promise<void>;
   getAllUser!: () => Promise<void>;
   authUser!: () => Promise<void>;
 
+  applications!: ApplicationDto[];
+  getAcceptedAccount!: ApplicationDto[];
   landlordAccount!: UserDto[];
+  data: any = [];
   displayInfo = false;
   separator = "cell";
   allAccount!: AUser[];
@@ -289,7 +310,6 @@ export default class RecordsLandlord extends Vue {
 
 
   onTableRowClick(data: AUser) {
-    console.log(this.currentUser.id);
     this.currentLandlord = data;
     this.displayInfo = true;
   }
@@ -336,6 +356,8 @@ export default class RecordsLandlord extends Vue {
 
   async onShowBoarders(){
     this.showBoarders = true;
+    console.log(this.currentLandlord.id)
+    this.data = this.getAcceptedAccount.filter((i) => this.currentLandlord.id == i.landlord?.id)
   }
 
   defaultLandlord: any = {
@@ -362,10 +384,26 @@ export default class RecordsLandlord extends Vue {
 
   async mounted() {
     await this.authUser();
-    console.log(this.currentUser.id);
     await this.getAllUser();
-    this.currentUser.id;
+    await this.getAllApplication()
   }
+  columnStudent = [
+     {
+      name: "name",
+      label: "Name:",
+      align: "left",
+      field: (row: ApplicationDto) =>
+        row.student?.fName + " " + row.student?.lName,
+    },
+     {
+      name: "degree",
+      label: "Degree:",
+      align: "left",
+      field: (row: ApplicationDto) =>
+        row.student?.college
+    },
+
+  ];
 
   columns = [
     {

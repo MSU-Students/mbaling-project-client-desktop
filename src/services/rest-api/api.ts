@@ -141,10 +141,65 @@ export interface MediaDto {
     'filename'?: string;
     /**
      * 
+     * @type {string}
+     * @memberof MediaDto
+     */
+    'postPhotoID'?: string | null;
+    /**
+     * 
      * @type {PostDto}
      * @memberof MediaDto
      */
-    'postPhoto'?: PostDto;
+    'postPhoto'?: PostDto | null;
+}
+/**
+ * 
+ * @export
+ * @interface NonAccountDto
+ */
+export interface NonAccountDto {
+    /**
+     * 
+     * @type {number}
+     * @memberof NonAccountDto
+     */
+    'id': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof NonAccountDto
+     */
+    'fName': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof NonAccountDto
+     */
+    'lName': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof NonAccountDto
+     */
+    'degree': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof NonAccountDto
+     */
+    'department': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof NonAccountDto
+     */
+    'college': string;
+    /**
+     * 
+     * @type {UserDto}
+     * @memberof NonAccountDto
+     */
+    'landlord'?: UserDto;
 }
 /**
  * 
@@ -504,6 +559,46 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
+         * @summary Add new nonAccount
+         * @param {NonAccountDto} nonAccountDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        addNonAccount: async (nonAccountDto: NonAccountDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'nonAccountDto' is not null or undefined
+            assertParamExists('addNonAccount', 'nonAccountDto', nonAccountDto)
+            const localVarPath = `/nonAccount`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(nonAccountDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Add new post
          * @param {PostDto} postDto 
          * @param {*} [options] Override http request option.
@@ -674,6 +769,44 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Delete nonAccount by id
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteNonAccount: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('deleteNonAccount', 'id', id)
+            const localVarPath = `/nonAccount/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
     
@@ -950,6 +1083,78 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get all nonAccount
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getNonAccount: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/nonAccount`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get nonAccount by id
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getNonAccountId: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getNonAccountId', 'id', id)
+            const localVarPath = `/nonAccount/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
     
@@ -1376,6 +1581,93 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
+         * @summary Update Media by id
+         * @param {number} id 
+         * @param {any} [file] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateMedia: async (id: number, file?: any, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('updateMedia', 'id', id)
+            const localVarPath = `/media/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+            const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
+
+
+            if (file !== undefined) { 
+                localVarFormParams.append('file', file as any);
+            }
+    
+    
+            localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = localVarFormParams;
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Update nonAccount by id
+         * @param {number} id 
+         * @param {NonAccountDto} nonAccountDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateNonAccount: async (id: number, nonAccountDto: NonAccountDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('updateNonAccount', 'id', id)
+            // verify required parameter 'nonAccountDto' is not null or undefined
+            assertParamExists('updateNonAccount', 'nonAccountDto', nonAccountDto)
+            const localVarPath = `/nonAccount/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(nonAccountDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Update post by id
          * @param {number} id 
          * @param {PostDto} postDto 
@@ -1535,6 +1827,17 @@ export const DefaultApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Add new nonAccount
+         * @param {NonAccountDto} nonAccountDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async addNonAccount(nonAccountDto: NonAccountDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<NonAccountDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.addNonAccount(nonAccountDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @summary Add new post
          * @param {PostDto} postDto 
          * @param {*} [options] Override http request option.
@@ -1586,6 +1889,17 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          */
         async deleteMedia(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MediaDto>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteMedia(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Delete nonAccount by id
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteNonAccount(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<NonAccountDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteNonAccount(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1671,6 +1985,27 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          */
         async getMedia(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MediaDto>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getMedia(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Get all nonAccount
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getNonAccount(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<NonAccountDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getNonAccount(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Get nonAccount by id
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getNonAccountId(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<NonAccountDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getNonAccountId(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1795,6 +2130,30 @@ export const DefaultApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Update Media by id
+         * @param {number} id 
+         * @param {any} [file] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateMedia(id: number, file?: any, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MediaDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateMedia(id, file, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Update nonAccount by id
+         * @param {number} id 
+         * @param {NonAccountDto} nonAccountDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateNonAccount(id: number, nonAccountDto: NonAccountDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<NonAccountDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateNonAccount(id, nonAccountDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @summary Update post by id
          * @param {number} id 
          * @param {PostDto} postDto 
@@ -1860,6 +2219,16 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
+         * @summary Add new nonAccount
+         * @param {NonAccountDto} nonAccountDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        addNonAccount(nonAccountDto: NonAccountDto, options?: any): AxiosPromise<NonAccountDto> {
+            return localVarFp.addNonAccount(nonAccountDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Add new post
          * @param {PostDto} postDto 
          * @param {*} [options] Override http request option.
@@ -1907,6 +2276,16 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          */
         deleteMedia(id: number, options?: any): AxiosPromise<MediaDto> {
             return localVarFp.deleteMedia(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Delete nonAccount by id
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteNonAccount(id: number, options?: any): AxiosPromise<NonAccountDto> {
+            return localVarFp.deleteNonAccount(id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1984,6 +2363,25 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          */
         getMedia(id: number, options?: any): AxiosPromise<MediaDto> {
             return localVarFp.getMedia(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get all nonAccount
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getNonAccount(options?: any): AxiosPromise<NonAccountDto> {
+            return localVarFp.getNonAccount(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get nonAccount by id
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getNonAccountId(id: number, options?: any): AxiosPromise<NonAccountDto> {
+            return localVarFp.getNonAccountId(id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -2096,6 +2494,28 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
+         * @summary Update Media by id
+         * @param {number} id 
+         * @param {any} [file] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateMedia(id: number, file?: any, options?: any): AxiosPromise<MediaDto> {
+            return localVarFp.updateMedia(id, file, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Update nonAccount by id
+         * @param {number} id 
+         * @param {NonAccountDto} nonAccountDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateNonAccount(id: number, nonAccountDto: NonAccountDto, options?: any): AxiosPromise<NonAccountDto> {
+            return localVarFp.updateNonAccount(id, nonAccountDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Update post by id
          * @param {number} id 
          * @param {PostDto} postDto 
@@ -2162,6 +2582,18 @@ export class DefaultApi extends BaseAPI {
 
     /**
      * 
+     * @summary Add new nonAccount
+     * @param {NonAccountDto} nonAccountDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public addNonAccount(nonAccountDto: NonAccountDto, options?: AxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).addNonAccount(nonAccountDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @summary Add new post
      * @param {PostDto} postDto 
      * @param {*} [options] Override http request option.
@@ -2218,6 +2650,18 @@ export class DefaultApi extends BaseAPI {
      */
     public deleteMedia(id: number, options?: AxiosRequestConfig) {
         return DefaultApiFp(this.configuration).deleteMedia(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Delete nonAccount by id
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public deleteNonAccount(id: number, options?: AxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).deleteNonAccount(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2311,6 +2755,29 @@ export class DefaultApi extends BaseAPI {
      */
     public getMedia(id: number, options?: AxiosRequestConfig) {
         return DefaultApiFp(this.configuration).getMedia(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get all nonAccount
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public getNonAccount(options?: AxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).getNonAccount(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get nonAccount by id
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public getNonAccountId(id: number, options?: AxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).getNonAccountId(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2442,6 +2909,32 @@ export class DefaultApi extends BaseAPI {
      */
     public updateHousingname(id: number, housingDto: HousingDto, options?: AxiosRequestConfig) {
         return DefaultApiFp(this.configuration).updateHousingname(id, housingDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Update Media by id
+     * @param {number} id 
+     * @param {any} [file] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public updateMedia(id: number, file?: any, options?: AxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).updateMedia(id, file, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Update nonAccount by id
+     * @param {number} id 
+     * @param {NonAccountDto} nonAccountDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public updateNonAccount(id: number, nonAccountDto: NonAccountDto, options?: AxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).updateNonAccount(id, nonAccountDto, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

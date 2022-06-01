@@ -10,8 +10,12 @@ import {
 // import { ExampleStateInterface } from './module-example/state';
 import account from "./Records"
 import { AccountStateInterface } from "./Records/state";
+
 import { IAuthState } from "./auth/state";
 import auth from "./auth";
+
+import application from './application-module';
+import { ApplicationStateInterface } from './application-module/state';
 
 /*
  * If not building with SSR mode, you can
@@ -28,6 +32,7 @@ export interface StateInterface {
   // Declared as unknown to avoid linting issue. Best to strongly type as per the line above.
   account: AccountStateInterface;
   auth: IAuthState;
+  application: ApplicationStateInterface
 }
 // provide typings for `this.$store`
 declare module "@vue/runtime-core" {
@@ -44,7 +49,8 @@ export default store(function (/* { ssrContext } */) {
   const Store = createStore<StateInterface>({
     modules: {
       account,
-      auth
+      auth,
+      application
     },
 
     // enable strict mode (adds overhead!)
