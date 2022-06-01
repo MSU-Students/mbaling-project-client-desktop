@@ -3,8 +3,7 @@
     <div class="col-3">
       <q-page>
         <div class="q-mt-lg flex flex-center">
-
-<!-- SEARCH INPUT FIELD -->
+          <!-- SEARCH INPUT FIELD -->
 
           <q-form @submit="searchAction()">
             <q-input
@@ -17,7 +16,6 @@
               class="searchinput"
               style="width: 20rem"
               @clear="clearSearch()"
-
             >
               <template v-slot:prepend>
                 <q-btn flat round size="sm">
@@ -29,63 +27,78 @@
           <q-separator class="q-mt-sm" color="grey" style="width: 20rem" />
         </div>
 
-<!-- DISPLAY SEARCH -->
+        <!-- DISPLAY SEARCH -->
 
-      <q-scroll-area style="height: 35rem; width: 23rem;">
-        <q-list v-for="(result, index) in searchResultUser" :key="index">
-          <div v-if="(result.type == 'student') || (result.type == 'landlord')">
-          <q-item
-            clickable
-            dense
-            class="q-pt-md q-my-sm row items-center"
-            style="height: 3rem;"
-            @click="onShowClick(result)"
-          >
-            <q-item-section class="q-pb-md" avatar>
-              <q-avatar size="lg">
-                <q-img v-if="result.prfphoto" class="avatar q-pt-none q-mt-none"
-                  :src="`http://localhost:3000/media/${result.prfphoto}`"
-                />
-                <img v-if="!result.prfphoto" class="avatar q-pt-none q-mt-none" src="https://i.postimg.cc/FzcjmLj3/LOGO.jpg" />
-
-              </q-avatar>
-            </q-item-section>
-          <div class="col">
-            <q-item-section>
-              <q-item-label
-                lines="1"
-                class="defaultfont-semibold"
-                style="font-size: medium"
+        <q-scroll-area style="height: 35rem; width: 23rem">
+          <q-list v-for="(result, index) in searchResultUser" :key="index">
+            <div v-if="result.type == 'student' || result.type == 'landlord'">
+              <q-item
+                clickable
+                dense
+                class="q-pt-md q-my-sm row items-center"
+                style="height: 3rem"
+                @click="onShowClick(result)"
               >
-                {{ result.lName }} {{ result.fName }}
-              </q-item-label>
-              <q-item-label lines="1" style="font-size: small">
-                <p>@{{ result.username }}</p>
-              </q-item-label>
-            </q-item-section>
+                <q-item-section class="q-pb-md" avatar>
+                  <q-avatar size="lg">
+                    <q-img
+                      v-if="result.prfphoto"
+                      class="avatar q-pt-none q-mt-none"
+                      :src="`http://localhost:3000/media/${result.prfphoto}`"
+                    />
+                    <img
+                      v-if="!result.prfphoto"
+                      class="avatar q-pt-none q-mt-none"
+                      src="https://i.postimg.cc/FzcjmLj3/LOGO.jpg"
+                    />
+                  </q-avatar>
+                </q-item-section>
+                <div class="col">
+                  <q-item-section>
+                    <q-item-label
+                      lines="1"
+                      class="defaultfont-semibold"
+                      style="font-size: medium"
+                    >
+                      {{ result.lName }} {{ result.fName }}
+                    </q-item-label>
+                    <q-item-label lines="1" style="font-size: small">
+                      <p>@{{ result.username }}</p>
+                    </q-item-label>
+                  </q-item-section>
+                </div>
+                <div
+                  class="col-3 defaultfont-light q-mb-md text-grey-7"
+                  style="font-size: smaller"
+                >
+                  {{ result.type }}
+                </div>
+              </q-item>
             </div>
-          <div class="col-3 defaultfont-light q-mb-md text-grey-7" style="font-size: smaller" >{{ result.type }}</div>
-          </q-item>
-          </div>
-        </q-list>
-       </q-scroll-area>
+          </q-list>
+        </q-scroll-area>
       </q-page>
-<!-- -------------------------------------- -->
+      <!-- -------------------------------------- -->
     </div>
     <q-separator vertical color="grey" />
     <div class="col-8" style="background-color: #f0f0f0cc; width: 71rem">
-
-<!-- STUDENT SHOW INFO -->
+      <!-- STUDENT SHOW INFO -->
 
       <q-page v-if="this.currentInfo.type == 'student' && displayInfo">
         <div class="q-ma-xl row items-start">
           <div class="col">
             <div class="flex flex-center">
               <q-avatar size="12rem" color="primary" text-color="secondary">
-                <q-img v-if="currentInfo.prfphoto" class="avatar q-pt-none q-mt-none"
+                <q-img
+                  v-if="currentInfo.prfphoto"
+                  class="avatar q-pt-none q-mt-none"
                   :src="`http://localhost:3000/media/${currentInfo.prfphoto}`"
                 />
-                <img v-if="!currentInfo.prfphoto" class="avatar q-pt-none q-mt-none" src="https://i.postimg.cc/FzcjmLj3/LOGO.jpg" />
+                <img
+                  v-if="!currentInfo.prfphoto"
+                  class="avatar q-pt-none q-mt-none"
+                  src="https://i.postimg.cc/FzcjmLj3/LOGO.jpg"
+                />
               </q-avatar>
             </div>
             <div class="defaultfont">
@@ -194,10 +207,8 @@
           <div class="col"></div>
         </div>
         <div class="row q-ma-xl">
-
-
-<!-- Edit Student Info -->
-            <div class="col q-mr-lg" v-if="editStudentCourse">
+          <!-- Edit Student Info -->
+          <div class="col q-mr-lg" v-if="editStudentCourse">
             Student Course
             <q-btn
               class="float-right"
@@ -208,7 +219,12 @@
               dense
               no-caps
               color="primary"
-              style="color: white; height: 1.5rem; width: 5rem; font-size: smaller"
+              style="
+                color: white;
+                height: 1.5rem;
+                width: 5rem;
+                font-size: smaller;
+              "
               @click="onSaveEditStudent()"
             />
             <q-select
@@ -222,35 +238,35 @@
             <q-select
               class="q-mt-xs"
               :v-model="
-              currentInfo.college ==
+                currentInfo.college ==
                   'College of Business Administration and Accountancy' ||
-                  'College of Information Technology' ||
-                  'King Faisal Center for Islamic, Arabic and Asian Studies'
+                'College of Information Technology' ||
+                'King Faisal Center for Islamic, Arabic and Asian Studies'
                   ? selectedDepartment()
                   : selectedDepartment
-                  "
+              "
               v-model="currentInfo.department"
               :options="Department"
               dense
               label="Department:"
               style="width: 41rem; font-size: smaller"
-              />
+            />
             <q-select
               class="q-mt-xs"
               :v-model="
-              currentInfo.college ==
+                currentInfo.college ==
                   'College of Business Administration and Accountancy' ||
-                  'College of Information Technology' ||
-                  'King Faisal Center for Islamic, Arabic and Asian Studies'
+                'College of Information Technology' ||
+                'King Faisal Center for Islamic, Arabic and Asian Studies'
                   ? selectedDegree()
                   : selectedDegree
-                  "
+              "
               v-model="currentInfo.degree"
               :options="Degree"
               dense
               label="Degree:"
               style="width: 41rem; font-size: smaller"
-              />
+            />
           </div>
 
           <div class="col q-mr-lg" v-else>
@@ -264,7 +280,12 @@
               dense
               no-caps
               outline
-              style="color: #BE282D; height: 1.5rem; width: 5rem; font-size: smaller"
+              style="
+                color: #be282d;
+                height: 1.5rem;
+                width: 5rem;
+                font-size: smaller;
+              "
               @click="OpenEditStudent()"
             />
             <q-input
@@ -299,17 +320,23 @@
         </div>
       </q-page>
 
-<!-- LANDLORD SHOW INFO -->
+      <!-- LANDLORD SHOW INFO -->
 
       <q-page v-else-if="this.currentInfo.type == 'landlord' && displayInfo">
         <div class="q-ma-xl row items-start">
           <div class="col">
             <div class="flex flex-center">
               <q-avatar size="12rem" color="primary" text-color="secondary">
-                <q-img v-if="currentInfo.prfphoto" class="avatar q-pt-none q-mt-none"
+                <q-img
+                  v-if="currentInfo.prfphoto"
+                  class="avatar q-pt-none q-mt-none"
                   :src="`http://localhost:3000/media/${currentInfo.prfphoto}`"
                 />
-                <img v-if="!currentInfo.prfphoto" class="avatar q-pt-none q-mt-none" src="https://i.postimg.cc/FzcjmLj3/LOGO.jpg" />
+                <img
+                  v-if="!currentInfo.prfphoto"
+                  class="avatar q-pt-none q-mt-none"
+                  src="https://i.postimg.cc/FzcjmLj3/LOGO.jpg"
+                />
               </q-avatar>
             </div>
             <div class="defaultfont">
@@ -411,22 +438,25 @@
               style="width: 20rem"
             />
           </div>
-    <!-- List of Boarders -->
+          <!-- List of Boarders -->
           <div class="col">
-            <span class="defaultfont-bold" style="font-size: medium"
-              >PIRATE KING APARTMENT</span
+            <span class="defaultfont-bold" style="font-size: medium">
+              {{currentInfo.housingunit}}</span
             ><br />
             <span class="defaultfont" style="font-size: medium"
               >List of boarders</span
             >
             <br />
-          <q-scroll-area style="height: 30rem; width: 20rem;">
-            <div v-for="n in 100" :key="n" class="q-py-xs">
-              Lorem ipsum dolor sit amet, consectetur adipisicing
-              elit, sed do eiusmod tempor incididunt ut labore et
-              dolore magna aliqua.
-             </div>
-            <!-- <q-list v-for="(result, index) in searchResultUser" :key="index">
+            <q-scroll-area style="height: 30rem; width: 20rem">
+              <q-table
+                flat
+                hide-bottom
+                :columns="columns"
+                :rows="data"
+                row-key="status"
+              >
+              </q-table>
+              <!-- <q-list v-for="(result, index) in searchResultUser" :key="index">
               <q-list
                 class="row items-center"
                 bordered
@@ -458,20 +488,17 @@
         </div>
       </q-page>
 
-<!-- RED LOGO BACKGROUND -->
+      <!-- RED LOGO BACKGROUND -->
 
       <q-page v-else class="row items-center justify-evenly">
-        <q-img
-          src="~assets/mbaling-logo-red.svg"
-          style="max-width: 15rem"
-        />
+        <q-img src="~assets/mbaling-logo-red.svg" style="max-width: 15rem" />
       </q-page>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { UserDto } from "src/services/rest-api";
+import { ApplicationDto, UserDto } from "src/services/rest-api";
 import { AUser } from "src/store/auth/state";
 import { Users } from "src/store/Records/state";
 import { Options, Vue } from "vue-class-component";
@@ -481,28 +508,47 @@ import { mapActions, mapGetters, mapState } from "vuex";
   methods: {
     ...mapActions("account", ["getAllUser", "editAccount"]),
     ...mapActions("auth", ["authUser"]),
+    ...mapActions("application", ["getAllApplication", "updateApplication"]),
   },
   computed: {
     ...mapState("account", ["allAccount"]),
     ...mapGetters("account", ["landlordAccount"]),
+    ...mapGetters("application", ["getAcceptedAccount"]),
     ...mapState("auth", ["currentUser"]),
   },
 })
 export default class LogsPage extends Vue {
+  getAllApplication!: () => Promise<void>;
   getAllUser!: () => Promise<void>;
   authUser!: () => Promise<void>;
   editAccount!: (payload: UserDto) => Promise<void>;
 
+  applications!: ApplicationDto[];
+  getAcceptedAccount!: ApplicationDto[];
   allAccount!: Users[];
   currentUser!: Users;
+  data: any = [];
 
   search = "";
   displayInfo = false;
 
+  columns = [
+     {
+      name: "name",
+      label: "Name:",
+      align: "left",
+      field: (row: ApplicationDto) =>
+        row.student?.fName + " " + row.student?.lName,
+
+    },
+
+  ];
+
   async mounted() {
     await this.authUser();
-    console.log(this.currentUser.id);
     await this.getAllUser();
+    this.getAllApplication();
+
   }
 
   currentInfo: any = {
@@ -525,33 +571,35 @@ export default class LogsPage extends Vue {
     year: "",
   };
 
-
   onShowClick(res: any) {
     this.displayInfo = true;
     this.currentInfo = res;
+    this.data = this.getAcceptedAccount.filter((i) => this.currentInfo.id == i.landlord?.id)
+    console.log(this.currentInfo.id)
+    console.log(this.data + " ID HERE")
   }
 
-// Edit Function for Student Courses
+  // Edit Function for Student Courses
   editStudentCourse = false;
 
-  async onSaveEditStudent(){
+  async onSaveEditStudent() {
     await this.editAccount(this.currentInfo);
     this.editStudentCourse = false;
     this.$q.notify({
-          position: 'bottom',
-          color: "secondary",
-          textColor: "primary",
-          type: 'positive',
-          classes: "defaultfont",
-          message: 'Account Updated',
-        });
+      position: "bottom",
+      color: "secondary",
+      textColor: "primary",
+      type: "positive",
+      classes: "defaultfont",
+      message: "Account Updated",
+    });
   }
-  async OpenEditStudent(){
+  async OpenEditStudent() {
     this.editStudentCourse = true;
-    this.currentInfo = {...this.currentInfo}
+    this.currentInfo = { ...this.currentInfo };
   }
 
-// Search Funtion
+  // Search Funtion
 
   searchResultUser: Users[] = [];
 
