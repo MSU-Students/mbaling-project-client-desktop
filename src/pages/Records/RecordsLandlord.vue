@@ -124,7 +124,7 @@
             </div>
             <div class="col">
               <q-icon
-              class="q-mt-xl q-mx-lg bi-snow"
+              class="q-mt-xl q-mx-lg bi-file-text"
               size="2rem"
               @click="onShowBoarders"/>
 
