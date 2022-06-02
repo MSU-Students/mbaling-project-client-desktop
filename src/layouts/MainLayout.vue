@@ -110,7 +110,7 @@
                   <q-img
                     v-if="inputAccount.prfphoto"
                     class="avatar q-pt-none q-mt-none"
-                    :src="`http://localhost:3000/media/${inputAccount.prfphoto}`"
+                    :src="`http://localhost:3000/prfmedia/${inputAccount.prfphoto}`"
                   />
                   <img
                     v-if="!inputAccount.prfphoto"

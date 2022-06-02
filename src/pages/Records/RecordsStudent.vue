@@ -99,7 +99,7 @@
                   <q-img
                     v-if="currentStudent.prfphoto"
                     class="avatar q-pt-none q-mt-none"
-                    :src="`http://localhost:3000/media/${currentStudent.prfphoto}`"
+                    :src="`http://localhost:3000/prfmedia/${currentStudent.prfphoto}`"
                   />
                   <img
                     v-if="!currentStudent.prfphoto"

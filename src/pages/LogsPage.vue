@@ -44,7 +44,7 @@
                     <q-img
                       v-if="result.prfphoto"
                       class="avatar q-pt-none q-mt-none"
-                      :src="`http://localhost:3000/media/${result.prfphoto}`"
+                      :src="`http://localhost:3000/prfmedia/${result.prfphoto}`"
                     />
                     <img
                       v-if="!result.prfphoto"
@@ -92,7 +92,7 @@
                 <q-img
                   v-if="currentInfo.prfphoto"
                   class="avatar q-pt-none q-mt-none"
-                  :src="`http://localhost:3000/media/${currentInfo.prfphoto}`"
+                  :src="`http://localhost:3000/prfmedia/${currentInfo.prfphoto}`"
                 />
                 <img
                   v-if="!currentInfo.prfphoto"
@@ -330,7 +330,7 @@
                 <q-img
                   v-if="currentInfo.prfphoto"
                   class="avatar q-pt-none q-mt-none"
-                  :src="`http://localhost:3000/media/${currentInfo.prfphoto}`"
+                  :src="`http://localhost:3000/prfmedia/${currentInfo.prfphoto}`"
                 />
                 <img
                   v-if="!currentInfo.prfphoto"
@@ -678,7 +678,7 @@ export default class LogsPage extends Vue {
     ) {
       return (this.Degree = [
         "Bachelor of Science in Computer Science",
-        "Bachelor of Science in Entertaiment and Multimedia Computing",
+        "Bachelor of Science in Entertaiment and Multiprfmedia Computing",
         "Bachelor of Science in Information System",
         "Bachelor of Science in information Technology (Database)",
         "Bachelor of Science in information Technology (Networking)",

@@ -89,7 +89,7 @@
               <q-img
                 v-if="currentLandlord.prfphoto"
                 class="avatar q-pt-none q-mt-none"
-                :src="`http://localhost:3000/media/${currentLandlord.prfphoto}`"
+                :src="`http://localhost:3000/prfmedia/${currentLandlord.prfphoto}`"
               />
               <img
                 v-if="!currentLandlord.prfphoto"
