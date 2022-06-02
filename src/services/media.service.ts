@@ -1,21 +1,21 @@
 import { mbalingApiService } from './mbaling-api.service';
-import { MediaDto } from './rest-api';
+import { PrfMediaDto } from './rest-api';
 import { DefaultApi } from './rest-api/api';
 
 class MediaService extends DefaultApi {
-  async getPicture(id: number): Promise<MediaDto> {
+  async getPicture(id: number): Promise<PrfMediaDto> {
     const response = await mbalingApiService.getMedia(id);
     return response.data;
   }
 
-  async uploadPicture(file: File[]): Promise<MediaDto> {
-    const response = await mbalingApiService.uploadMedia(file);
+  async uploadPicture(file: File[]): Promise<PrfMediaDto> {
+    const response = await mbalingApiService.uploadPrfMedia(file);
     return response.data;
   }
 
-  async getAll(): Promise<MediaDto[]> {
+  async getAll(): Promise<PrfMediaDto[]> {
     const response = await mbalingApiService.getAllMedia();
-    return response.data as unknown as MediaDto[];
+    return response.data as unknown as PrfMediaDto[];
   }
 
 }

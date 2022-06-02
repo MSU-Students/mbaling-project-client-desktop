@@ -17,6 +17,10 @@ import auth from "./auth";
 import application from './application-module';
 import { ApplicationStateInterface } from './application-module/state';
 
+import media from './media-module';
+import { MediaStateInterface } from './media-module/state';
+
+
 /*
  * If not building with SSR mode, you can
  * directly export the Store instantiation;
@@ -32,7 +36,8 @@ export interface StateInterface {
   // Declared as unknown to avoid linting issue. Best to strongly type as per the line above.
   account: AccountStateInterface;
   auth: IAuthState;
-  application: ApplicationStateInterface
+  application: ApplicationStateInterface;
+  media: MediaStateInterface
 }
 // provide typings for `this.$store`
 declare module "@vue/runtime-core" {
@@ -50,7 +55,8 @@ export default store(function (/* { ssrContext } */) {
     modules: {
       account,
       auth,
-      application
+      application,
+      media
     },
 
     // enable strict mode (adds overhead!)
