@@ -469,7 +469,6 @@
                               />
                               <q-img
                                 v-else
-                                class="avatar"
                                 src="https://i.postimg.cc/FzcjmLj3/LOGO.jpg"
                               />
                         </q-avatar>
