@@ -459,11 +459,19 @@
             <q-scroll-area style="height: 30rem; width: 20rem">
               <div>
                 <q-list class="q-mb-xs" v-for="result in getAcceptedAccount" :key="result">
-                  <q-card>
+                  <q-card v-if="currentInfo.id == result.landlord?.id">
                     <div class="row flex flex-center">
                       <div class="col-2">
                         <q-avatar class="q-ml-sm" size="2rem">
-                          <q-img src="https://i.postimg.cc/FzcjmLj3/LOGO.jpg" />
+                          <q-img
+                                v-if="result.student?.prfphoto"
+                                :src="`http://localhost:3000/prfmedia/${result.student?.prfphoto}`"
+                              />
+                              <q-img
+                                v-else
+                                class="avatar"
+                                src="https://i.postimg.cc/FzcjmLj3/LOGO.jpg"
+                              />
                         </q-avatar>
                       </div>
                       <div class="col">
@@ -480,7 +488,7 @@
               </div>
               <div>
                 <q-list class="q-mb-xs" v-for="result in allNonAccount" :key="result">
-                  <q-card>
+                  <q-card v-if="currentInfo.id == result.landlord?.id">
                     <div class="row flex flex-center">
                       <div class="col-2">
                         <q-avatar class="q-ml-sm" size="2rem">

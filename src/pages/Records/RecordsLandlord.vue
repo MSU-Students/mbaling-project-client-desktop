@@ -171,92 +171,98 @@
                   </span>
                 </div>
 
-              <q-scroll-area style="height: 28rem">
-                <div class="col">
-                  <div class="row flex flex-center">
-                    <div class="col">
-                      <div
-                        class="defaultfont q-ma-md text-grey-6"
-                        style="font-size: small"
-                      >
-                        List of Boarders:
+                <q-scroll-area style="height: 28rem">
+                  <div class="col">
+                    <div class="row flex flex-center">
+                      <div class="col">
+                        <div
+                          class="defaultfont q-ma-md text-grey-6"
+                          style="font-size: small"
+                        >
+                          List of Boarders:
+                        </div>
                       </div>
-                    </div>
-                    <div class="col">
-                      <div
-                        class="q-mr-xl defaultfont float-right"
-                        style="font-size: medium"
-                      >
-                        {{ this.data.length + this.nonAccountdata.length }}
+                      <div class="col">
+                        <div
+                          class="q-mr-xl defaultfont float-right"
+                          style="font-size: medium"
+                        >
+                          {{ this.data.length + this.nonAccountdata.length }}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
 
-                <div class="q-mx-md">
-                  <q-list
-                    class="q-mb-xs"
-                    v-for="result in getAcceptedAccount"
-                    :key="result"
-                  >
-                    <q-card>
-                      <div class="row flex flex-center">
-                        <div class="col-2">
-                          <q-avatar class="q-ml-sm" size="2rem">
-                            <q-img
-                              src="https://i.postimg.cc/FzcjmLj3/LOGO.jpg"
-                            />
-                          </q-avatar>
-                        </div>
-                        <div class="col">
-                          <div
-                            class="flex flex-center defaultfont float-left"
-                            style="height: 3rem"
-                          >
-                            {{ result.student?.fName }}
-                            {{ result.student?.lName }}
+                  <div class="q-mx-md">
+                    <q-list
+                      class="q-mb-xs"
+                      v-for="result in getAcceptedAccount"
+                      :key="result"
+                    >
+                      <q-card v-if="currentLandlord.id == result.landlord?.id">
+                        <div class="row flex flex-center">
+                          <div class="col-2">
+                            <q-avatar class="q-ml-sm" size="2rem">
+                              <q-img
+                                v-if="result.student?.prfphoto"
+                                :src="`http://localhost:3000/prfmedia/${result.student?.prfphoto}`"
+                              />
+                              <q-img
+                                v-else
+                                class="avatar"
+                                src="https://i.postimg.cc/FzcjmLj3/LOGO.jpg"
+                              />
+                            </q-avatar>
+                          </div>
+                          <div class="col">
+                            <div
+                              class="flex flex-center defaultfont float-left"
+                              style="height: 3rem"
+                            >
+                              {{ result.student?.fName }}
+                              {{ result.student?.lName }}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </q-card>
-                  </q-list>
-                </div>
+                      </q-card>
+                    </q-list>
+                  </div>
 
-                <div
-                  class="defaultfont q-ma-md text-grey-6"
-                  style="font-size: small"
-                >
-                  List of Boarders (Non-Account):
-                </div>
-
-                <div class="q-mx-md">
-                  <q-list
-                    class="q-mb-xs"
-                    v-for="result in allNonAccount"
-                    :key="result"
+                  <div
+                    class="defaultfont q-ma-md text-grey-6"
+                    style="font-size: small"
                   >
-                    <q-card>
-                      <div class="row flex flex-center">
-                        <div class="col-2">
-                          <q-avatar class="q-ml-sm" size="2rem">
-                            <q-img
-                              src="https://i.postimg.cc/FzcjmLj3/LOGO.jpg"
-                            />
-                          </q-avatar>
-                        </div>
-                        <div class="col">
-                          <div
-                            class="flex flex-center defaultfont float-left"
-                            style="height: 3rem"
-                          >
-                            {{ result.fName }} {{ result.lName }}
+                    List of Boarders (Non-Account):
+                  </div>
+
+                  <div class="q-mx-md">
+                    <q-list
+                      class="q-mb-xs"
+                      v-for="result in allNonAccount"
+                      :key="result"
+                    >
+                      <q-card v-if="currentLandlord.id == result.landlord?.id">
+                        <div class="row flex flex-center">
+                          <div class="col-2">
+                            <q-avatar class="q-ml-sm" size="2rem">
+                              <q-img
+                                src="https://i.postimg.cc/FzcjmLj3/LOGO.jpg"
+                              />
+                            </q-avatar>
+                          </div>
+                          <div class="col">
+                            <div
+                              class="flex flex-center defaultfont float-left"
+                              style="height: 3rem"
+                            >
+                              {{ result.fName }} {{ result.lName }}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </q-card>
-                  </q-list>
-                </div>
-              </q-scroll-area>
+                      </q-card>
+                    </q-list>
+                  </div>
+                </q-scroll-area>
                 <div class="col flex flex-center">
                   <q-btn
                     class="text-white q-mt-lg"
@@ -272,7 +278,6 @@
                     v-close-popup
                   />
                 </div>
-
               </div>
             </q-card>
           </q-dialog>
