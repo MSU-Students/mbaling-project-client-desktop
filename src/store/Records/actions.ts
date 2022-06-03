@@ -14,6 +14,7 @@ const actions: ActionTree<AccountStateInterface, StateInterface> = {
     const result = await userService.update(payload.id, payload);
     context.commit('updateAccount', result);
     await context.dispatch('getAllUser');
+    await this.dispatch("auth/authUser");
   },
 
   async deleteAccount(context, id: number): Promise<any> {

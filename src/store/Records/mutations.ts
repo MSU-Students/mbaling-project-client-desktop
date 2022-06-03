@@ -2,7 +2,7 @@ import { MutationTree } from 'vuex';
 import { AccountStateInterface } from './state';
 
 const mutation: MutationTree<AccountStateInterface> = {
-  setAccount(state, payload) {
+  setNewAccount(state, payload) {
     state.newUser = payload;
   },
   updateAccount(state, payload) {

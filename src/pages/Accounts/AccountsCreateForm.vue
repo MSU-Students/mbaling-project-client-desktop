@@ -557,7 +557,7 @@ export default class AccountsCreateForm extends Vue {
     this.inputStudent = {
       fName: "",
       lName: "",
-      type: "",
+      type: "student",
       status: "",
       username: "",
       password: "",
@@ -577,11 +577,11 @@ export default class AccountsCreateForm extends Vue {
       mapLink: "",
       profile: "",
     };
-    window.location.reload();
+    // window.location.reload();
     this.inputLandlord = {
       fName: "",
       lName: "",
-      type: "",
+      type: "landlord",
       status: "",
       username: "",
       password: "",
@@ -601,7 +601,7 @@ export default class AccountsCreateForm extends Vue {
       mapLink: "",
       profile: "",
     };
-    window.location.reload();
+    // window.location.reload();
   }
 
   async createStudent() {
@@ -616,7 +616,7 @@ export default class AccountsCreateForm extends Vue {
           classes: "defaultfont",
           message: 'Student Created',
         });
-        window.location.reload();
+        // window.location.reload();
         } catch (error) {
           this.$q.notify({
           position: 'bottom',
@@ -641,7 +641,7 @@ export default class AccountsCreateForm extends Vue {
           classes: "defaultfont",
           message: 'Landlord Created',
         });
-         window.location.reload();
+        //  window.location.reload();
   } catch (error) {
           this.$q.notify({
           position: 'bottom',

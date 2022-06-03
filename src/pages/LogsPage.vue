@@ -440,49 +440,14 @@
           </div>
           <!-- List of Boarders -->
           <div class="col">
-            <span class="defaultfont-bold" style="font-size: medium">
-              {{currentInfo.housingunit}}</span
-            ><br />
-            <span class="defaultfont" style="font-size: medium"
-              >List of boarders</span
-            >
-            <br />
+            <div>
+              {{currentInfo.housingunit}}
+            </div>
+            <div class="q-mb-md defaultfont text-grey-6" style="font-size: small">
+              List of Boarders:
+            </div>
             <q-scroll-area style="height: 30rem; width: 20rem">
-              <q-table
-                flat
-                hide-bottom
-                :columns="columns"
-                :rows="data"
-                row-key="status"
-              >
-              </q-table>
-              <!-- <q-list v-for="(result, index) in searchResultUser" :key="index">
-              <q-list
-                class="row items-center"
-                bordered
-                separator
-                style="background-color: white; width: 20rem"
-              >
-                <q-item-section class="q-ma-xs" avatar>
-                  <q-avatar size="xl">
-                    <img :src="result.prfphoto" />
-                  </q-avatar>
-                </q-item-section>
 
-                <q-item-section>
-                  <q-item-label
-                    lines="1"
-                    class="defaultfont-semibold"
-                    style="font-size: medium"
-                  >
-                    {{ result.fName }}
-                  </q-item-label>
-                  <q-item-label lines="1" style="font-size: small">
-                    {{ result.address1 }}
-                  </q-item-label>
-                </q-item-section>
-              </q-list>
-            </q-list> -->
             </q-scroll-area>
           </div>
         </div>

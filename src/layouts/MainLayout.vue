@@ -62,10 +62,16 @@
             <!-- <q-img
               :src="`http://localhost:3000/media/${currentUser.prfphoto}`"
             /> -->
-            <q-img v-if="currentUser.prfphoto" class="avatar q-pt-none q-mt-none"
-                  :src="`http://localhost:3000/prfmedia/${currentUser.prfphoto}`"
-                />
-                <img v-if="!currentUser.prfphoto" class="avatar q-pt-none q-mt-none" src="https://i.postimg.cc/FzcjmLj3/LOGO.jpg" />
+            <q-img
+              v-if="currentUser.prfphoto"
+              class="avatar q-pt-none q-mt-none"
+              :src="`http://localhost:3000/prfmedia/${currentUser.prfphoto}`"
+            />
+            <img
+              v-if="!currentUser.prfphoto"
+              class="avatar q-pt-none q-mt-none"
+              src="https://i.postimg.cc/FzcjmLj3/LOGO.jpg"
+            />
           </q-avatar>
 
           <div>
@@ -342,33 +348,36 @@ export default class MainLayout extends Vue {
     password: "",
     position: "",
     office: "",
-  }
+  };
 
   // Edit Profile
   Dialog = false;
   async onShowDialog(val: AUser) {
     this.Dialog = true;
-    this.inputAccount = {...val}
+    this.inputAccount = { ...val };
   }
 
   async onSaveAdminAccount() {
 
-    try {
-         if (this.imageAttachement.size > 0) {
-        console.log("1 Upload Image")
-        const media = await this.uploadMedia(this.imageAttachement as File);
-        console.log("2 Upload Image")
-        await this.editAccount({ ...this.inputAccount, prfphoto: media.id });
-      } else if (this.imageAttachement.size <= 0) {
-        await this.editAccount({ ...this.inputAccount });
-      }
-          window.location.reload();
-    } catch (error) {
-      this.$q.notify({
-        type: "negative",
-        message: "Unsuccessfully Update",
-      });
-    }
+        try {
+          if (this.imageAttachement.size > 0) {
+            console.log("1 Upload Image");
+            const media = await this.uploadMedia(this.imageAttachement as File);
+            console.log("2 Upload Image");
+            await this.editAccount({
+              ...this.inputAccount,
+              prfphoto: media.id,
+            });
+          } else if (this.imageAttachement.size <= 0) {
+            await this.editAccount({ ...this.inputAccount });
+          }
+          // window.location.reload();
+        } catch (error) {
+          this.$q.notify({
+            type: "negative",
+            message: "Unsuccessfully Update",
+          });
+        }
   }
 
   Position = ["Assistant Director", "Secretary", "Officer"];
