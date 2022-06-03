@@ -641,7 +641,6 @@ export default class AccountsCreateForm extends Vue {
           classes: "defaultfont",
           message: 'Landlord Created',
         });
-         window.location.reload();
   } catch (error) {
           this.$q.notify({
           position: 'bottom',

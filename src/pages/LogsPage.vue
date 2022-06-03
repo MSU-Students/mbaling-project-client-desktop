@@ -444,15 +444,29 @@
               {{currentInfo.housingunit}}</span
             ><br />
             <span class="defaultfont" style="font-size: medium"
-              >List of boarders</span
-            >
+              >No. of boarders: {{this.data.length + this.nonAccountdata.length}}</span>
             <br />
             <q-scroll-area style="height: 30rem; width: 20rem">
+              <span class="defaultfont" style="font-size: medium"
+              >Account</span>
+            <br />
               <q-table
                 flat
+                dense
                 hide-bottom
                 :columns="columns"
                 :rows="data"
+                row-key="status"
+              >
+              </q-table>
+              <span class="defaultfont" style="font-size: medium"
+              >Non Account</span>
+              <q-table
+                flat
+                dense
+                hide-bottom
+                :columns="nonAccountColumns"
+                :rows="nonAccountdata"
                 row-key="status"
               >
               </q-table>
@@ -498,7 +512,7 @@
 </template>
 
 <script lang="ts">
-import { ApplicationDto, UserDto } from "src/services/rest-api";
+import { ApplicationDto, NonAccountDto, UserDto } from "src/services/rest-api";
 import { AUser } from "src/store/auth/state";
 import { Users } from "src/store/Records/state";
 import { Options, Vue } from "vue-class-component";
@@ -509,25 +523,30 @@ import { mapActions, mapGetters, mapState } from "vuex";
     ...mapActions("account", ["getAllUser", "editAccount"]),
     ...mapActions("auth", ["authUser"]),
     ...mapActions("application", ["getAllApplication", "updateApplication"]),
+    ...mapActions("nonaccount", ["createNonAccount", "getAllNonAccount", "deleteNonAccount"])
   },
   computed: {
     ...mapState("account", ["allAccount"]),
     ...mapGetters("account", ["landlordAccount"]),
     ...mapGetters("application", ["getAcceptedAccount"]),
+    ...mapState("nonaccount", ["allNonAccount"]),
     ...mapState("auth", ["currentUser"]),
   },
 })
 export default class LogsPage extends Vue {
+  getAllNonAccount!: () => Promise<void>;
   getAllApplication!: () => Promise<void>;
   getAllUser!: () => Promise<void>;
   authUser!: () => Promise<void>;
   editAccount!: (payload: UserDto) => Promise<void>;
 
+  allNonAccount!: NonAccountDto[]
   applications!: ApplicationDto[];
   getAcceptedAccount!: ApplicationDto[];
   allAccount!: Users[];
   currentUser!: Users;
   data: any = [];
+  nonAccountdata: any = [];
 
   search = "";
   displayInfo = false;
@@ -539,15 +558,23 @@ export default class LogsPage extends Vue {
       align: "left",
       field: (row: ApplicationDto) =>
         row.student?.fName + " " + row.student?.lName,
-
     },
-
+  ];
+  nonAccountColumns = [
+     {
+      name: "name",
+      label: "Name:",
+      align: "left",
+      field: (row: NonAccountDto) =>
+        row.fName + " " + row.lName,
+    },
   ];
 
   async mounted() {
     await this.authUser();
     await this.getAllUser();
     this.getAllApplication();
+    this.getAllNonAccount();
 
   }
 
@@ -575,6 +602,9 @@ export default class LogsPage extends Vue {
     this.displayInfo = true;
     this.currentInfo = res;
     this.data = this.getAcceptedAccount.filter((i) => this.currentInfo.id == i.landlord?.id)
+    this.nonAccountdata = this.allNonAccount.filter(
+      (i) =>this.currentInfo.id == i.landlord?.id
+    );
     console.log(this.currentInfo.id)
     console.log(this.data + " ID HERE")
   }
