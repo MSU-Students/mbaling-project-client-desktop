@@ -171,7 +171,7 @@
                   </span>
                 </div>
 
-              <q-scroll-area style="height: 30rem">
+              <q-scroll-area style="height: 28rem">
                 <div class="col">
                   <div class="row flex flex-center">
                     <div class="col">
@@ -256,7 +256,7 @@
                     </q-card>
                   </q-list>
                 </div>
-
+              </q-scroll-area>
                 <div class="col flex flex-center">
                   <q-btn
                     class="text-white q-mt-lg"
@@ -272,7 +272,7 @@
                     v-close-popup
                   />
                 </div>
-                </q-scroll-area>
+
               </div>
             </q-card>
           </q-dialog>
