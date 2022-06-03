@@ -440,37 +440,62 @@
           </div>
           <!-- List of Boarders -->
           <div class="col">
-            <span class="defaultfont-bold" style="font-size: medium">
+            <span class="defaultfont-bold" style="font-size: large">
               {{currentInfo.housingunit}}</span
             ><br />
-            <span class="defaultfont" style="font-size: medium"
-              >No. of boarders: {{this.data.length + this.nonAccountdata.length}}</span>
-            <br />
+
+            <div class="row">
+              <div class="col">
+              <div class="defaultfont text-grey-6" style="font-size: small">
+                List of Boarders:
+              </div>
+              </div>
+              <div class="col">
+                <div class="q-mr-xl defaultfont float-right" style="font-size: medium">
+                  {{this.data.length + this.nonAccountdata.length}}
+                </div>
+              </div>
+            </div>
             <q-scroll-area style="height: 30rem; width: 20rem">
-              <span class="defaultfont" style="font-size: medium"
-              >Account</span>
-            <br />
-              <q-table
-                flat
-                dense
-                hide-bottom
-                :columns="columns"
-                :rows="data"
-                row-key="status"
-              >
-              </q-table>
-              <span class="defaultfont" style="font-size: medium"
-              >Non Account</span>
-              <q-table
-                flat
-                dense
-                hide-bottom
-                :columns="nonAccountColumns"
-                :rows="nonAccountdata"
-                row-key="status"
-              />
-
-
+              <div>
+                <q-list class="q-mb-xs" v-for="result in getAcceptedAccount" :key="result">
+                  <q-card>
+                    <div class="row flex flex-center">
+                      <div class="col-2">
+                        <q-avatar class="q-ml-sm" size="2rem">
+                          <q-img src="https://i.postimg.cc/FzcjmLj3/LOGO.jpg" />
+                        </q-avatar>
+                      </div>
+                      <div class="col">
+                        <div class="flex flex-center defaultfont float-left" style="height: 3rem">
+                          {{result.student?.fName}} {{result.student?.lName}}
+                        </div>
+                      </div>
+                    </div>
+                  </q-card>
+                </q-list>
+              </div>
+              <div class="q-my-sm defaultfont text-grey-6" style="font-size: small">
+              Non Account:
+              </div>
+              <div>
+                <q-list class="q-mb-xs" v-for="result in allNonAccount" :key="result">
+                  <q-card>
+                    <div class="row flex flex-center">
+                      <div class="col-2">
+                        <q-avatar class="q-ml-sm" size="2rem">
+                          <q-img src="https://i.postimg.cc/FzcjmLj3/LOGO.jpg" />
+                        </q-avatar>
+                      </div>
+                      <div class="col">
+                        <div class="flex flex-center defaultfont float-left" style="height: 3rem">
+                          {{result.fName}} {{result.lName}}
+                        </div>
+                      </div>
+                    </div>
+                  </q-card>
+                </q-list>
+              </div>
             </q-scroll-area>
           </div>
         </div>
