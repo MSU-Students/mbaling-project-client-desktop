@@ -20,6 +20,9 @@ import { ApplicationStateInterface } from './application-module/state';
 import media from './media-module';
 import { MediaStateInterface } from './media-module/state';
 
+import nonaccount from './non-account-module';
+import { NonAccountStateInterface } from './non-account-module/state';
+
 
 /*
  * If not building with SSR mode, you can
@@ -37,7 +40,8 @@ export interface StateInterface {
   account: AccountStateInterface;
   auth: IAuthState;
   application: ApplicationStateInterface;
-  media: MediaStateInterface
+  media: MediaStateInterface;
+  nonaccount: NonAccountStateInterface
 }
 // provide typings for `this.$store`
 declare module "@vue/runtime-core" {
@@ -56,7 +60,8 @@ export default store(function (/* { ssrContext } */) {
       account,
       auth,
       application,
-      media
+      media,
+      nonaccount
     },
 
     // enable strict mode (adds overhead!)

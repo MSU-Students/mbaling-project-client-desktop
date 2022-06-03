@@ -186,6 +186,16 @@
                  <span class="defaultfont q-ml-sm q-mb-md" style="font-size: medium">
                    Non-Account
                  </span>
+
+                  <q-table
+                flat
+                dense
+                hide-bottom
+                :columns="nonAccountColumns"
+                :rows="nonAccountdata"
+                row-key="status"
+              >
+              </q-table>
                   </div>
                     </q-scroll-area>
                   </div>
@@ -274,7 +284,7 @@
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
 import { mapActions, mapGetters, mapState } from "vuex";
-import { ApplicationDto, UserDto } from "src/services/rest-api";
+import { ApplicationDto, NonAccountDto, UserDto } from "src/services/rest-api";
 import { AUser } from "src/store/auth/state";
 import { Users } from "src/store/Records/state";
 
@@ -283,8 +293,10 @@ import { Users } from "src/store/Records/state";
     ...mapActions("account", ["getAllUser","deleteAccount"]),
     ...mapActions("auth", ["authUser"]),
     ...mapActions("application", ["getAllApplication", "updateApplication"]),
+    ...mapActions("nonaccount", ["createNonAccount", "getAllNonAccount", "deleteNonAccount"])
   },
   computed: {
+    ...mapState("nonaccount", ["allNonAccount"]),
     ...mapState("account", ["allAccount"]),
     ...mapGetters("account", ["landlordAccount"]),
     ...mapGetters("application", ["getAcceptedAccount"]),
@@ -293,13 +305,16 @@ import { Users } from "src/store/Records/state";
 })
 export default class RecordsLandlord extends Vue {
   getAllApplication!: () => Promise<void>;
+  getAllNonAccount!: () => Promise<void>;
   deleteAccount!: (id: UserDto) => Promise<void>;
   getAllUser!: () => Promise<void>;
   authUser!: () => Promise<void>;
 
+  allNonAccount!: NonAccountDto[]
   applications!: ApplicationDto[];
   getAcceptedAccount!: ApplicationDto[];
   landlordAccount!: UserDto[];
+  nonAccountdata: any = [];
   data: any = [];
   displayInfo = false;
   separator = "cell";
@@ -358,6 +373,9 @@ export default class RecordsLandlord extends Vue {
     this.showBoarders = true;
     console.log(this.currentLandlord.id)
     this.data = this.getAcceptedAccount.filter((i) => this.currentLandlord.id == i.landlord?.id)
+    this.nonAccountdata = this.allNonAccount.filter(
+      (i) => this.currentLandlord.id == i.landlord?.id
+    );
   }
 
   defaultLandlord: any = {
@@ -386,7 +404,25 @@ export default class RecordsLandlord extends Vue {
     await this.authUser();
     await this.getAllUser();
     await this.getAllApplication()
+     await this.getAllNonAccount();
   }
+
+  nonAccountColumns =[
+    {
+      name: "fName",
+      label: "Name",
+      align: "left",
+      field:(row: NonAccountDto) =>
+        row.fName + " " + row.lName,
+    },
+    {
+      name: "action",
+      required: true,
+      label: "  ",
+      align: "left",
+      field: "action",
+    },
+  ]
   columnStudent = [
      {
       name: "name",
