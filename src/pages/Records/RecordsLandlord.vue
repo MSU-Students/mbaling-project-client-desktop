@@ -123,7 +123,7 @@
                     {{ currentLandlord.address3 }},
                     {{ currentLandlord.address4 }}
                     <br />
-                    {{ currentLandlord.housingunit }}
+                    {{ currentLandlord.housing?.name }}
                   </p>
                 </div>
               </div>
@@ -167,7 +167,7 @@
                     class="defaultfont-bold flex flex-center q-mt-lg"
                     style="font-size: medium"
                   >
-                    {{ currentLandlord.housingunit }}
+                    {{ currentLandlord.housing?.name }}
                   </span>
                 </div>
 
@@ -471,7 +471,6 @@ export default class RecordsLandlord extends Vue {
     address2: "",
     address3: "",
     address4: "",
-    housingunit: "",
     status: "active",
   };
 
@@ -582,7 +581,7 @@ export default class RecordsLandlord extends Vue {
       name: "housingunit",
       align: "center",
       label: "HOUSING UNIT",
-      field: "housingunit",
+      field: (row: UserDto) => row.housing?.name,
     },
     {
       name: "email",

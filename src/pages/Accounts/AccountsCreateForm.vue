@@ -523,10 +523,10 @@ export default class AccountsCreateForm extends Vue {
     address2: "",
     address3: "",
     address4: "",
-    housingunit: "",
     chatLink: "",
     mapLink: "",
-    profile: 0,
+    prfphoto: 0,
+    housingID: null
   };
 
   inputLandlord: any = {
@@ -547,10 +547,10 @@ export default class AccountsCreateForm extends Vue {
     address2: "",
     address3: "",
     address4: "",
-    housingunit: "",
     chatLink: "",
     mapLink: "",
-    profile: 0,
+    prfphoto: 0,
+    housingID: null
   };
 
   async resetModel() {
@@ -572,10 +572,8 @@ export default class AccountsCreateForm extends Vue {
       address2: "",
       address3: "",
       address4: "",
-      housingunit: "",
       chatLink: "",
       mapLink: "",
-      profile: "",
     };
     // window.location.reload();
     this.inputLandlord = {
@@ -596,10 +594,8 @@ export default class AccountsCreateForm extends Vue {
       address2: "",
       address3: "",
       address4: "",
-      housingunit: "",
       chatLink: "",
       mapLink: "",
-      profile: "",
     };
     // window.location.reload();
   }
@@ -616,6 +612,7 @@ export default class AccountsCreateForm extends Vue {
           classes: "defaultfont",
           message: 'Student Created',
         });
+        this.resetmodelStudent();
         // window.location.reload();
         } catch (error) {
           this.$q.notify({
@@ -631,7 +628,7 @@ export default class AccountsCreateForm extends Vue {
 
   async createLandlord() {
     try {
-    await this.addAccount(this.inputLandlord);
+    await this.addAccount({...this.inputLandlord, housingID: null});
 
     this.$q.notify({
           position: 'bottom',
@@ -641,6 +638,7 @@ export default class AccountsCreateForm extends Vue {
           classes: "defaultfont",
           message: 'Landlord Created',
         });
+        this.resetmodelLandlord();
   } catch (error) {
           this.$q.notify({
           position: 'bottom',
@@ -651,6 +649,53 @@ export default class AccountsCreateForm extends Vue {
           message: 'Username is already exist!',
         });
         }
+  }
+
+  async resetmodelLandlord(){
+    this.inputLandlord = {
+      fName: "",
+      lName: "",
+      type: "landlord",
+      status: "",
+      username: "",
+      password: "",
+      birthdate: "",
+      degree: "",
+      department: "",
+      college: "",
+      contact: "",
+      gender: "",
+      year: "",
+      address1: "",
+      address2: "",
+      address3: "",
+      address4: "",
+      chatLink: "",
+      mapLink: "",
+    };
+  }
+  async resetmodelStudent(){
+    this.inputLandlord = {
+      fName: "",
+      lName: "",
+      type: "landlord",
+      status: "",
+      username: "",
+      password: "",
+      birthdate: "",
+      degree: "",
+      department: "",
+      college: "",
+      contact: "",
+      gender: "",
+      year: "",
+      address1: "",
+      address2: "",
+      address3: "",
+      address4: "",
+      chatLink: "",
+      mapLink: "",
+    };
   }
 }
 </script>

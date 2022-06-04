@@ -441,7 +441,7 @@
           <!-- List of Boarders -->
           <div class="col">
             <span class="defaultfont-bold" style="font-size: large">
-              {{currentInfo.housingunit}}</span
+              {{currentInfo.housing?.name}}</span
             ><br />
 
             <div class="row">
@@ -600,7 +600,6 @@ export default class LogsPage extends Vue {
     address2: "",
     address3: "",
     address4: "",
-    housingunit: "",
     status: "active",
     year: "",
   };
