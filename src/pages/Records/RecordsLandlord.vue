@@ -215,11 +215,11 @@
                           </div>
                           <div class="col">
                             <div
-                              class="flex flex-center defaultfont float-left"
-                              style="height: 3rem"
-                            >
+                             class="q-mt-sm defaultfont float-left"
+                             style="height: 3rem">
                               {{ result.student?.fName }}
                               {{ result.student?.lName }}
+                              <div class="q-ma-none" style="font-size: x-small">{{result.student?.degree}}</div>
                             </div>
                           </div>
                         </div>
@@ -250,11 +250,17 @@
                             </q-avatar>
                           </div>
                           <div class="col">
-                            <div
-                              class="flex flex-center defaultfont float-left"
-                              style="height: 3rem"
-                            >
+                            <div v-if="(result.degree != '')"
+                             class="q-mt-sm defaultfont float-left"
+                             style="height: 3rem">
                               {{ result.fName }} {{ result.lName }}
+                              <div class="q-ma-none q-mr-md" style="font-size: x-small">{{result.degree}}</div>
+                            </div>
+                            <div v-if="(result.degree == '')"
+                             class="flex flex-center defaultfont float-left"
+                             style="height: 3rem">
+                              {{ result.fName }} {{ result.lName }}
+                              <div class="q-ma-none" style="font-size: x-small"></div>
                             </div>
                           </div>
                         </div>

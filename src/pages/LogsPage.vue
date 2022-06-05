@@ -459,7 +459,7 @@
             <q-scroll-area style="height: 30rem; width: 20rem">
               <div>
                 <q-list class="q-mb-xs" v-for="result in getAcceptedAccount" :key="result">
-                  <q-card v-if="currentInfo.id == result.landlord?.id">
+                  <q-card flat v-if="currentInfo.id == result.landlord?.id">
                     <div class="row flex flex-center">
                       <div class="col-2">
                         <q-avatar class="q-ml-sm" size="2rem">
@@ -474,8 +474,11 @@
                         </q-avatar>
                       </div>
                       <div class="col">
-                        <div class="flex flex-center defaultfont float-left" style="height: 3rem">
+                        <div class="q-mt-sm defaultfont float-left" style="height: 3rem">
                           {{result.student?.fName}} {{result.student?.lName}}
+                          <div class="q-ma-none q-mr-md" style="font-size: x-small">
+                          {{result.student?.degree}}
+                        </div>
                         </div>
                       </div>
                     </div>
@@ -483,11 +486,11 @@
                 </q-list>
               </div>
               <div class="q-my-sm defaultfont text-grey-6" style="font-size: small">
-              Non Account:
+              List of Boarders (Non Account):
               </div>
               <div>
                 <q-list class="q-mb-xs" v-for="result in allNonAccount" :key="result">
-                  <q-card v-if="currentInfo.id == result.landlord?.id">
+                  <q-card flat v-if="currentInfo.id == result.landlord?.id">
                     <div class="row flex flex-center">
                       <div class="col-2">
                         <q-avatar class="q-ml-sm" size="2rem">
@@ -495,7 +498,13 @@
                         </q-avatar>
                       </div>
                       <div class="col">
-                        <div class="flex flex-center defaultfont float-left" style="height: 3rem">
+                        <div v-if="(result.degree != '')" class="q-mt-sm defaultfont float-left" style="height: 3rem">
+                          {{result.fName}} {{result.lName}}
+                          <div class="q-ma-none q-mr-md" style="font-size: x-small">
+                          {{result.degree}}
+                        </div>
+                        </div>
+                        <div v-if="(result.degree == '')" class="flex flex-center defaultfont float-left" style="height: 3rem">
                           {{result.fName}} {{result.lName}}
                         </div>
                       </div>
