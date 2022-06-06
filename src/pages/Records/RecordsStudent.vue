@@ -20,6 +20,7 @@
                   dense
                   v-model="search"
                   :options="collegeChoices"
+                  clearable
                   >
                   </q-select>
                 </div>

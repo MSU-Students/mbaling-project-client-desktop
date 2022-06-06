@@ -197,28 +197,21 @@
                 ]"
                 hide-bottom-space
               />
-              <q-input
+              <div class="flex flex-center defaultfont">
+              <q-btn
+                :ripple="false"
+                unelevated
                 dense
-                filled
-                v-model="inputAccount.password"
-                placeholder="Password"
-                style="width: 25rem; font-size: smaller"
-                lazy-rules
-                :rules="[
-                  (val) =>
-                    (val && val.length > 0) || 'Please Input your Password',
-                ]"
-                hide-bottom-space
-                :type="isPwd ? 'password' : 'text'"
-              >
-                <template v-slot:append>
-                  <q-icon
-                    :name="isPwd ? 'visibility_off' : 'visibility '"
-                    class="cursor-pointer"
-                    @click="isPwd = !isPwd"
-                  />
-                </template>
-              </q-input>
+                no-caps
+                class="text-#BE282D"
+                style="height: 2rem; width: 25rem; font-size: smaller"
+                color="grey-3"
+                text-color="primary"
+                label="change password"
+                @click="onEditPassword()"
+              />
+              </div>
+
               <!-- <q-select
                 class="q-mt-xs"
                 v-model="inputAccount.position"
@@ -283,6 +276,99 @@
           </q-card>
         </q-dialog>
 
+        <q-dialog v-model="secondDialog">
+          <q-card class="defaultfont flex flex-center" style="height: 18rem; width: 25rem">
+            <div class="column">
+              <div class="col flex flex-center q-mb-md">
+                <q-icon size="3rem" name="lock" color="primary"/>
+              </div>
+            <!-- <div class="col q-mb-md flex flex-center">
+              change password
+            </div> -->
+            <div class="col q-ma-xs">
+              <q-input
+              label="Current Password"
+              v-model="password.oldPassword"
+              filled
+              dense
+              style="width: 20rem; font-size: smaller"
+              :type="showPwd1 ? 'password' : 'text'"
+              lazy-rules
+              :rules="[(val) => (val && val.length > 0) || 'Input your old password']"
+              hide-bottom-space
+               >
+               <template v-slot:append>
+                <q-icon
+                  :name="showPwd1 ? 'bi-eye-slash-fill' : 'bi-eye-fill'"
+                  class="cursor-pointer"
+                  @click="showPwd1 = !showPwd1"
+                />
+              </template>
+              </q-input>
+            </div>
+            <div class="col q-ma-xs">
+              <q-input
+              label="New Password"
+              v-model="password.newPassword"
+              filled
+              dense
+              style="width: 20rem; font-size: smaller"
+              :type="showPwd ? 'password' : 'text'"
+              lazy-rules
+              :rules="[(val) => (val && val.length > 0) || 'Input your new password']"
+              hide-bottom-space
+               >
+               <template v-slot:append>
+                <q-icon
+                  :name="showPwd ? 'bi-eye-slash-fill' : 'bi-eye-fill'"
+                  class="cursor-pointer"
+                  @click="showPwd = !showPwd"
+                />
+               </template>
+               </q-input>
+            </div>
+            <div class="col q-ma-xs">
+              <q-input
+              label="Confirm Password"
+              v-model="confirmpassword"
+              filled
+              dense
+              style="width: 20rem; font-size: smaller"
+              :type="showPwd ? 'password' : 'text'"
+              lazy-rules
+              :rules="[
+              (val) => (val && val.length > 0) || 'Input your confirm password']"
+              hide-bottom-space
+               >
+               <template v-slot:append>
+                <q-icon
+                  :name="showPwd ? 'bi-eye-slash-fill' : 'bi-eye-fill'"
+                  class="cursor-pointer"
+                  @click="showPwd = !showPwd"
+                />
+               </template>
+               </q-input>
+            </div>
+            <div class="col flex flex-center">
+              <q-btn
+                class="text-white q-mt-md"
+                align="center"
+                :ripple="false"
+                unelevated
+                rounded
+                dense
+                no-caps
+                style="height: 1.5rem; width: 6rem; font-size: smaller"
+                color="primary"
+                label="save"
+                @click="onSavePassword()"
+                v-close-popup
+              />
+            </div>
+              </div>
+          </q-card>
+        </q-dialog>
+
         <!-- Logout Button -->
         <q-btn
           icon="bi-box-arrow-right"
@@ -305,14 +391,15 @@
 </template>
 
 <script lang="ts">
-import { MediaDto, PrfMediaDto, UserDto } from "src/services/rest-api";
+import { MediaDto, PrfMediaDto, UserDto, ChangePasswordDto } from "src/services/rest-api";
+import { mbalingApiService } from "src/services/mbaling-api.service";
 import { AUser } from "src/store/auth/state";
 import { Options, Vue } from "vue-class-component";
 import { mapActions, mapState } from "vuex";
 
 @Options({
   methods: {
-    ...mapActions("auth", ["authUser"]),
+    ...mapActions("auth", ["authUser", "changePassword"]),
     ...mapActions("account", ["editAccount", "getAllUser"]),
     ...mapActions("media", ["uploadMedia"]),
   },
@@ -352,6 +439,7 @@ export default class MainLayout extends Vue {
 
   // Edit Profile
   Dialog = false;
+
   async onShowDialog(val: AUser) {
     this.Dialog = true;
     this.inputAccount = { ...val };
@@ -371,6 +459,14 @@ export default class MainLayout extends Vue {
           } else if (this.imageAttachement.size <= 0) {
             await this.editAccount({ ...this.inputAccount });
           }
+          this.$q.notify({
+          position: 'bottom',
+          color: "secondary",
+          textColor: "primary",
+          type: 'positive',
+          classes: "defaultfont",
+          message: 'Successfully Updated!',
+        });
           // window.location.reload();
         } catch (error) {
           this.$q.notify({
@@ -379,6 +475,55 @@ export default class MainLayout extends Vue {
           });
         }
   }
+
+  // Edit Password
+  secondDialog = false;
+  changePassword!: (changePassword: ChangePasswordDto) => Promise<void>;
+  password: ChangePasswordDto = {
+    oldPassword: "",
+    newPassword: "",
+  };
+
+  confirmpassword = "";
+  showPwd = true;
+  showPwd1 = true;
+
+  async resetModel(){
+    this.password = {
+      oldPassword: "",
+      newPassword: "",
+    }
+    this.confirmpassword = ""
+  }
+
+  async onEditPassword() {
+    this.secondDialog = true;
+    this.resetModel()
+  }
+
+  async onSavePassword() {
+    try {
+          if (this.password.newPassword != this.confirmpassword) {
+            this.$q.notify({
+              type: "negative",
+              message: "Passwords not match!",
+            });
+            return;
+          }
+          await mbalingApiService.changePassword(this.password);
+          this.$q.notify({
+            type: "positive",
+            color: "secondary",
+            textColor: "primary",
+            message: "Change password successfully",
+          });
+        } catch (error: any) {
+          this.$q.notify({
+            type: "negative",
+            message: 'Invalid current password',
+          });
+        }
+      };
 
   Position = ["Assistant Director", "Secretary", "Officer"];
   Office = ["Housing Management Division"];
