@@ -16,7 +16,7 @@
                 <div class="col">
                   <q-select
                   label="Filter by College:"
-                  class="q-pb-xs"
+                  class="q-pb-xs q-mr-xl"
                   dense
                   v-model="search"
                   :options="collegeChoices"
@@ -24,24 +24,8 @@
                   >
                   </q-select>
                 </div>
-      <!-- Search Function -->
-                <div class="col" >
-                  <!-- <div class="q-mb-xs row float-right" >
-                    <q-input
-                      color="primary"
-                      dense
-                      style="max-width: 20rem;"
-                      debounce="300"
-                      v-model="search"
-                      placeholder="Search"
-                    >
-                      <template v-slot:append>
-                        <q-icon name="search" />
-                      </template>
-                    </q-input>
-                  </div> -->
-                </div>
-                <div class="col" style="max-width: 16rem"></div>
+    <!--  -->
+                <div class="col" style="max-width: 30rem"></div>
               </q-page-sticky>
             </div>
             </div>
@@ -334,6 +318,21 @@ export default class RecordsStudent extends Vue {
     "College of Information and Computing Sciences",
     "King Faisal Center for Islamic, Arabic and Asian Studies",
   ];
+
+  // collegeChoices = [
+  //   {
+  //     label: "College of Business Administration and Accountancy",
+  //     value: "CBAA",
+  //   },
+  //   {
+  //     label: "College of Information and Computing Sciences",
+  //     value: "CICS"
+  //   },
+  //   {
+  //     label: "King Faisal Center for Islamic, Arabic and Asian Studies",
+  //     value: "KFCIAAS"
+  //   },
+  // ];
 
   columns = [
     {
