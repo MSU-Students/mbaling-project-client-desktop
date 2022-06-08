@@ -270,7 +270,6 @@
                 color="primary"
                 label="save"
                 @click="onSaveAdminAccount()"
-                v-close-popup
               />
             </div>
           </q-card>
@@ -362,7 +361,6 @@
                 color="primary"
                 label="save"
                 @click="onSavePassword()"
-                v-close-popup
               />
             </div>
               </div>
@@ -446,7 +444,16 @@ export default class MainLayout extends Vue {
   }
 
   async onSaveAdminAccount() {
-
+        this.Dialog = false;
+        this.$q
+      .dialog({
+        title: "Confirm Edit",
+        message: "Are you sure you want to save this changes?",
+        cancel: true,
+        persistent: true,
+        class: "defaultfont",
+      })
+      .onOk(async () => {
         try {
           if (this.imageAttachement.size > 0) {
             console.log("1 Upload Image");
@@ -474,6 +481,7 @@ export default class MainLayout extends Vue {
             message: "Unsuccessfully Update",
           });
         }
+        });
   }
 
   // Edit Password
@@ -502,6 +510,16 @@ export default class MainLayout extends Vue {
   }
 
   async onSavePassword() {
+    this.secondDialog = false;
+    this.$q
+      .dialog({
+        title: "Confirm Password Edit",
+        message: "Are you sure you want to save this changes?",
+        cancel: true,
+        persistent: true,
+        class: "defaultfont",
+      })
+      .onOk(async () => {
     try {
           if (this.password.newPassword != this.confirmpassword) {
             this.$q.notify({
@@ -523,6 +541,7 @@ export default class MainLayout extends Vue {
             message: 'Invalid current password',
           });
         }
+        });
       };
 
   Position = ["Assistant Director", "Secretary", "Officer"];
