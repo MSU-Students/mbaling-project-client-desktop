@@ -1,8 +1,8 @@
 <template>
-  <q-layout view="hHh Lpr lff" container style="height: 40rem">
+  <q-layout view="hHh Lpr lff" container style="height: 48rem">
     <div class="row">
       <div class="col-10">
-        <q-scroll-area style="height: 40rem">
+        <q-scroll-area style="height: 48rem">
           <div>
             <div class="q-my-sm">
               <div class="row">
@@ -520,14 +520,14 @@ export default class RecordsLandlord extends Vue {
   ];
 
   columns = [
-    {
-      name: "id",
-      required: true,
-      label: "LANDLORD ID",
-      align: "center",
-      field: "id",
-      sortable: true,
-    },
+    // {
+    //   name: "id",
+    //   required: true,
+    //   label: "LANDLORD ID",
+    //   align: "center",
+    //   field: "id",
+    //   sortable: true,
+    // },
     {
       name: "username",
       align: "center",
