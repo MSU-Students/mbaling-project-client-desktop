@@ -534,17 +534,18 @@ export default class RecordsLandlord extends Vue {
       label: "USERNAME",
       field: "username",
     },
+     {
+      name: "lName",
+      align: "center",
+      label: "LASTNAME",
+      field: "lName",
+      sortable: true,
+    },
     {
       name: "fName",
       align: "center",
       label: "FIRSTNAME",
       field: "fName",
-    },
-    {
-      name: "lName",
-      align: "center",
-      label: "LASTNAME",
-      field: "lName",
     },
     {
       name: "mName",

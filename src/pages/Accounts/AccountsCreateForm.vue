@@ -25,6 +25,16 @@
               <q-input
                 dense
                 filled
+                v-model="inputStudent.StudentID"
+                placeholder="Student ID"
+                style="width: 25rem; font-size: smaller"
+                lazy-rules
+                :rules="[(val) => (val && val.length > 0) || 'Please Input your StudentID']"
+                hide-bottom-space
+              />
+              <q-input
+                dense
+                filled
                 v-model="inputStudent.fName"
                 placeholder="Firstname"
                 style="width: 25rem; font-size: smaller"

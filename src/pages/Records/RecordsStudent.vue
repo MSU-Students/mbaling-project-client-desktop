@@ -344,22 +344,29 @@ export default class RecordsStudent extends Vue {
     //   sortable: true,
     // },
     {
+      name: "StudentID",
+      align: "center",
+      label: "STUDENT ID",
+      field: "studentid",
+    },
+    {
       name: "username",
       align: "center",
       label: "USERNAME",
       field: "username",
     },
     {
-      name: "fName",
-      align: "center",
-      label: "FIRSTNAME",
-      field: "fName",
-    },
-    {
       name: "lName",
       align: "center",
       label: "LASTNAME",
       field: "lName",
+      sortable: true,
+    },
+    {
+      name: "fName",
+      align: "center",
+      label: "FIRSTNAME",
+      field: "fName",
     },
     {
       name: "mName",
