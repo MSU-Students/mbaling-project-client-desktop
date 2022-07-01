@@ -25,6 +25,17 @@
               <q-input
                 dense
                 filled
+                v-model="inputStudent.studentId"
+                placeholder="Student ID"
+                style="width: 25rem; font-size: smaller"
+                mask="#########"
+                lazy-rules
+                :rules="[(val) => (val && val.length > 0) || 'Please Input your StudentID']"
+                hide-bottom-space
+              />
+              <q-input
+                dense
+                filled
                 v-model="inputStudent.fName"
                 placeholder="Firstname"
                 style="width: 25rem; font-size: smaller"
@@ -506,6 +517,7 @@ export default class AccountsCreateForm extends Vue {
   //Functions for adding newStudentsAccount
 
   inputStudent: any = {
+    studentId: "",
     fName: "",
     lName: "",
     type: "student",

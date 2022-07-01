@@ -24,8 +24,13 @@
                   >
                   </q-select>
                 </div>
+                <div class="col">
+                   <div class="float-right">
+                    <q-icon name="print" size="2rem" color="grey-7" />
+                    </div>
+                </div>
     <!--  -->
-                <div class="col" style="max-width: 30rem"></div>
+                <div class="col" style="max-width: 16rem; background-color: aqua;"></div>
               </q-page-sticky>
             </div>
             </div>
@@ -345,22 +350,29 @@ export default class RecordsStudent extends Vue {
     //   sortable: true,
     // },
     {
+      name: "studentId",
+      align: "center",
+      label: "STUDENT ID",
+      field: "studentId",
+    },
+    {
       name: "username",
       align: "center",
       label: "USERNAME",
       field: "username",
     },
     {
-      name: "fName",
-      align: "center",
-      label: "FIRSTNAME",
-      field: "fName",
-    },
-    {
       name: "lName",
       align: "center",
       label: "LASTNAME",
       field: "lName",
+      sortable: true,
+    },
+    {
+      name: "fName",
+      align: "center",
+      label: "FIRSTNAME",
+      field: "fName",
     },
     {
       name: "mName",
