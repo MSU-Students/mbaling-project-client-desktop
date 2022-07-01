@@ -542,6 +542,7 @@ export default class AccountsCreateForm extends Vue {
   };
 
   inputLandlord: any = {
+    studentId: 231,
     fName: "",
     lName: "",
     type: "landlord",
