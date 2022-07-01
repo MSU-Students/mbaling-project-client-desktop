@@ -425,7 +425,7 @@ export default class RecordsStudent extends Vue {
       name: "housingunit",
       align: "center",
       label: "HOUSING UNIT",
-      field: "housingunit",
+      field: (row: UserDto) => row.housing?.name,
     },
     {
       name: "email",

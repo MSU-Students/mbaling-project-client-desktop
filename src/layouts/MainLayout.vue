@@ -80,7 +80,7 @@
               class="defaultfont-bold text-uppercase"
               style="font-size: medium"
             >
-              {{ currentUser.fName }} {{ currentUser.mName }}.
+              {{ currentUser.fName }} {{ currentUser.mName }}
               {{ currentUser.lName }}
             </span>
             <div>
