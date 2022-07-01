@@ -33,6 +33,11 @@
                     </q-input>
                   </div> -->
                   </div>
+                  <div class="col">
+                    <div class="float-right">
+                      <q-icon name="print" size="2rem" color="grey-7" />
+                    </div>
+                  </div>
                   <div class="col" style="max-width: 16rem"></div>
                 </q-page-sticky>
               </div>
