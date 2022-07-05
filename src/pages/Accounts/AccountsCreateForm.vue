@@ -641,7 +641,7 @@ export default class AccountsCreateForm extends Vue {
 
   async createLandlord() {
     try {
-    await this.addAccount({...this.inputLandlord, housingID: null});
+    await this.addAccount({...this.inputLandlord, studentId:0, housingID: null});
 
     this.$q.notify({
           position: 'bottom',

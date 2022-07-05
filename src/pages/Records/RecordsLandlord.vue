@@ -35,7 +35,7 @@
                   </div>
                   <div class="col">
                     <div class="float-right">
-                      <q-icon name="print" size="2rem" color="grey-7" />
+                      <q-icon name="print" size="2rem" color="grey-7" @click="exportTable()" />
                     </div>
                   </div>
                   <div class="col" style="max-width: 16rem"></div>
@@ -665,6 +665,7 @@ export default class RecordsLandlord extends Vue {
           this.wrapCsvValue(String(c.address2) || 'None'),
           this.wrapCsvValue(String(c.address3) || 'None'),
           this.wrapCsvValue(String(c.address4) || 'None'),
+          this.wrapCsvValue(String(c.housing?.name) || 'None'),
           this.wrapCsvValue(String(c.email)),
           this.wrapCsvValue(String(c.contact) || 'None'),
           this.wrapCsvValue(String(c.birthdate) || 'None'),
