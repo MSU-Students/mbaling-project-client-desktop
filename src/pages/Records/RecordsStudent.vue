@@ -26,7 +26,7 @@
                 </div>
                 <div class="col">
                    <div class="float-right">
-                    <q-icon name="print" size="2rem" color="grey-7" />
+                    <q-icon name="print" size="2rem" color="grey-7" @click="exportTable()" />
                     </div>
                 </div>
     <!--  -->
@@ -484,32 +484,39 @@ export default class RecordsStudent extends Vue {
   exportTable() {
     // naive encoding to csv format
     const header = [
-      this.wrapCsvValue('username'),
-      this.wrapCsvValue('fName'),
-      this.wrapCsvValue('lName'),
-      this.wrapCsvValue('mName'),
-      this.wrapCsvValue('gender'),
-      this.wrapCsvValue('address1'),
-      this.wrapCsvValue('address2'),
-      this.wrapCsvValue('address3'),
-      this.wrapCsvValue('address4'),
-      this.wrapCsvValue('housingunit'),
-      this.wrapCsvValue('email'),
-      this.wrapCsvValue('contact'),
-      this.wrapCsvValue('birthdate'),
+      this.wrapCsvValue('Username'),
+      this.wrapCsvValue('Firstname'),
+      this.wrapCsvValue('Lastname'),
+      this.wrapCsvValue('Middlename'),
+      this.wrapCsvValue('Gender'),
+      this.wrapCsvValue('Degree'),
+      this.wrapCsvValue('Department'),
+      this.wrapCsvValue('College'),
+      this.wrapCsvValue('Street'),
+      this.wrapCsvValue('Barangay'),
+      this.wrapCsvValue('Municipality'),
+      this.wrapCsvValue('Province'),
+      this.wrapCsvValue('Housingname'),
+      this.wrapCsvValue('Email'),
+      this.wrapCsvValue('Contact'),
+      this.wrapCsvValue('Birthdate'),
     ];
     const rows = [header.join(',')].concat(
-      this.allAccount.map((c) =>
+      this.studentAccount.map((c) =>
         [
           this.wrapCsvValue(String(c.username)),
           this.wrapCsvValue(String(c.fName)),
           this.wrapCsvValue(String(c.lName)),
-          this.wrapCsvValue(String(c.mName)),
+          this.wrapCsvValue(String(c.mName)|| 'blank'),
           this.wrapCsvValue(String(c.gender) || 'None'),
+          this.wrapCsvValue(String(c.degree)),
+          this.wrapCsvValue(String(c.department)),
+          this.wrapCsvValue(String(c.college)),
           this.wrapCsvValue(String(c.address1) || 'None'),
           this.wrapCsvValue(String(c.address2) || 'None'),
           this.wrapCsvValue(String(c.address3) || 'None'),
           this.wrapCsvValue(String(c.address4) || 'None'),
+          this.wrapCsvValue(String(c.housing?.name) || 'None'),
           this.wrapCsvValue(String(c.email)),
           this.wrapCsvValue(String(c.contact) || 'None'),
           this.wrapCsvValue(String(c.birthdate) || 'None'),
@@ -518,7 +525,7 @@ export default class RecordsStudent extends Vue {
     );
 
     const status = exportFile(
-      'category-export.csv',
+      'Student-record-export.csv',
       rows.join('\r\n'),
       'text/csv'
     );

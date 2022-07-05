@@ -366,6 +366,7 @@ import { mapActions, mapGetters, mapState } from "vuex";
 import { ApplicationDto, NonAccountDto, UserDto } from "src/services/rest-api";
 import { AUser } from "src/store/auth/state";
 import { Users } from "src/store/Records/state";
+import { exportFile } from "quasar";
 
 @Options({
   methods: {
@@ -613,6 +614,78 @@ export default class RecordsLandlord extends Vue {
       field: "birthdate",
     },
   ];
+
+  wrapCsvValue(
+    val: string,
+    formatFn?: (v: string, r: any) => string,
+    row?: any
+  ) {
+    let formatted = formatFn !== void 0 ? formatFn(val, row) : val;
+
+    formatted =
+      formatted === void 0 || formatted === null ? '' : String(formatted);
+
+    formatted = formatted.split('"').join('""');
+    /**
+     * Excel accepts \n and \r in strings, but some other CSV parsers do not
+     * Uncomment the next two lines to escape new lines
+     */
+    // .split('\n').join('\\n')
+    // .split('\r').join('\\r')
+
+    return `"${formatted}"`;
+  }
+
+  exportTable() {
+    // naive encoding to csv format
+    const header = [
+      this.wrapCsvValue('username'),
+      this.wrapCsvValue('fName'),
+      this.wrapCsvValue('lName'),
+      this.wrapCsvValue('mName'),
+      this.wrapCsvValue('gender'),
+      this.wrapCsvValue('address1'),
+      this.wrapCsvValue('address2'),
+      this.wrapCsvValue('address3'),
+      this.wrapCsvValue('address4'),
+      this.wrapCsvValue('housingunit'),
+      this.wrapCsvValue('email'),
+      this.wrapCsvValue('contact'),
+      this.wrapCsvValue('birthdate'),
+    ];
+    const rows = [header.join(',')].concat(
+      this.landlordAccount.map((c) =>
+        [
+          this.wrapCsvValue(String(c.username)),
+          this.wrapCsvValue(String(c.fName)),
+          this.wrapCsvValue(String(c.lName)),
+          this.wrapCsvValue(String(c.mName)),
+          this.wrapCsvValue(String(c.gender) || 'None'),
+          this.wrapCsvValue(String(c.address1) || 'None'),
+          this.wrapCsvValue(String(c.address2) || 'None'),
+          this.wrapCsvValue(String(c.address3) || 'None'),
+          this.wrapCsvValue(String(c.address4) || 'None'),
+          this.wrapCsvValue(String(c.email)),
+          this.wrapCsvValue(String(c.contact) || 'None'),
+          this.wrapCsvValue(String(c.birthdate) || 'None'),
+        ].join(',')
+      )
+    );
+
+    const status = exportFile(
+      'Landlord-record-export.csv',
+      rows.join('\r\n'),
+      'text/csv'
+    );
+
+    if (status !== true) {
+      this.$q.notify({
+        message: 'Browser denied file download...',
+        color: 'negative',
+        icon: 'warning',
+      });
+    }
+  }
 }
 </script>
 <style>
